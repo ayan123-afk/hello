@@ -1,7 +1,7 @@
 import { supabase } from './supabase.js';
 
-// IMDB API Key
 const IMDB_API_KEY = '6a988d483bd741da6bba140240e912e8';
+let selectedImage = null;
 
 // Redirect to login if not logged in
 const session = JSON.parse(localStorage.getItem('admin_session'));
@@ -9,43 +9,59 @@ if(!session){
     window.location.href = 'admin-login.html';
 }
 
-// Add product
+// Search for image from IMDB API
+async function searchImage() {
+    const query = document.getElementById('psearch').value.trim();
+    if(!query) return alert('Enter product/movie title');
+
+    try {
+        const res = await fetch(`https://imdb-api.com/en/API/SearchMovie/${IMDB_API_KEY}/${encodeURIComponent(query)}`);
+        const data = await res.json();
+
+        if(!data.results || data.results.length === 0) {
+            document.getElementById('preview').innerHTML = '<p>No image found.</p>';
+            selectedImage = null;
+            document.getElementById('addBtn').disabled = true;
+            return;
+        }
+
+        // Take first result
+        selectedImage = data.results[0].image;
+        document.getElementById('preview').innerHTML = `
+            <img src="${selectedImage}" alt="Preview" style="width:150px; border-radius:10px;">
+        `;
+        document.getElementById('addBtn').disabled = false;
+
+    } catch(err) {
+        console.log(err);
+        alert('Error fetching image from IMDB');
+    }
+}
+
+// Add product to Supabase
 async function addProduct() {
     const name = document.getElementById('pname').value.trim();
     const desc = document.getElementById('pdesc').value.trim();
     const price = parseFloat(document.getElementById('pprice').value);
-    const imdb = document.getElementById('pimdb').value.trim();
 
-    if(!name || !price || !imdb) return alert('Fill all fields');
+    if(!name || !price || !selectedImage) return alert('Fill all fields and select image');
 
-    try {
-        // Fetch image from IMDB API
-        const res = await fetch(`https://imdb-api.com/en/API/SearchMovie/${IMDB_API_KEY}/${imdb}`);
-        const data = await res.json();
-        const image_url = data.results?.[0]?.image || '';
+    const { error } = await supabase.from('products').insert([{
+        name, description: desc, price, image_url: selectedImage
+    }]);
 
-        if(!image_url) return alert('No image found from IMDB');
+    if(error) return alert('Failed to add product: ' + error.message);
 
-        // Insert product into Supabase
-        const { error } = await supabase.from('products').insert([{
-            name,
-            description: desc,
-            price,
-            image_url
-        }]);
+    alert('Product added successfully!');
+    document.getElementById('pname').value = '';
+    document.getElementById('pdesc').value = '';
+    document.getElementById('pprice').value = '';
+    document.getElementById('psearch').value = '';
+    document.getElementById('preview').innerHTML = '';
+    selectedImage = null;
+    document.getElementById('addBtn').disabled = true;
 
-        if(error) return alert('Failed to add product: ' + error.message);
-
-        alert('Product added successfully!');
-        document.getElementById('pname').value = '';
-        document.getElementById('pdesc').value = '';
-        document.getElementById('pprice').value = '';
-        document.getElementById('pimdb').value = '';
-        loadProducts();
-    } catch(err) {
-        console.log(err);
-        alert('Error fetching IMDB image');
-    }
+    loadProducts();
 }
 
 // Load products in admin panel
@@ -78,7 +94,7 @@ async function loadOrders(){
     `).join('');
 }
 
-// Order status
+// Orders status update
 async function markDelivered(id){
     await supabase.from('orders').update({status:'delivered'}).eq('id', id);
     loadOrders();
@@ -95,6 +111,7 @@ async function logout(){
     window.location.href = 'admin-login.html';
 }
 
+window.searchImage = searchImage;
 window.addProduct = addProduct;
 window.loadProducts = loadProducts;
 window.loadOrders = loadOrders;
