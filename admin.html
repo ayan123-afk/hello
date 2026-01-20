@@ -7,20 +7,18 @@
 </head>
 <body>
     <h1>Admin Dashboard</h1>
-   <section id="add-product">
-    <h2>Add Product</h2>
-    <input type="text" id="pname" placeholder="Product Name">
-    <input type="text" id="pdesc" placeholder="Description">
-    <input type="number" id="pprice" placeholder="Price">
-    <input type="file" id="pimage" accept="image/*">
-    <button onclick="addProduct()">Add Product</button>
-</section>
 
-
-    <section id="orders-section">
-        <h2>Orders</h2>
-        <div id="orders-list"></div>
+    <section id="add-product">
+        <h2>Add Product</h2>
+        <input type="text" id="pname" placeholder="Product Name">
+        <input type="text" id="pdesc" placeholder="Description">
+        <input type="number" id="pprice" placeholder="Price">
+        <input type="text" id="pimageurl" placeholder="Image URL">
+        <button onclick="addProduct()">Add Product</button>
     </section>
+
+    <h2>Existing Products</h2>
+    <div id="product-list-admin"></div>
 
     <script type="module" src="admin.js"></script>
 </body>
