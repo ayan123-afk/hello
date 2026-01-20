@@ -2,41 +2,33 @@ import { supabase } from './supabase.js';
 
 const productList = document.getElementById('product-list');
 let cart = JSON.parse(localStorage.getItem('cart')) || [];
-document.getElementById('cart-count').innerText = cart.length;
 
 async function loadProducts() {
-    const { data: products, error } = await supabase
-        .from('products')
-        .select('*');
+    const { data: products, error } = await supabase.from('products').select('*');
+    if(error) return console.log(error);
 
-    if (error) return console.log(error);
-
-    if (!products.length) {
-        productList.innerHTML = '<p>No products available yet.</p>';
-        return;
+    if(!products.length) productList.innerHTML = '<p>No products available yet.</p>';
+    else {
+        productList.innerHTML = products.map(p => `
+            <div class="product-card">
+                <img src="${p.image_url}" alt="${p.name}">
+                <h3>${p.name}</h3>
+                <p>${p.description}</p>
+                <p>₹${p.price}</p>
+                <button onclick="addToCart(${p.id}, '${p.name}', ${p.price})">Add to Cart</button>
+            </div>
+        `).join('');
     }
-
-    productList.innerHTML = products.map(p => `
-        <div class="product-card">
-            <img src="${p.image_url}" alt="${p.name}">
-            <h3>${p.name}</h3>
-            <p>${p.description}</p>
-            <p>₹${p.price}</p>
-            <button onclick="addToCart(${p.id}, '${p.name}', ${p.price})">Add to Cart</button>
-        </div>
-    `).join('');
 }
 
 function addToCart(id, name, price){
-    const index = cart.findIndex(c => c.id === id);
-    if(index > -1) cart[index].quantity += 1;
+    const idx = cart.findIndex(c=>c.id===id);
+    if(idx > -1) cart[idx].quantity += 1;
     else cart.push({id, name, price, quantity:1});
-
     localStorage.setItem('cart', JSON.stringify(cart));
-    document.getElementById('cart-count').innerText = cart.length;
+    alert(`${name} added to cart`);
 }
 
 window.addToCart = addToCart;
 window.loadProducts = loadProducts;
-
 loadProducts();
