@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin - Mashallah Boutique</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h1>Admin Dashboard</h1>
+    <section id="add-product">
+        <h2>Add Product</h2>
+        <input type="text" id="pname" placeholder="Product Name">
+        <input type="text" id="pdesc" placeholder="Description">
+        <input type="number" id="pprice" placeholder="Price">
+        <input type="text" id="pimg" placeholder="IMDB Title for image">
+        <button onclick="addProduct()">Add Product</button>
+    </section>
+
+    <section id="orders-section">
+        <h2>Orders</h2>
+        <div id="orders-list"></div>
+    </section>
+
+    <script type="module" src="admin.js"></script>
+</body>
+</html>
