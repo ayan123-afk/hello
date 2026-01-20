@@ -1,51 +1,55 @@
 import { supabase } from './supabase.js';
 
-// Redirect to login if no admin session
+// IMDB API Key
+const IMDB_API_KEY = '6a988d483bd741da6bba140240e912e8';
+
+// Redirect to login if not logged in
 const session = JSON.parse(localStorage.getItem('admin_session'));
 if(!session){
     window.location.href = 'admin-login.html';
 }
 
+// Add product
 async function addProduct() {
     const name = document.getElementById('pname').value.trim();
     const desc = document.getElementById('pdesc').value.trim();
     const price = parseFloat(document.getElementById('pprice').value);
-    const fileInput = document.getElementById('pimage');
+    const imdb = document.getElementById('pimdb').value.trim();
 
-    if(!name || !price || !fileInput.files.length) return alert('Fill all fields');
+    if(!name || !price || !imdb) return alert('Fill all fields');
 
-    const file = fileInput.files[0];
-    const fileExt = file.name.split('.').pop();
-    const fileName = `${Date.now()}.${fileExt}`;
+    try {
+        // Fetch image from IMDB API
+        const res = await fetch(`https://imdb-api.com/en/API/SearchMovie/${IMDB_API_KEY}/${imdb}`);
+        const data = await res.json();
+        const image_url = data.results?.[0]?.image || '';
 
-    // Upload image to Supabase Storage
-    const { data: uploadData, error: uploadError } = await supabase.storage
-        .from('product-images')
-        .upload(fileName, file);
+        if(!image_url) return alert('No image found from IMDB');
 
-    if(uploadError) return alert('Image upload failed: '+uploadError.message);
+        // Insert product into Supabase
+        const { error } = await supabase.from('products').insert([{
+            name,
+            description: desc,
+            price,
+            image_url
+        }]);
 
-    const { publicUrl } = supabase.storage
-        .from('product-images')
-        .getPublicUrl(fileName);
+        if(error) return alert('Failed to add product: ' + error.message);
 
-    // Insert product
-    const { error } = await supabase.from('products').insert([{
-        name, description: desc, price, image_url: publicUrl
-    }]);
-
-    if(error) return alert('Failed to add product: ' + error.message);
-
-    alert('Product uploaded successfully!');
-    document.getElementById('pname').value='';
-    document.getElementById('pdesc').value='';
-    document.getElementById('pprice').value='';
-    document.getElementById('pimage').value='';
-    loadProducts();
+        alert('Product added successfully!');
+        document.getElementById('pname').value = '';
+        document.getElementById('pdesc').value = '';
+        document.getElementById('pprice').value = '';
+        document.getElementById('pimdb').value = '';
+        loadProducts();
+    } catch(err) {
+        console.log(err);
+        alert('Error fetching IMDB image');
+    }
 }
 
-// Load products
-async function loadProducts(){
+// Load products in admin panel
+async function loadProducts() {
     const { data: products, error } = await supabase.from('products').select('*');
     if(error) return console.log(error);
 
@@ -74,7 +78,7 @@ async function loadOrders(){
     `).join('');
 }
 
-// Order status functions
+// Order status
 async function markDelivered(id){
     await supabase.from('orders').update({status:'delivered'}).eq('id', id);
     loadOrders();
