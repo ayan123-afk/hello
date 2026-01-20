@@ -17,8 +17,14 @@
             <input type="text" id="pname" placeholder="Product Name">
             <input type="text" id="pdesc" placeholder="Description">
             <input type="number" id="pprice" placeholder="Price">
-            <input type="file" id="pimage" accept="image/*">
-            <button onclick="addProduct()">Upload Product</button>
+            
+            <!-- IMDB search -->
+            <input type="text" id="psearch" placeholder="Enter product title for image">
+            <button onclick="searchImage()">Search Image</button>
+            
+            <div id="preview" style="margin:10px 0;"></div>
+            
+            <button id="addBtn" onclick="addProduct()" disabled>Add Product</button>
         </section>
 
         <section>
