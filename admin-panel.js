@@ -1,74 +1,71 @@
-import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm'
+import { supabase } from './supabase.js';
 
-export const supabase = createClient(
-  'https://lkwtqyqjccurtpvhutsj.supabase.co',
-  'sb_publishable_rcK2wyn_PsxA8QDzu8YzVA_iJoVrawj'
-);
+const IMDB_API_KEY = '6a988d483bd741da6bba140240e912e8';
+let selectedImage = null;
 
-// Check admin login
+// Redirect to login if not logged in
 const session = JSON.parse(localStorage.getItem('admin_session'));
-if(!session) window.location.href = 'admin-login.html';
+if(!session){
+    window.location.href = 'admin-login.html';
+}
 
-// Preview image
-document.getElementById('pimage').addEventListener('change', function(){
-    const file = this.files[0];
-    if(!file) return;
-    const reader = new FileReader();
-    reader.onload = () => {
-        document.getElementById('preview').innerHTML = `<img src="${reader.result}" width="150" style="border-radius:10px;">`;
-    }
-    reader.readAsDataURL(file);
-});
-
-// Upload product
-export async function addProduct() {
-    const name = document.getElementById('pname').value.trim();
-    const desc = document.getElementById('pdesc').value.trim();
-    const price = parseFloat(document.getElementById('pprice').value);
-    const fileInput = document.getElementById('pimage');
-
-    if(!name || !price || !fileInput.files.length) return alert('Fill all fields');
-
-    const file = fileInput.files[0];
-    const fileExt = file.name.split('.').pop();
-    const fileName = `${Date.now()}.${fileExt}`;
+// Search for image from IMDB API
+async function searchImage() {
+    const query = document.getElementById('psearch').value.trim();
+    if(!query) return alert('Enter product/movie title');
 
     try {
-        // Upload image to storage
-        const { data: uploadData, error: uploadError } = await supabase.storage
-            .from('product-images') // Bucket must exist
-            .upload(fileName, file);
+        const res = await fetch(`https://imdb-api.com/en/API/SearchMovie/${IMDB_API_KEY}/${encodeURIComponent(query)}`);
+        const data = await res.json();
 
-        if(uploadError) throw uploadError;
+        if(!data.results || data.results.length === 0) {
+            document.getElementById('preview').innerHTML = '<p>No image found.</p>';
+            selectedImage = null;
+            document.getElementById('addBtn').disabled = true;
+            return;
+        }
 
-        // Get public URL
-        const { publicUrl } = supabase.storage
-            .from('product-images')
-            .getPublicUrl(fileName);
-
-        // Insert product
-        const { error } = await supabase.from('products').insert([{
-            name, description: desc, price, image_url: publicUrl
-        }]);
-
-        if(error) throw error;
-
-        alert('Product uploaded successfully!');
-        document.getElementById('pname').value = '';
-        document.getElementById('pdesc').value = '';
-        document.getElementById('pprice').value = '';
-        document.getElementById('pimage').value = '';
-        document.getElementById('preview').innerHTML = '';
-        loadProducts();
+        // Take first result
+        selectedImage = data.results[0].image;
+        document.getElementById('preview').innerHTML = `
+            <img src="${selectedImage}" alt="Preview" style="width:150px; border-radius:10px;">
+        `;
+        document.getElementById('addBtn').disabled = false;
 
     } catch(err) {
         console.log(err);
-        alert('Error uploading product: ' + err.message);
+        alert('Error fetching image from IMDB');
     }
 }
 
-// Load products
-export async function loadProducts() {
+// Add product to Supabase
+async function addProduct() {
+    const name = document.getElementById('pname').value.trim();
+    const desc = document.getElementById('pdesc').value.trim();
+    const price = parseFloat(document.getElementById('pprice').value);
+
+    if(!name || !price || !selectedImage) return alert('Fill all fields and select image');
+
+    const { error } = await supabase.from('products').insert([{
+        name, description: desc, price, image_url: selectedImage
+    }]);
+
+    if(error) return alert('Failed to add product: ' + error.message);
+
+    alert('Product added successfully!');
+    document.getElementById('pname').value = '';
+    document.getElementById('pdesc').value = '';
+    document.getElementById('pprice').value = '';
+    document.getElementById('psearch').value = '';
+    document.getElementById('preview').innerHTML = '';
+    selectedImage = null;
+    document.getElementById('addBtn').disabled = true;
+
+    loadProducts();
+}
+
+// Load products in admin panel
+async function loadProducts() {
     const { data: products, error } = await supabase.from('products').select('*');
     if(error) return console.log(error);
 
@@ -83,9 +80,10 @@ export async function loadProducts() {
 }
 
 // Load orders
-export async function loadOrders() {
+async function loadOrders(){
     const { data: orders } = await supabase.from('orders').select('*');
     const ordersDiv = document.getElementById('orders-list');
+
     ordersDiv.innerHTML = orders.map(o => `
         <div style="margin-bottom:10px; border:1px solid #ccc; padding:10px;">
             <b>${o.customer_name}</b> - ₹${o.total} - Status: ${o.status}<br>
@@ -96,24 +94,24 @@ export async function loadOrders() {
     `).join('');
 }
 
-// Update order status
-export async function markDelivered(id) {
-    await supabase.from('orders').update({ status: 'delivered' }).eq('id', id);
+// Orders status update
+async function markDelivered(id){
+    await supabase.from('orders').update({status:'delivered'}).eq('id', id);
     loadOrders();
 }
-export async function markPending(id) {
-    await supabase.from('orders').update({ status: 'pending' }).eq('id', id);
+async function markPending(id){
+    await supabase.from('orders').update({status:'pending'}).eq('id', id);
     loadOrders();
 }
 
 // Logout
-export async function logout() {
+async function logout(){
     await supabase.auth.signOut();
     localStorage.removeItem('admin_session');
     window.location.href = 'admin-login.html';
 }
 
-// Expose globally
+window.searchImage = searchImage;
 window.addProduct = addProduct;
 window.loadProducts = loadProducts;
 window.loadOrders = loadOrders;
@@ -121,6 +119,5 @@ window.markDelivered = markDelivered;
 window.markPending = markPending;
 window.logout = logout;
 
-// Initial load
 loadProducts();
 loadOrders();
