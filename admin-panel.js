@@ -4,7 +4,7 @@ import { supabase } from './supabase.js';
 const session = JSON.parse(localStorage.getItem('admin_session'));
 if (!session) window.location.href = 'admin-login.html';
 
-// Add Product
+// Upload product
 async function addProduct() {
   const name = document.getElementById('pname').value.trim();
   const desc = document.getElementById('pdesc').value.trim();
@@ -18,7 +18,7 @@ async function addProduct() {
   const fileName = `${Date.now()}.${fileExt}`;
 
   try {
-    // Upload image to Supabase Storage (bucket must exist)
+    // Upload image to Supabase Storage
     const { data: uploadData, error: uploadError } = await supabase.storage
       .from('product-images')
       .upload(fileName, file);
@@ -29,7 +29,7 @@ async function addProduct() {
       .from('product-images')
       .getPublicUrl(fileName);
 
-    // Insert product into table
+    // Insert product
     const { error } = await supabase.from('products').insert([{
       name, description: desc, price, image_url: publicUrl
     }]);
@@ -50,7 +50,7 @@ async function addProduct() {
   }
 }
 
-// Preview selected image
+// Preview image
 document.getElementById('pimage').addEventListener('change', function() {
   const file = this.files[0];
   if (!file) return;
@@ -61,7 +61,7 @@ document.getElementById('pimage').addEventListener('change', function() {
   reader.readAsDataURL(file);
 });
 
-// Load products in admin panel
+// Load products
 async function loadProducts() {
   const { data: products, error } = await supabase.from('products').select('*');
   if (error) return console.log(error);
@@ -90,7 +90,7 @@ async function loadOrders() {
   `).join('');
 }
 
-// Orders status update
+// Orders status
 async function markDelivered(id) {
   await supabase.from('orders').update({ status: 'delivered' }).eq('id', id);
   loadOrders();
