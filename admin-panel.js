@@ -1,33 +1,51 @@
 import { supabase } from './supabase.js';
-const IMDB_API_KEY = '6a988d483bd741da6bba140240e912e8';
 
-// Add Product using IMDB API
+// Redirect to login if no admin session
+const session = JSON.parse(localStorage.getItem('admin_session'));
+if(!session){
+    window.location.href = 'admin-login.html';
+}
+
 async function addProduct() {
     const name = document.getElementById('pname').value.trim();
     const desc = document.getElementById('pdesc').value.trim();
     const price = parseFloat(document.getElementById('pprice').value);
-    const imdb = document.getElementById('pimdb').value.trim();
+    const fileInput = document.getElementById('pimage');
 
-    if(!name || !price || !imdb) return alert('Fill all fields');
+    if(!name || !price || !fileInput.files.length) return alert('Fill all fields');
 
-    // Fetch image from IMDB API
-    const res = await fetch(`https://imdb-api.com/en/API/SearchMovie/${IMDB_API_KEY}/${imdb}`);
-    const data = await res.json();
-    const image_url = data.results?.[0]?.image || '';
+    const file = fileInput.files[0];
+    const fileExt = file.name.split('.').pop();
+    const fileName = `${Date.now()}.${fileExt}`;
 
-    const { error } = await supabase.from('products').insert([{ name, description: desc, price, image_url }]);
-    if(error) return alert(error.message);
+    // Upload image to Supabase Storage
+    const { data: uploadData, error: uploadError } = await supabase.storage
+        .from('product-images')
+        .upload(fileName, file);
 
-    alert('Product added!');
-    loadProducts();
+    if(uploadError) return alert('Image upload failed: '+uploadError.message);
+
+    const { publicUrl } = supabase.storage
+        .from('product-images')
+        .getPublicUrl(fileName);
+
+    // Insert product
+    const { error } = await supabase.from('products').insert([{
+        name, description: desc, price, image_url: publicUrl
+    }]);
+
+    if(error) return alert('Failed to add product: ' + error.message);
+
+    alert('Product uploaded successfully!');
     document.getElementById('pname').value='';
     document.getElementById('pdesc').value='';
     document.getElementById('pprice').value='';
-    document.getElementById('pimdb').value='';
+    document.getElementById('pimage').value='';
+    loadProducts();
 }
 
-// Load products in admin panel
-async function loadProducts() {
+// Load products
+async function loadProducts(){
     const { data: products, error } = await supabase.from('products').select('*');
     if(error) return console.log(error);
 
@@ -42,7 +60,7 @@ async function loadProducts() {
 }
 
 // Load orders
-async function loadOrders() {
+async function loadOrders(){
     const { data: orders } = await supabase.from('orders').select('*');
     const ordersDiv = document.getElementById('orders-list');
 
@@ -56,11 +74,11 @@ async function loadOrders() {
     `).join('');
 }
 
+// Order status functions
 async function markDelivered(id){
     await supabase.from('orders').update({status:'delivered'}).eq('id', id);
     loadOrders();
 }
-
 async function markPending(id){
     await supabase.from('orders').update({status:'pending'}).eq('id', id);
     loadOrders();
@@ -69,6 +87,7 @@ async function markPending(id){
 // Logout
 async function logout(){
     await supabase.auth.signOut();
+    localStorage.removeItem('admin_session');
     window.location.href = 'admin-login.html';
 }
 
