@@ -5,8 +5,16 @@ let cart = JSON.parse(localStorage.getItem('cart')) || [];
 document.getElementById('cart-count').innerText = cart.length;
 
 async function loadProducts() {
-    const { data: products, error } = await supabase.from('products').select('*');
-    if(error) return console.log(error);
+    const { data: products, error } = await supabase
+        .from('products')
+        .select('*');
+
+    if (error) return console.log(error);
+
+    if (!products.length) {
+        productList.innerHTML = '<p>No products available yet.</p>';
+        return;
+    }
 
     productList.innerHTML = products.map(p => `
         <div class="product-card">
@@ -19,16 +27,16 @@ async function loadProducts() {
     `).join('');
 }
 
-function addToCart(id, name, price) {
-    const itemIndex = cart.findIndex(c => c.id === id);
-    if(itemIndex > -1) {
-        cart[itemIndex].quantity += 1;
-    } else {
-        cart.push({id, name, price, quantity:1});
-    }
+function addToCart(id, name, price){
+    const index = cart.findIndex(c => c.id === id);
+    if(index > -1) cart[index].quantity += 1;
+    else cart.push({id, name, price, quantity:1});
+
     localStorage.setItem('cart', JSON.stringify(cart));
     document.getElementById('cart-count').innerText = cart.length;
 }
 
 window.addToCart = addToCart;
+window.loadProducts = loadProducts;
+
 loadProducts();
