@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin Panel - Mashallah Boutique</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <nav class="navbar">
+        <h1>Admin Panel</h1>
+        <button onclick="logout()" class="btn">Logout</button>
+    </nav>
+
+    <main>
+        <section id="add-product">
+            <h2>Add Product</h2>
+            <input type="text" id="pname" placeholder="Product Name">
+            <input type="text" id="pdesc" placeholder="Description">
+            <input type="number" id="pprice" placeholder="Price">
+            <input type="text" id="pimdb" placeholder="Search IMDB for Image">
+            <button onclick="addProduct()">Add Product</button>
+        </section>
+
+        <section>
+            <h2>Products</h2>
+            <div id="product-list-admin" class="products"></div>
+        </section>
+
+        <section>
+            <h2>Orders</h2>
+            <div id="orders-list"></div>
+        </section>
+    </main>
+
+    <script type="module" src="admin-panel.js"></script>
+</body>
+</html>
