@@ -1,45 +1,55 @@
 import { supabase } from './supabase.js';
-const IMDB_API_KEY = '6a988d483bd741da6bba140240e912e8';
 
-// Add Product using IMDB API
 async function addProduct() {
     const name = document.getElementById('pname').value.trim();
     const desc = document.getElementById('pdesc').value.trim();
     const price = parseFloat(document.getElementById('pprice').value);
-    const imdb = document.getElementById('pimdb').value.trim();
+    const image_url = document.getElementById('pimageurl').value.trim();
 
-    if(!name || !price || !imdb) return alert('Fill all fields');
+    if(!name || !price || !image_url) return alert('Please fill all fields');
 
-    // Fetch image from IMDB API
-    const res = await fetch(`https://imdb-api.com/en/API/SearchMovie/${IMDB_API_KEY}/${imdb}`);
-    const data = await res.json();
-    const image_url = data.results?.[0]?.image || '';
+    const { data, error } = await supabase
+        .from('products')
+        .insert([{ name, description: desc, price, image_url }]);
 
-    const { error } = await supabase.from('products').insert([{ name, description: desc, price, image_url }]);
-    if(error) return alert(error.message);
+    if(error) return alert('Error adding product: ' + error.message);
 
-    alert('Product added!');
-    loadProducts();
-    document.getElementById('pname').value='';
-    document.getElementById('pdesc').value='';
-    document.getElementById('pprice').value='';
-    document.getElementById('pimdb').value='';
+    alert('Product added successfully!');
+    document.getElementById('pname').value = '';
+    document.getElementById('pdesc').value = '';
+    document.getElementById('pprice').value = '';
+    document.getElementById('pimageurl').value = '';
+
+    loadProductsAdmin();
 }
 
-// Load products in admin panel
-async function loadProducts() {
-    const { data: products, error } = await supabase.from('products').select('*');
+async function loadProductsAdmin() {
+    const { data: products, error } = await supabase
+        .from('products')
+        .select('*');
+
     if(error) return console.log(error);
 
     const list = document.getElementById('product-list-admin');
+    if(!list) return;
+
+    if(!products.length){
+        list.innerHTML = '<p>No products yet.</p>';
+        return;
+    }
+
     list.innerHTML = products.map(p => `
-        <div class="product-card">
-            <img src="${p.image_url}" alt="${p.name}">
-            <h3>${p.name}</h3>
-            <p>₹${p.price}</p>
+        <div style="margin-bottom:10px;">
+            <img src="${p.image_url}" width="100" />
+            <b>${p.name}</b> - ₹${p.price}
         </div>
     `).join('');
 }
+
+window.addProduct = addProduct;
+window.loadProductsAdmin = loadProductsAdmin;
+
+loadProductsAdmin();
 
 // Load orders
 async function loadOrders() {
