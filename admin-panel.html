@@ -1,43 +1,41 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Admin Panel - Mashallah Boutique</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <title>Admin Panel - Mashallah Boutique</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <nav class="navbar">
-        <h1>Admin Panel</h1>
-        <button onclick="logout()" class="btn">Logout</button>
-    </nav>
+  <nav class="navbar">
+    <h1>Admin Panel</h1>
+    <button onclick="logout()" class="btn">Logout</button>
+  </nav>
 
-    <main>
-        <section id="add-product">
-            <h2>Add Product</h2>
-            <input type="text" id="pname" placeholder="Product Name">
-            <input type="text" id="pdesc" placeholder="Description">
-            <input type="number" id="pprice" placeholder="Price">
-            
-            <!-- IMDB search -->
-            <input type="text" id="psearch" placeholder="Enter product title for image">
-            <button onclick="searchImage()">Search Image</button>
-            
-            <div id="preview" style="margin:10px 0;"></div>
-            
-            <button id="addBtn" onclick="addProduct()" disabled>Add Product</button>
-        </section>
+  <main>
+    <!-- Add Product Section -->
+    <section id="add-product">
+      <h2>Add Product</h2>
+      <input type="text" id="pname" placeholder="Product Name">
+      <input type="text" id="pdesc" placeholder="Description">
+      <input type="number" id="pprice" placeholder="Price">
+      <input type="file" id="pimage" accept="image/*">
+      <button onclick="addProduct()">Upload Product</button>
+      <div id="preview" style="margin-top:10px;"></div>
+    </section>
 
-        <section>
-            <h2>Products</h2>
-            <div id="product-list-admin" class="products"></div>
-        </section>
+    <!-- Products List -->
+    <section>
+      <h2>Products</h2>
+      <div id="product-list-admin" class="products"></div>
+    </section>
 
-        <section>
-            <h2>Orders</h2>
-            <div id="orders-list"></div>
-        </section>
-    </main>
+    <!-- Orders List -->
+    <section>
+      <h2>Orders</h2>
+      <div id="orders-list"></div>
+    </section>
+  </main>
 
-    <script type="module" src="admin-panel.js"></script>
+  <script type="module" src="admin-panel.js"></script>
 </body>
 </html>
