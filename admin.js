@@ -1,41 +1,52 @@
 import { supabase } from './supabase.js';
 
 async function addProduct() {
-    const name = document.getElementById('pname').value;
-    const desc = document.getElementById('pdesc').value;
-    const price = document.getElementById('pprice').value;
-    const fileInput = document.getElementById('pimage');
-    
-    if (!fileInput.files.length) return alert('Please select an image');
+    const name = document.getElementById('pname').value.trim();
+    const desc = document.getElementById('pdesc').value.trim();
+    const price = parseFloat(document.getElementById('pprice').value);
+    const image_url = document.getElementById('pimageurl').value.trim();
 
-    const file = fileInput.files[0];
-    const fileExt = file.name.split('.').pop();
-    const fileName = `${Date.now()}.${fileExt}`;
-    
-    // Upload image to Supabase Storage
-    const { data: uploadData, error: uploadError } = await supabase.storage
-        .from('product-images')
-        .upload(fileName, file);
+    if(!name || !price || !image_url) return alert('Please fill all fields');
 
-    if(uploadError) return alert('Image upload failed: ' + uploadError.message);
+    const { data, error } = await supabase
+        .from('products')
+        .insert([{ name, description: desc, price, image_url }]);
 
-    // Get public URL
-    const { publicUrl, error: urlError } = supabase.storage
-        .from('product-images')
-        .getPublicUrl(fileName);
-
-    if(urlError) return alert('Error getting image URL: ' + urlError.message);
-
-    // Save product in DB
-    const { error: dbError } = await supabase.from('products').insert([{
-        name,
-        description: desc,
-        price,
-        image_url: publicUrl
-    }]);
-
-    if(dbError) return alert('Error adding product: ' + dbError.message);
+    if(error) return alert('Error adding product: ' + error.message);
 
     alert('Product added successfully!');
-    loadOrders();
+    document.getElementById('pname').value = '';
+    document.getElementById('pdesc').value = '';
+    document.getElementById('pprice').value = '';
+    document.getElementById('pimageurl').value = '';
+
+    loadProductsAdmin();
 }
+
+async function loadProductsAdmin() {
+    const { data: products, error } = await supabase
+        .from('products')
+        .select('*');
+
+    if(error) return console.log(error);
+
+    const list = document.getElementById('product-list-admin');
+    if(!list) return;
+
+    if(!products.length){
+        list.innerHTML = '<p>No products yet.</p>';
+        return;
+    }
+
+    list.innerHTML = products.map(p => `
+        <div style="margin-bottom:10px;">
+            <img src="${p.image_url}" width="100" />
+            <b>${p.name}</b> - ₹${p.price}
+        </div>
+    `).join('');
+}
+
+window.addProduct = addProduct;
+window.loadProductsAdmin = loadProductsAdmin;
+
+loadProductsAdmin();
