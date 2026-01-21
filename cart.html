@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Cart - Mashallah Boutique</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Montserrat:wght@700;800;900&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #f7f7f7 0%, #f0f2f5 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+
+        /* Navbar */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: linear-gradient(135deg, #ff5c5c 0%, #ff3b3b 100%);
+            color: #fff;
+            padding: 18px 30px;
+            box-shadow: 0 4px 15px rgba(255, 92, 92, 0.2);
+        }
+
+        .navbar h1 {
+            font-size: 22px;
+            font-weight: 700;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        .navbar-links {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .nav-link {
+            color: white;
+            text-decoration: none;
+            padding: 8px 18px;
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 6px;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .nav-link:hover {
+            background: rgba(255, 255, 255, 0.25);
+            transform: translateY(-2px);
+        }
+
+        .cart-link {
+            background: #000;
+        }
+
+        .cart-link:hover {
+            background: #333;
+        }
+
+        /* Cart Container */
+        .cart-container {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        .cart-title {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 32px;
+            margin-bottom: 30px;
+            color: #222;
+            text-align: center;
+        }
+
+        /* Empty Cart */
+        .empty-cart {
+            text-align: center;
+            padding: 60px 20px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+        }
+
+        .empty-cart h2 {
+            font-size: 24px;
+            margin-bottom: 20px;
+            color: #666;
+        }
+
+        .continue-shopping {
+            display: inline-block;
+            padding: 12px 30px;
+            background: #ff5c5c;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 600;
+            margin-top: 20px;
+            transition: all 0.3s;
+        }
+
+        .continue-shopping:hover {
+            background: #e04c4c;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(255, 92, 92, 0.3);
+        }
+
+        /* Cart Items */
+        .cart-items {
+            display: grid;
+            gap: 20px;
+        }
+
+        .cart-item {
+            display: flex;
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            align-items: center;
+            transition: all 0.3s;
+        }
+
+        .cart-item:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+        }
+
+        .cart-item-image {
+            width: 120px;
+            height: 120px;
+            object-fit: contain;
+            margin-right: 25px;
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+        }
+
+        .cart-item-details {
+            flex: 1;
+        }
+
+        .cart-item-name {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 10px;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        .cart-item-price {
+            font-size: 20px;
+            font-weight: 700;
+            color: #ff5c5c;
+            margin-bottom: 15px;
+        }
+
+        .quantity-controls {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .quantity-btn {
+            width: 35px;
+            height: 35px;
+            border: none;
+            background: #ff5c5c;
+            color: white;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 18px;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+
+        .quantity-btn:hover {
+            background: #e04c4c;
+            transform: scale(1.1);
+        }
+
+        .quantity {
+            font-size: 18px;
+            font-weight: 600;
+            min-width: 40px;
+            text-align: center;
+        }
+
+        .remove-btn {
+            padding: 8px 20px;
+            background: #ff4444;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .remove-btn:hover {
+            background: #cc0000;
+            transform: translateY(-2px);
+        }
+
+        /* Cart Summary */
+        .cart-summary {
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            margin-top: 30px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            text-align: right;
+        }
+
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 1px dashed #ddd;
+        }
+
+        .summary-row:last-child {
+            border-bottom: none;
+            font-size: 22px;
+            font-weight: 700;
+            color: #ff5c5c;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 2px solid #eee;
+        }
+
+        .summary-label {
+            font-weight: 600;
+            color: #666;
+        }
+
+        .summary-value {
+            font-weight: 700;
+        }
+
+        .checkout-btn {
+            display: inline-block;
+            width: 100%;
+            padding: 16px;
+            background: #ff5c5c;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 18px;
+            font-weight: 700;
+            margin-top: 25px;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: center;
+            text-decoration: none;
+        }
+
+        .checkout-btn:hover {
+            background: #e04c4c;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(255, 92, 92, 0.3);
+        }
+
+        .checkout-btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 25px 0;
+            background: linear-gradient(135deg, #222 0%, #000 100%);
+            color: #fff;
+            margin-top: 60px;
+            font-size: 0.95rem;
+        }
+
+        footer p {
+            margin: 0;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .navbar {
+                flex-direction: column;
+                gap: 15px;
+                padding: 15px;
+            }
+            
+            .cart-item {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .cart-item-image {
+                margin-right: 0;
+                margin-bottom: 20px;
+            }
+            
+            .quantity-controls {
+                justify-content: center;
+                margin-top: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <h1>Mashallah Boutique - Your Cart</h1>
+        <div class="navbar-links">
+            <a href="index.html" class="nav-link">Continue Shopping</a>
+            <a href="checkout.html" class="nav-link cart-link">Proceed to Checkout</a>
+        </div>
+    </nav>
+
+    <div class="cart-container">
+        <h1 class="cart-title">Your Shopping Cart</h1>
+        
+        <div id="cart-items">
+            <!-- Cart items will load here -->
+        </div>
+        
+        <div id="cart-summary">
+            <!-- Cart summary will load here -->
+        </div>
+    </div>
+
+    <footer>
+        <p>© 2026 Mashallah Boutique. All Rights Reserved.</p>
+    </footer>
+
+    <script src="product.js" type="module"></script>
+    <script>
+        // Cart-specific JavaScript
+        document.addEventListener('DOMContentLoaded', function() {
+            loadCartPage();
+        });
+
+        function loadCartPage() {
+            const cart = JSON.parse(localStorage.getItem('cart')) || [];
+            const cartItemsDiv = document.getElementById('cart-items');
+            const cartSummaryDiv = document.getElementById('cart-summary');
+            
+            if (cart.length === 0) {
+                cartItemsDiv.innerHTML = `
+                    <div class="empty-cart">
+                        <h2>Your cart is empty</h2>
+                        <p>Add some products from our shop!</p>
+                        <a href="index.html" class="continue-shopping">Continue Shopping</a>
+                    </div>
+                `;
+                cartSummaryDiv.innerHTML = '';
+                return;
+            }
+            
+            // Render cart items
+            let total = 0;
+            let itemsHTML = '<div class="cart-items">';
+            
+            cart.forEach((item, index) => {
+                const itemTotal = item.price * item.quantity;
+                total += itemTotal;
+                
+                itemsHTML += `
+                    <div class="cart-item" data-index="${index}">
+                        <div style="flex: 1;">
+                            <h3 class="cart-item-name">${item.name}</h3>
+                            <p class="cart-item-price">₹${item.price}</p>
+                            <div class="quantity-controls">
+                                <button class="quantity-btn" onclick="updateQuantity(${index}, -1)">-</button>
+                                <span class="quantity">${item.quantity}</span>
+                                <button class="quantity-btn" onclick="updateQuantity(${index}, 1)">+</button>
+                                <button class="remove-btn" onclick="removeFromCart(${index})">Remove</button>
+                            </div>
+                        </div>
+                        <div style="text-align: right;">
+                            <p style="font-size: 20px; font-weight: 700; color: #222;">₹${itemTotal}</p>
+                            <p style="color: #666; font-size: 14px;">${item.quantity} × ₹${item.price}</p>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            itemsHTML += '</div>';
+            cartItemsDiv.innerHTML = itemsHTML;
+            
+            // Render cart summary
+            cartSummaryDiv.innerHTML = `
+                <div class="cart-summary">
+                    <div class="summary-row">
+                        <span class="summary-label">Subtotal (${cart.reduce((acc, item) => acc + item.quantity, 0)} items):</span>
+                        <span class="summary-value">₹${total}</span>
+                    </div>
+                    <div class="summary-row">
+                        <span class="summary-label">Shipping:</span>
+                        <span class="summary-value">Free</span>
+                    </div>
+                    <div class="summary-row">
+                        <span class="summary-label">Total:</span>
+                        <span class="summary-value">₹${total}</span>
+                    </div>
+                    <a href="checkout.html" class="checkout-btn">Proceed to Checkout</a>
+                </div>
+            `;
+        }
+
+        function updateQuantity(index, change) {
+            const cart = JSON.parse(localStorage.getItem('cart')) || [];
+            cart[index].quantity += change;
+            
+            if (cart[index].quantity <= 0) {
+                cart.splice(index, 1);
+            }
+            
+            localStorage.setItem('cart', JSON.stringify(cart));
+            loadCartPage();
+            updateCartCount();
+        }
+
+        function removeFromCart(index) {
+            const cart = JSON.parse(localStorage.getItem('cart')) || [];
+            cart.splice(index, 1);
+            localStorage.setItem('cart', JSON.stringify(cart));
+            loadCartPage();
+            updateCartCount();
+        }
+
+        function updateCartCount() {
+            const cart = JSON.parse(localStorage.getItem('cart')) || [];
+            const totalItems = cart.reduce((total, item) => total + item.quantity, 0);
+            
+            // Update cart count on index page if it exists
+            const cartCountElement = document.getElementById('cart-count');
+            if (cartCountElement) {
+                cartCountElement.textContent = totalItems;
+            }
+        }
+    </script>
+</body>
+</html>
