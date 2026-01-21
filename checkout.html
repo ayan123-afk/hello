@@ -3,18 +3,555 @@
 <head>
     <meta charset="UTF-8">
     <title>Checkout - Mashallah Boutique</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Montserrat:wght@700;800;900&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+
+        /* Navbar */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: linear-gradient(135deg, #ff5c5c 0%, #ff3b3b 100%);
+            color: #fff;
+            padding: 18px 30px;
+            box-shadow: 0 4px 15px rgba(255, 92, 92, 0.2);
+        }
+
+        .navbar h1 {
+            font-size: 22px;
+            font-weight: 700;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        .navbar-links {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .nav-link {
+            color: white;
+            text-decoration: none;
+            padding: 8px 18px;
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 6px;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .nav-link:hover {
+            background: rgba(255, 255, 255, 0.25);
+            transform: translateY(-2px);
+        }
+
+        /* Checkout Container */
+        .checkout-container {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 0 20px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+        }
+
+        @media (max-width: 768px) {
+            .checkout-container {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Checkout Title */
+        .checkout-title {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 32px;
+            margin-bottom: 30px;
+            color: #222;
+            grid-column: 1 / -1;
+        }
+
+        /* Order Summary */
+        .order-summary {
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            height: fit-content;
+        }
+
+        .summary-title {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 24px;
+            margin-bottom: 25px;
+            color: #222;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #eee;
+        }
+
+        .order-items {
+            margin-bottom: 25px;
+        }
+
+        .order-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 1px dashed #ddd;
+        }
+
+        .order-item:last-child {
+            border-bottom: none;
+        }
+
+        .item-name {
+            font-weight: 600;
+        }
+
+        .item-quantity {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .item-total {
+            font-weight: 700;
+            color: #ff5c5c;
+        }
+
+        .item-total::before {
+            content: "PKR ";
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #666;
+        }
+
+        .summary-total {
+            display: flex;
+            justify-content: space-between;
+            font-size: 22px;
+            font-weight: 700;
+            color: #ff5c5c;
+            margin-top: 25px;
+            padding-top: 25px;
+            border-top: 2px solid #eee;
+        }
+
+        .summary-total span:last-child::before {
+            content: "PKR ";
+            font-size: 18px;
+            font-weight: 600;
+            color: #666;
+        }
+
+        /* Checkout Form */
+        .checkout-form-container {
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+        }
+
+        .form-title {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 24px;
+            margin-bottom: 25px;
+            color: #222;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #eee;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #444;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-family: 'Poppins', sans-serif;
+            transition: all 0.3s;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #ff5c5c;
+            box-shadow: 0 0 0 3px rgba(255, 92, 92, 0.1);
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        @media (max-width: 480px) {
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 16px;
+            background: #ff5c5c;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 18px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 20px;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        .submit-btn:hover {
+            background: #e04c4c;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(255, 92, 92, 0.3);
+        }
+
+        .submit-btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* Payment Methods */
+        .payment-methods {
+            margin: 25px 0;
+        }
+
+        .payment-option {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+            padding: 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .payment-option:hover {
+            border-color: #ff5c5c;
+            background: rgba(255, 92, 92, 0.05);
+        }
+
+        .payment-option.selected {
+            border-color: #ff5c5c;
+            background: rgba(255, 92, 92, 0.1);
+        }
+
+        .payment-option input {
+            margin-right: 15px;
+            width: 20px;
+            height: 20px;
+        }
+
+        .payment-icon {
+            font-size: 24px;
+            margin-right: 10px;
+        }
+
+        /* Success Message */
+        .success-message {
+            background: #d4edda;
+            color: #155724;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 20px;
+            text-align: center;
+            display: none;
+        }
+
+        .success-message.show {
+            display: block;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 25px 0;
+            background: linear-gradient(135deg, #222 0%, #000 100%);
+            color: #fff;
+            margin-top: 60px;
+            font-size: 0.95rem;
+        }
+
+        footer p {
+            margin: 0;
+        }
+    </style>
 </head>
 <body>
-    <h1>Checkout</h1>
-    <form id="checkout-form">
-        <input type="text" id="name" placeholder="Full Name" required>
-        <input type="email" id="email" placeholder="Email" required>
-        <input type="text" id="phone" placeholder="Phone" required>
-        <input type="text" id="address" placeholder="Address" required>
-        <button type="submit">Place Order</button>
-    </form>
+    <nav class="navbar">
+        <h1>Mashallah Boutique - Checkout</h1>
+        <div class="navbar-links">
+            <a href="index.html" class="nav-link">Continue Shopping</a>
+            <a href="cart.html" class="nav-link">Back to Cart</a>
+        </div>
+    </nav>
 
-    <script type="module" src="checkout.js"></script>
+    <div class="checkout-container">
+        <h1 class="checkout-title">Complete Your Order</h1>
+        
+        <!-- Order Summary -->
+        <div class="order-summary">
+            <h2 class="summary-title">Order Summary</h2>
+            <div class="order-items" id="order-items">
+                <!-- Order items will be loaded here -->
+            </div>
+            <div class="summary-total">
+                <span>Total:</span>
+                <span id="order-total">0</span>
+            </div>
+        </div>
+
+        <!-- Checkout Form -->
+        <div class="checkout-form-container">
+            <h2 class="form-title">Shipping & Payment Details</h2>
+            
+            <form id="checkout-form">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="name">Full Name *</label>
+                        <input type="text" id="name" placeholder="Enter your full name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email Address *</label>
+                        <input type="email" id="email" placeholder="Enter your email" required>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="phone">Phone Number *</label>
+                        <input type="tel" id="phone" placeholder="03XX-XXXXXXX" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="city">City *</label>
+                        <select id="city" required>
+                            <option value="">Select City</option>
+                            <option value="karachi">Karachi</option>
+                            <option value="lahore">Lahore</option>
+                            <option value="islamabad">Islamabad</option>
+                            <option value="rawalpindi">Rawalpindi</option>
+                            <option value="faisalabad">Faisalabad</option>
+                            <option value="multan">Multan</option>
+                            <option value="hyderabad">Hyderabad</option>
+                            <option value="peshawar">Peshawar</option>
+                            <option value="quetta">Quetta</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="address">Complete Address *</label>
+                    <textarea id="address" placeholder="House #, Street, Area, City" required></textarea>
+                </div>
+
+                <div class="payment-methods">
+                    <h3 style="margin-bottom: 15px;">Payment Method *</h3>
+                    
+                    <label class="payment-option">
+                        <input type="radio" name="payment" value="cod" checked>
+                        <span class="payment-icon">💰</span>
+                        <div>
+                            <strong>Cash on Delivery (COD)</strong>
+                            <p style="font-size: 0.9rem; color: #666; margin-top: 5px;">Pay when you receive your order</p>
+                        </div>
+                    </label>
+                    
+                    <label class="payment-option">
+                        <input type="radio" name="payment" value="card">
+                        <span class="payment-icon">💳</span>
+                        <div>
+                            <strong>Credit/Debit Card</strong>
+                            <p style="font-size: 0.9rem; color: #666; margin-top: 5px;">Pay securely with your card</p>
+                        </div>
+                    </label>
+                    
+                    <label class="payment-option">
+                        <input type="radio" name="payment" value="jazzcash">
+                        <span class="payment-icon">📱</span>
+                        <div>
+                            <strong>JazzCash</strong>
+                            <p style="font-size: 0.9rem; color: #666; margin-top: 5px;">Mobile wallet payment</p>
+                        </div>
+                    </label>
+                </div>
+
+                <div class="form-group">
+                    <label for="notes">Order Notes (Optional)</label>
+                    <textarea id="notes" placeholder="Any special instructions for your order..."></textarea>
+                </div>
+
+                <button type="submit" class="submit-btn" id="submit-btn">
+                    Place Order - <span id="final-total">PKR 0</span>
+                </button>
+            </form>
+
+            <div class="success-message" id="success-message">
+                <h3>🎉 Order Placed Successfully!</h3>
+                <p>Thank you for your order. We'll contact you shortly for confirmation.</p>
+                <p>Order ID: <strong>MB-${Math.floor(100000 + Math.random() * 900000)}</strong></p>
+                <a href="index.html" style="display: inline-block; margin-top: 15px; padding: 10px 20px; background: #ff5c5c; color: white; text-decoration: none; border-radius: 6px;">Continue Shopping</a>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>© 2026 Mashallah Boutique. All Rights Reserved. | All prices in PKR</p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            loadOrderSummary();
+            setupForm();
+        });
+
+        function loadOrderSummary() {
+            const cart = JSON.parse(localStorage.getItem('cart')) || [];
+            const orderItemsDiv = document.getElementById('order-items');
+            const orderTotalSpan = document.getElementById('order-total');
+            const finalTotalSpan = document.getElementById('final-total');
+            
+            if (cart.length === 0) {
+                orderItemsDiv.innerHTML = '<p>Your cart is empty</p>';
+                orderTotalSpan.textContent = '0';
+                finalTotalSpan.textContent = 'PKR 0';
+                document.getElementById('submit-btn').disabled = true;
+                return;
+            }
+            
+            let total = 0;
+            let itemsHTML = '';
+            
+            cart.forEach(item => {
+                const itemTotal = item.price * item.quantity;
+                total += itemTotal;
+                
+                itemsHTML += `
+                    <div class="order-item">
+                        <div>
+                            <div class="item-name">${item.name}</div>
+                            <div class="item-quantity">Qty: ${item.quantity}</div>
+                        </div>
+                        <div class="item-total">${itemTotal}</div>
+                    </div>
+                `;
+            });
+            
+            orderItemsDiv.innerHTML = itemsHTML;
+            orderTotalSpan.textContent = total;
+            finalTotalSpan.textContent = `PKR ${total}`;
+        }
+
+        function setupForm() {
+            const form = document.getElementById('checkout-form');
+            const paymentOptions = document.querySelectorAll('.payment-option');
+            
+            // Payment option selection
+            paymentOptions.forEach(option => {
+                option.addEventListener('click', function() {
+                    paymentOptions.forEach(opt => opt.classList.remove('selected'));
+                    this.classList.add('selected');
+                    const radio = this.querySelector('input[type="radio"]');
+                    radio.checked = true;
+                });
+            });
+            
+            // Form submission
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const cart = JSON.parse(localStorage.getItem('cart')) || [];
+                if (cart.length === 0) {
+                    alert('Your cart is empty!');
+                    return;
+                }
+                
+                // Get form data
+                const formData = {
+                    name: document.getElementById('name').value,
+                    email: document.getElementById('email').value,
+                    phone: document.getElementById('phone').value,
+                    city: document.getElementById('city').value,
+                    address: document.getElementById('address').value,
+                    payment: document.querySelector('input[name="payment"]:checked').value,
+                    notes: document.getElementById('notes').value,
+                    orderId: 'MB-' + Math.floor(100000 + Math.random() * 900000),
+                    total: document.getElementById('order-total').textContent,
+                    items: cart,
+                    date: new Date().toLocaleString()
+                };
+                
+                // Save order to localStorage
+                const orders = JSON.parse(localStorage.getItem('orders')) || [];
+                orders.push(formData);
+                localStorage.setItem('orders', JSON.stringify(orders));
+                
+                // Clear cart
+                localStorage.removeItem('cart');
+                
+                // Update cart count
+                updateCartCount();
+                
+                // Show success message
+                document.getElementById('checkout-form').style.display = 'none';
+                document.getElementById('success-message').classList.add('show');
+                
+                // Update success message with order ID
+                document.querySelector('#success-message strong').textContent = formData.orderId;
+            });
+        }
+
+        function updateCartCount() {
+            const cart = JSON.parse(localStorage.getItem('cart')) || [];
+            const totalItems = cart.reduce((total, item) => total + item.quantity, 0);
+            
+            // Update cart count on all pages
+            const cartCountElements = document.querySelectorAll('#cart-count');
+            cartCountElements.forEach(element => {
+                element.textContent = totalItems;
+            });
+        }
+
+        // Load initial cart count
+        updateCartCount();
+    </script>
 </body>
 </html>
