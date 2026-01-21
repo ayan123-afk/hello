@@ -1,103 +1,120 @@
-import { supabase } from "./supabase.js";
+import { supabase } from './supabase.js';
 
-/* ---------------- AUTH CHECK ---------------- */
-const loginBox = document.getElementById("loginBox");
-const dashboard = document.getElementById("dashboard");
+// Check login
+const session = JSON.parse(localStorage.getItem('admin_session'));
+if (!session) window.location.href = 'admin-login.html';
 
-const isAdmin = localStorage.getItem("admin_logged_in");
+// Upload product
+async function addProduct() {
+  const name = document.getElementById('pname').value.trim();
+  const desc = document.getElementById('pdesc').value.trim();
+  const price = parseFloat(document.getElementById('pprice').value);
+  const fileInput = document.getElementById('pimage');
 
-if (isAdmin) {
-  loginBox.style.display = "none";
-  dashboard.style.display = "block";
-} else {
-  loginBox.style.display = "block";
-  dashboard.style.display = "none";
-}
+  if (!name || !price || !fileInput.files.length) return alert('Fill all fields');
 
-/* ---------------- LOGIN ---------------- */
-window.login = async () => {
-  const email = document.getElementById("email").value;
-  const password = document.getElementById("password").value;
+  const file = fileInput.files[0];
+  const fileExt = file.name.split('.').pop();
+  const fileName = `${Date.now()}.${fileExt}`;
 
-  const { error } = await supabase.auth.signInWithPassword({
-    email,
-    password,
-  });
-
-  if (error) {
-    alert(error.message);
-    return;
-  }
-
-  localStorage.setItem("admin_logged_in", "true");
-  location.reload();
-};
-
-/* ---------------- LOGOUT ---------------- */
-window.logout = async () => {
-  await supabase.auth.signOut();
-  localStorage.removeItem("admin_logged_in");
-  location.reload();
-};
-
-/* ---------------- ADD PRODUCT (IMAGE UPLOADER FIXED) ---------------- */
-window.addProduct = async () => {
   try {
-    const name = document.getElementById("name").value;
-    const price = document.getElementById("price").value;
-    const description = document.getElementById("description").value;
-    const file = document.getElementById("image").files[0];
+    // Upload image to Supabase Storage
+    const { data: uploadData, error: uploadError } = await supabase.storage
+      .from('product-images')
+      .upload(fileName, file);
 
-    if (!name || !price || !description || !file) {
-      alert("All fields required");
-      return;
-    }
+    if (uploadError) throw uploadError;
 
-    /* ✅ IMPORTANT: upload inside folder */
-    const filePath = `products/${Date.now()}-${file.name}`;
+    const { publicUrl } = supabase.storage
+      .from('product-images')
+      .getPublicUrl(fileName);
 
-    const { error: uploadError } = await supabase.storage
-      .from("product-images")
-      .upload(filePath, file);
+    // Insert product
+    const { error } = await supabase.from('products').insert([{
+      name, description: desc, price, image_url: publicUrl
+    }]);
 
-    if (uploadError) {
-      alert("Image upload failed: " + uploadError.message);
-      return;
-    }
+    if (error) throw error;
 
-    /* ✅ Get PUBLIC URL (THIS IS WHAT FIXES IMAGE DISPLAY) */
-    const { data: urlData } = supabase.storage
-      .from("product-images")
-      .getPublicUrl(filePath);
-
-    const image_url = urlData.publicUrl;
-
-    /* ✅ Insert product */
-    const { error: insertError } = await supabase
-      .from("products")
-      .insert([
-        {
-          name,
-          description,
-          price,
-          image_url,
-        },
-      ]);
-
-    if (insertError) {
-      alert("DB error: " + insertError.message);
-      return;
-    }
-
-    alert("Product added successfully ✅");
-
-    // clear form
-    document.getElementById("name").value = "";
-    document.getElementById("price").value = "";
-    document.getElementById("description").value = "";
-    document.getElementById("image").value = "";
+    alert('Product uploaded successfully!');
+    document.getElementById('pname').value = '';
+    document.getElementById('pdesc').value = '';
+    document.getElementById('pprice').value = '';
+    document.getElementById('pimage').value = '';
+    document.getElementById('preview').innerHTML = '';
+    loadProducts();
 
   } catch (err) {
-    alert("Unexpected error: " + err.message);
+    console.log(err);
+    alert('Error uploading product: ' + err.message);
   }
-};
+}
+
+// Preview image
+document.getElementById('pimage').addEventListener('change', function() {
+  const file = this.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = () => {
+    document.getElementById('preview').innerHTML = `<img src="${reader.result}" width="150" style="border-radius:10px;">`;
+  };
+  reader.readAsDataURL(file);
+});
+
+// Load products
+async function loadProducts() {
+  const { data: products, error } = await supabase.from('products').select('*');
+  if (error) return console.log(error);
+
+  const list = document.getElementById('product-list-admin');
+  list.innerHTML = products.map(p => `
+    <div class="product-card">
+      <img src="${p.image_url}" alt="${p.name}">
+      <h3>${p.name}</h3>
+      <p>₹${p.price}</p>
+    </div>
+  `).join('');
+}
+
+// Load orders
+async function loadOrders() {
+  const { data: orders } = await supabase.from('orders').select('*');
+  const ordersDiv = document.getElementById('orders-list');
+  ordersDiv.innerHTML = orders.map(o => `
+    <div style="margin-bottom:10px; border:1px solid #ccc; padding:10px;">
+      <b>${o.customer_name}</b> - ₹${o.total} - Status: ${o.status}<br>
+      Email: ${o.email} | Phone: ${o.phone} | Address: ${o.address}<br>
+      <button onclick="markDelivered(${o.id})">Delivered ✅</button>
+      <button onclick="markPending(${o.id})">Pending ❌</button>
+    </div>
+  `).join('');
+}
+
+// Orders status
+async function markDelivered(id) {
+  await supabase.from('orders').update({ status: 'delivered' }).eq('id', id);
+  loadOrders();
+}
+async function markPending(id) {
+  await supabase.from('orders').update({ status: 'pending' }).eq('id', id);
+  loadOrders();
+}
+
+// Logout
+async function logout() {
+  await supabase.auth.signOut();
+  localStorage.removeItem('admin_session');
+  window.location.href = 'admin-login.html';
+}
+
+// Expose functions
+window.addProduct = addProduct;
+window.loadProducts = loadProducts;
+window.loadOrders = loadOrders;
+window.markDelivered = markDelivered;
+window.markPending = markPending;
+window.logout = logout;
+
+// Initial load
+loadProducts();
+loadOrders();
