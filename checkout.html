@@ -3,9 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <title>Checkout - Mashallah Boutique</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Montserrat:wght@700;800;900&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -14,163 +11,59 @@
         }
 
         body {
-            font-family: 'Poppins', sans-serif;
-            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            font-family: 'Segoe UI', sans-serif;
+            background: #f7f7f7;
             min-height: 100vh;
-            color: #333;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
         }
 
-        /* Navbar */
         .navbar {
+            width: 100%;
+            max-width: 1200px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            background: linear-gradient(135deg, #ff5c5c 0%, #ff3b3b 100%);
-            color: #fff;
-            padding: 18px 30px;
-            box-shadow: 0 4px 15px rgba(255, 92, 92, 0.2);
+            background: #ff5c5c;
+            color: white;
+            padding: 15px 30px;
+            border-radius: 10px;
+            margin-bottom: 30px;
         }
 
         .navbar h1 {
-            font-size: 22px;
-            font-weight: 700;
-            font-family: 'Montserrat', sans-serif;
+            font-size: 24px;
+            font-weight: bold;
         }
 
-        .navbar-links {
-            display: flex;
-            gap: 20px;
-            align-items: center;
-        }
-
-        .nav-link {
+        .navbar a {
             color: white;
             text-decoration: none;
-            padding: 8px 18px;
-            background: rgba(255, 255, 255, 0.15);
-            border-radius: 6px;
-            font-weight: 600;
-            transition: all 0.3s;
+            background: #000;
+            padding: 8px 15px;
+            border-radius: 5px;
+            transition: 0.3s;
         }
 
-        .nav-link:hover {
-            background: rgba(255, 255, 255, 0.25);
-            transform: translateY(-2px);
+        .navbar a:hover {
+            background: #333;
         }
 
-        /* Checkout Container */
         .checkout-container {
-            max-width: 1200px;
-            margin: 40px auto;
-            padding: 0 20px;
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 40px;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            width: 100%;
+            max-width: 600px;
         }
 
-        @media (max-width: 768px) {
-            .checkout-container {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        /* Checkout Title */
-        .checkout-title {
-            font-family: 'Montserrat', sans-serif;
-            font-size: 32px;
+        h2 {
+            text-align: center;
             margin-bottom: 30px;
-            color: #222;
-            grid-column: 1 / -1;
-        }
-
-        /* Order Summary */
-        .order-summary {
-            background: white;
-            border-radius: 12px;
-            padding: 30px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
-            height: fit-content;
-        }
-
-        .summary-title {
-            font-family: 'Montserrat', sans-serif;
-            font-size: 24px;
-            margin-bottom: 25px;
-            color: #222;
-            padding-bottom: 15px;
-            border-bottom: 2px solid #eee;
-        }
-
-        .order-items {
-            margin-bottom: 25px;
-        }
-
-        .order-item {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 15px;
-            padding-bottom: 15px;
-            border-bottom: 1px dashed #ddd;
-        }
-
-        .order-item:last-child {
-            border-bottom: none;
-        }
-
-        .item-name {
-            font-weight: 600;
-        }
-
-        .item-quantity {
-            color: #666;
-            font-size: 0.9rem;
-        }
-
-        .item-total {
-            font-weight: 700;
-            color: #ff5c5c;
-        }
-
-        .item-total::before {
-            content: "PKR ";
-            font-size: 0.9rem;
-            font-weight: 600;
-            color: #666;
-        }
-
-        .summary-total {
-            display: flex;
-            justify-content: space-between;
-            font-size: 22px;
-            font-weight: 700;
-            color: #ff5c5c;
-            margin-top: 25px;
-            padding-top: 25px;
-            border-top: 2px solid #eee;
-        }
-
-        .summary-total span:last-child::before {
-            content: "PKR ";
-            font-size: 18px;
-            font-weight: 600;
-            color: #666;
-        }
-
-        /* Checkout Form */
-        .checkout-form-container {
-            background: white;
-            border-radius: 12px;
-            padding: 30px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
-        }
-
-        .form-title {
-            font-family: 'Montserrat', sans-serif;
-            font-size: 24px;
-            margin-bottom: 25px;
-            color: #222;
-            padding-bottom: 15px;
-            border-bottom: 2px solid #eee;
+            color: #333;
         }
 
         .form-group {
@@ -181,282 +74,145 @@
             display: block;
             margin-bottom: 8px;
             font-weight: 600;
-            color: #444;
+            color: #555;
         }
 
-        .form-group input,
-        .form-group select,
-        .form-group textarea {
+        .form-group input {
             width: 100%;
             padding: 12px 15px;
-            border: 2px solid #e0e0e0;
-            border-radius: 8px;
-            font-size: 1rem;
-            font-family: 'Poppins', sans-serif;
-            transition: all 0.3s;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+            transition: 0.3s;
         }
 
-        .form-group input:focus,
-        .form-group select:focus,
-        .form-group textarea:focus {
+        .form-group input:focus {
             outline: none;
             border-color: #ff5c5c;
-            box-shadow: 0 0 0 3px rgba(255, 92, 92, 0.1);
+            box-shadow: 0 0 0 2px rgba(255,92,92,0.2);
         }
 
-        .form-row {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
-        }
-
-        @media (max-width: 480px) {
-            .form-row {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        textarea {
-            resize: vertical;
-            min-height: 100px;
-        }
-
-        .submit-btn {
+        button {
             width: 100%;
-            padding: 16px;
+            padding: 15px;
             background: #ff5c5c;
             color: white;
             border: none;
-            border-radius: 8px;
+            border-radius: 5px;
             font-size: 18px;
-            font-weight: 700;
+            font-weight: bold;
             cursor: pointer;
-            transition: all 0.3s;
-            margin-top: 20px;
-            font-family: 'Montserrat', sans-serif;
+            transition: 0.3s;
+            margin-top: 10px;
         }
 
-        .submit-btn:hover {
+        button:hover {
             background: #e04c4c;
-            transform: translateY(-3px);
-            box-shadow: 0 5px 15px rgba(255, 92, 92, 0.3);
+            transform: translateY(-2px);
         }
 
-        .submit-btn:disabled {
+        button:disabled {
             background: #ccc;
             cursor: not-allowed;
             transform: none;
         }
 
-        /* Loading State */
-        .loading {
-            display: none;
-            text-align: center;
+        .cart-summary {
+            background: #f9f9f9;
             padding: 20px;
-        }
-
-        .loading.show {
-            display: block;
-        }
-
-        .spinner {
-            border: 4px solid #f3f3f3;
-            border-top: 4px solid #ff5c5c;
-            border-radius: 50%;
-            width: 40px;
-            height: 40px;
-            animation: spin 1s linear infinite;
-            margin: 0 auto 15px;
-        }
-
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        /* Success Message */
-        .success-message {
-            background: #d4edda;
-            color: #155724;
-            padding: 25px;
             border-radius: 8px;
-            margin-top: 20px;
-            text-align: center;
-            display: none;
+            margin-bottom: 30px;
+            border-left: 4px solid #ff5c5c;
         }
 
-        .success-message.show {
-            display: block;
+        .cart-summary p {
+            margin: 10px 0;
+            font-size: 16px;
         }
 
-        /* Footer */
+        .cart-summary strong {
+            color: #ff5c5c;
+        }
+
         footer {
+            margin-top: 40px;
             text-align: center;
-            padding: 25px 0;
-            background: linear-gradient(135deg, #222 0%, #000 100%);
-            color: #fff;
-            margin-top: 60px;
-            font-size: 0.95rem;
-        }
-
-        footer p {
-            margin: 0;
+            color: #666;
+            font-size: 14px;
         }
     </style>
 </head>
 <body>
     <nav class="navbar">
         <h1>Mashallah Boutique - Checkout</h1>
-        <div class="navbar-links">
-            <a href="index.html" class="nav-link">Continue Shopping</a>
-            <a href="cart.html" class="nav-link">Back to Cart</a>
-        </div>
+        <a href="index.html">Back to Shop</a>
     </nav>
 
     <div class="checkout-container">
-        <h1 class="checkout-title">Complete Your Order</h1>
+        <h2>Complete Your Order</h2>
         
-        <!-- Order Summary -->
-        <div class="order-summary">
-            <h2 class="summary-title">Order Summary</h2>
-            <div class="order-items" id="order-items">
-                <!-- Order items will be loaded here -->
-            </div>
-            <div class="summary-total">
-                <span>Total:</span>
-                <span id="order-total">0</span>
-            </div>
+        <div class="cart-summary" id="cart-summary">
+            <!-- Cart summary will load here -->
         </div>
 
-        <!-- Checkout Form -->
-        <div class="checkout-form-container">
-            <h2 class="form-title">Shipping Details</h2>
-            
-            <form id="checkout-form">
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="name">Full Name *</label>
-                        <input type="text" id="name" placeholder="Enter your full name" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="email">Email Address *</label>
-                        <input type="email" id="email" placeholder="Enter your email" required>
-                    </div>
-                </div>
-
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="phone">Phone Number *</label>
-                        <input type="tel" id="phone" placeholder="03XX-XXXXXXX" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="city">City *</label>
-                        <select id="city" required>
-                            <option value="">Select City</option>
-                            <option value="karachi">Karachi</option>
-                            <option value="lahore">Lahore</option>
-                            <option value="islamabad">Islamabad</option>
-                            <option value="rawalpindi">Rawalpindi</option>
-                            <option value="faisalabad">Faisalabad</option>
-                            <option value="multan">Multan</option>
-                            <option value="hyderabad">Hyderabad</option>
-                            <option value="peshawar">Peshawar</option>
-                            <option value="quetta">Quetta</option>
-                            <option value="other">Other</option>
-                        </select>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label for="address">Complete Address *</label>
-                    <textarea id="address" placeholder="House #, Street, Area, City" required></textarea>
-                </div>
-
-                <div class="loading" id="loading">
-                    <div class="spinner"></div>
-                    <p>Processing your order...</p>
-                </div>
-
-                <button type="submit" class="submit-btn" id="submit-btn">
-                    Place Order - PKR <span id="final-total">0</span>
-                </button>
-            </form>
-
-            <div class="success-message" id="success-message">
-                <h3 style="margin-bottom: 15px;">🎉 Order Placed Successfully!</h3>
-                <p style="margin-bottom: 10px;">Thank you for your order. We'll contact you shortly for confirmation.</p>
-                <p style="margin-bottom: 15px;">Your order has been saved to our database.</p>
-                <a href="index.html" style="display: inline-block; padding: 10px 25px; background: #ff5c5c; color: white; text-decoration: none; border-radius: 6px; font-weight: 600;">Continue Shopping</a>
+        <form id="checkout-form">
+            <div class="form-group">
+                <label for="name">Full Name *</label>
+                <input type="text" id="name" placeholder="Enter your full name" required>
             </div>
-        </div>
+
+            <div class="form-group">
+                <label for="email">Email Address *</label>
+                <input type="email" id="email" placeholder="Enter your email" required>
+            </div>
+
+            <div class="form-group">
+                <label for="phone">Phone Number *</label>
+                <input type="tel" id="phone" placeholder="03XX-XXXXXXX" required>
+            </div>
+
+            <div class="form-group">
+                <label for="address">Complete Address *</label>
+                <input type="text" id="address" placeholder="House #, Street, Area, City" required>
+            </div>
+
+            <button type="submit" id="submit-btn">Place Order</button>
+        </form>
     </div>
 
     <footer>
-        <p>© 2026 Mashallah Boutique. All Rights Reserved. | All prices in PKR</p>
+        <p>© 2026 Mashallah Boutique. All Rights Reserved. | Prices in PKR</p>
     </footer>
 
-    <script type="module">
-        // Import the checkout function from checkout.js
-        import { initializeCheckout } from './checkout.js';
-        
+    <script>
+        // Load cart summary
         document.addEventListener('DOMContentLoaded', function() {
-            // Load order summary
-            loadOrderSummary();
-            
-            // Initialize checkout form
-            initializeCheckout();
-        });
-
-        function loadOrderSummary() {
             const cart = JSON.parse(localStorage.getItem('cart')) || [];
-            const orderItemsDiv = document.getElementById('order-items');
-            const orderTotalSpan = document.getElementById('order-total');
-            const finalTotalSpan = document.getElementById('final-total');
+            const cartSummaryDiv = document.getElementById('cart-summary');
+            const submitBtn = document.getElementById('submit-btn');
             
             if (cart.length === 0) {
-                orderItemsDiv.innerHTML = '<p style="color: #666; text-align: center;">Your cart is empty</p>';
-                orderTotalSpan.textContent = '0';
-                finalTotalSpan.textContent = '0';
-                document.getElementById('submit-btn').disabled = true;
+                cartSummaryDiv.innerHTML = '<p style="color: #ff5c5c; text-align: center;">Your cart is empty!</p>';
+                submitBtn.disabled = true;
+                submitBtn.textContent = 'Cart is Empty';
                 return;
             }
             
             let total = 0;
-            let itemsHTML = '';
+            let summaryHTML = '<h3>Order Summary</h3>';
             
             cart.forEach(item => {
                 const itemTotal = item.price * item.quantity;
                 total += itemTotal;
-                
-                itemsHTML += `
-                    <div class="order-item">
-                        <div>
-                            <div class="item-name">${item.name}</div>
-                            <div class="item-quantity">Qty: ${item.quantity}</div>
-                        </div>
-                        <div class="item-total">${itemTotal}</div>
-                    </div>
-                `;
+                summaryHTML += `<p>${item.name} x${item.quantity}: <strong>PKR ${itemTotal}</strong></p>`;
             });
             
-            orderItemsDiv.innerHTML = itemsHTML;
-            orderTotalSpan.textContent = total;
-            finalTotalSpan.textContent = total;
-        }
-
-        // Update cart count
-        function updateCartCount() {
-            const cart = JSON.parse(localStorage.getItem('cart')) || [];
-            const totalItems = cart.reduce((total, item) => total + item.quantity, 0);
-            
-            const cartCountElements = document.querySelectorAll('#cart-count');
-            cartCountElements.forEach(element => {
-                element.textContent = totalItems;
-            });
-        }
-
-        // Initial cart count
-        updateCartCount();
+            summaryHTML += `<p style="margin-top: 15px; padding-top: 15px; border-top: 1px solid #ddd;"><strong>Total: PKR ${total}</strong></p>`;
+            cartSummaryDiv.innerHTML = summaryHTML;
+        });
     </script>
+
+    <!-- Link to checkout.js -->
+    <script type="module" src="checkout.js"></script>
 </body>
 </html>
