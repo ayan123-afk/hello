@@ -1,120 +1,157 @@
 import { supabase } from './supabase.js';
 
-// Check login
+/* =====================
+   LOGIN CHECK
+===================== */
 const session = JSON.parse(localStorage.getItem('admin_session'));
-if (!session) window.location.href = 'admin-login.html';
+if (!session) {
+  window.location.href = 'admin-login.html';
+}
 
-// Upload product
+/* =====================
+   ADD PRODUCT
+===================== */
 async function addProduct() {
   const name = document.getElementById('pname').value.trim();
   const desc = document.getElementById('pdesc').value.trim();
   const price = parseFloat(document.getElementById('pprice').value);
   const fileInput = document.getElementById('pimage');
 
-  if (!name || !price || !fileInput.files.length) return alert('Fill all fields');
+  if (!name || !desc || !price || !fileInput.files.length) {
+    alert('Fill all fields');
+    return;
+  }
 
   const file = fileInput.files[0];
-  const fileExt = file.name.split('.').pop();
-  const fileName = `${Date.now()}.${fileExt}`;
+  const ext = file.name.split('.').pop();
+  const filePath = `products/${Date.now()}.${ext}`;
 
   try {
-    // Upload image to Supabase Storage
-    const { data: uploadData, error: uploadError } = await supabase.storage
+    /* Upload image */
+    const { error: uploadError } = await supabase
+      .storage
       .from('product-images')
-      .upload(fileName, file);
+      .upload(filePath, file, { upsert: true });
 
     if (uploadError) throw uploadError;
 
-    const { publicUrl } = supabase.storage
+    /* Get public URL */
+    const { data: urlData } = supabase
+      .storage
       .from('product-images')
-      .getPublicUrl(fileName);
+      .getPublicUrl(filePath);
 
-    // Insert product
+    const image_url = urlData.publicUrl;
+
+    /* Insert product */
     const { error } = await supabase.from('products').insert([{
-      name, description: desc, price, image_url: publicUrl
+      name,
+      description: desc,
+      price,
+      image_url
     }]);
 
     if (error) throw error;
 
-    alert('Product uploaded successfully!');
+    alert('✅ Product Added');
+
     document.getElementById('pname').value = '';
     document.getElementById('pdesc').value = '';
     document.getElementById('pprice').value = '';
     document.getElementById('pimage').value = '';
     document.getElementById('preview').innerHTML = '';
+
     loadProducts();
 
   } catch (err) {
-    console.log(err);
-    alert('Error uploading product: ' + err.message);
+    console.error(err);
+    alert('Error: ' + err.message);
   }
 }
 
-// Preview image
-document.getElementById('pimage').addEventListener('change', function() {
+/* =====================
+   IMAGE PREVIEW
+===================== */
+document.getElementById('pimage').addEventListener('change', function () {
   const file = this.files[0];
   if (!file) return;
   const reader = new FileReader();
   reader.onload = () => {
-    document.getElementById('preview').innerHTML = `<img src="${reader.result}" width="150" style="border-radius:10px;">`;
+    document.getElementById('preview').innerHTML =
+      `<img src="${reader.result}" width="120" style="border-radius:8px;">`;
   };
   reader.readAsDataURL(file);
 });
 
-// Load products
+/* =====================
+   LOAD PRODUCTS (ADMIN)
+===================== */
 async function loadProducts() {
-  const { data: products, error } = await supabase.from('products').select('*');
+  const { data, error } = await supabase
+    .from('products')
+    .select('*')
+    .order('id', { ascending: false });
+
   if (error) return console.log(error);
 
-  const list = document.getElementById('product-list-admin');
-  list.innerHTML = products.map(p => `
+  document.getElementById('product-list-admin').innerHTML = data.map(p => `
     <div class="product-card">
-      <img src="${p.image_url}" alt="${p.name}">
-      <h3>${p.name}</h3>
+      <img src="${p.image_url}">
+      <h4>${p.name}</h4>
       <p>₹${p.price}</p>
     </div>
   `).join('');
 }
 
-// Load orders
+/* =====================
+   LOAD ORDERS
+===================== */
 async function loadOrders() {
-  const { data: orders } = await supabase.from('orders').select('*');
-  const ordersDiv = document.getElementById('orders-list');
-  ordersDiv.innerHTML = orders.map(o => `
-    <div style="margin-bottom:10px; border:1px solid #ccc; padding:10px;">
-      <b>${o.customer_name}</b> - ₹${o.total} - Status: ${o.status}<br>
-      Email: ${o.email} | Phone: ${o.phone} | Address: ${o.address}<br>
-      <button onclick="markDelivered(${o.id})">Delivered ✅</button>
-      <button onclick="markPending(${o.id})">Pending ❌</button>
+  const { data, error } = await supabase
+    .from('orders')
+    .select('*')
+    .order('id', { ascending: false });
+
+  if (error) return console.log(error);
+
+  document.getElementById('orders-list').innerHTML = data.map(o => `
+    <div class="order-card">
+      <b>${o.customer_name}</b> (${o.phone})<br>
+      ${o.address}<br>
+      <b>Total:</b> ₹${o.total}<br>
+      <b>Status:</b> ${o.status}
+      <br><br>
+      <button onclick="setStatus(${o.id}, 'delivered')">✅ Delivered</button>
+      <button onclick="setStatus(${o.id}, 'pending')">❌ Pending</button>
     </div>
   `).join('');
 }
 
-// Orders status
-async function markDelivered(id) {
-  await supabase.from('orders').update({ status: 'delivered' }).eq('id', id);
-  loadOrders();
-}
-async function markPending(id) {
-  await supabase.from('orders').update({ status: 'pending' }).eq('id', id);
+/* =====================
+   UPDATE ORDER STATUS
+===================== */
+async function setStatus(id, status) {
+  await supabase.from('orders').update({ status }).eq('id', id);
   loadOrders();
 }
 
-// Logout
+/* =====================
+   LOGOUT
+===================== */
 async function logout() {
   await supabase.auth.signOut();
   localStorage.removeItem('admin_session');
   window.location.href = 'admin-login.html';
 }
 
-// Expose functions
+/* =====================
+   EXPOSE
+===================== */
 window.addProduct = addProduct;
 window.loadProducts = loadProducts;
 window.loadOrders = loadOrders;
-window.markDelivered = markDelivered;
-window.markPending = markPending;
+window.setStatus = setStatus;
 window.logout = logout;
 
-// Initial load
 loadProducts();
 loadOrders();
