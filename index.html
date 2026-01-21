@@ -1,29 +1,136 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Mashallah Boutique</title>
-    <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<title>Mashallah Boutique Center</title>
+
+<style>
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family: "Segoe UI", sans-serif;
+}
+
+body{
+  background:#f6eef7;
+  color:#333;
+}
+
+/* NAVBAR */
+nav{
+  background:#fff;
+  padding:15px 40px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  box-shadow:0 5px 20px rgba(0,0,0,0.05);
+}
+
+nav h2{
+  color:#d97a8a;
+  font-weight:600;
+}
+
+nav a{
+  margin-left:25px;
+  text-decoration:none;
+  color:#444;
+  font-weight:500;
+}
+
+nav a:hover{
+  color:#d97a8a;
+}
+
+/* PRODUCTS */
+.products{
+  padding:60px 50px;
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+  gap:30px;
+}
+
+.product-card{
+  background:#fff;
+  border-radius:18px;
+  overflow:hidden;
+  box-shadow:0 15px 35px rgba(0,0,0,0.08);
+  transition:0.3s;
+}
+
+.product-card:hover{
+  transform:translateY(-6px);
+}
+
+/* IMAGE FIX */
+.product-img{
+  width:100%;
+  height:280px;
+}
+
+.product-img img{
+  width:100%;
+  height:100%;
+  object-fit:cover; /* 🔥 FIXED */
+}
+
+.product-info{
+  padding:20px;
+}
+
+.product-info h3{
+  font-size:18px;
+  margin-bottom:8px;
+}
+
+.price{
+  color:#d97a8a;
+  font-weight:600;
+  font-size:16px;
+}
+</style>
 </head>
+
 <body>
-    <nav class="navbar">
-        <h1>Mashallah Boutique</h1>
-        <div>
-            <a href="checkout.html" class="btn">Checkout 🛒</a>
-            
+
+<nav>
+  <h2>Mashallah Boutique Center</h2>
+  <div>
+    <a href="index.html">Home</a>
+    <a href="about.html">About</a>
+    <a href="contact.html">Contact</a>
+  </div>
+</nav>
+
+<section class="products" id="product-list">
+  <!-- Products JS se load honge -->
+</section>
+
+<script type="module">
+import { supabase } from './supabase.js';
+
+async function loadProducts(){
+  const { data } = await supabase.from('products').select('*');
+
+  const list = document.getElementById("product-list");
+
+  data.forEach(p=>{
+    list.innerHTML += `
+      <div class="product-card">
+        <div class="product-img">
+          <img src="${p.image_url}">
         </div>
-    </nav>
+        <div class="product-info">
+          <h3>${p.name}</h3>
+          <div class="price">Rs ${p.price}</div>
+        </div>
+      </div>
+    `;
+  });
+}
+loadProducts();
+</script>
 
-    <main>
-        <section class="products" id="product-list">
-            <!-- Products loaded dynamically -->
-        </section>
-    </main>
-
-    <footer>
-        <p>© 2026 Mashallah Boutique. All Rights Reserved.</p>
-    </footer>
-
-    <script type="module" src="product.js"></script>
 </body>
 </html>
