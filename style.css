@@ -24,16 +24,24 @@ body {
     color: var(--text);
     line-height: 1.5;
     min-height: 100vh;
+    display: flex;
+    flex-direction: column;
 }
 
-/* ===== NAVBAR WITH CART ===== */
+/* ===== MAIN CONTENT WRAPPER ===== */
+.main-content {
+    flex: 1;
+    padding-bottom: 40px;
+}
+
+/* ===== NAVBAR ===== */
 .navbar {
     display: flex;
     justify-content: space-between;
     align-items: center;
     background: linear-gradient(135deg, #ff5c5c 0%, #ff3b3b 100%);
     color: #fff;
-    padding: 15px 30px;
+    padding: 18px 30px;
     position: sticky;
     top: 0;
     z-index: 100;
@@ -56,10 +64,12 @@ body {
 
 .cart-btn {
     background: rgba(255, 255, 255, 0.15);
-    padding: 8px 15px;
-    border-radius: 20px;
-    cursor: pointer;
-    font-size: 1.1rem;
+    padding: 8px 20px;
+    border-radius: 6px;
+    color: white;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.95rem;
     display: flex;
     align-items: center;
     gap: 8px;
@@ -86,7 +96,7 @@ body {
 }
 
 .checkout-link {
-    padding: 8px 18px;
+    padding: 8px 20px;
     background: #000;
     color: #fff;
     text-decoration: none;
@@ -102,7 +112,7 @@ body {
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
 }
 
-/* ===== SMALLER PRODUCTS GRID ===== */
+/* ===== PRODUCTS GRID ===== */
 .products {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
@@ -112,7 +122,7 @@ body {
     margin: 0 auto;
 }
 
-/* ===== COMPACT PRODUCT CARD ===== */
+/* ===== PRODUCT CARD ===== */
 .product-card {
     background: #fff;
     border-radius: 10px;
@@ -121,7 +131,7 @@ body {
     transition: var(--transition);
     display: flex;
     flex-direction: column;
-    height: 420px; /* Fixed height for compact design */
+    height: 420px;
     border: 1px solid rgba(0, 0, 0, 0.05);
     position: relative;
 }
@@ -131,10 +141,10 @@ body {
     box-shadow: var(--shadow-hover);
 }
 
-/* ===== FULL IMAGE DISPLAY ===== */
+/* ===== IMAGE ===== */
 .product-card .image-container {
     width: 100%;
-    height: 180px; /* Smaller image area */
+    height: 180px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -157,7 +167,7 @@ body {
     transform: scale(1.08);
 }
 
-/* ===== IMPROVED TEXT CONTENT ===== */
+/* ===== TEXT CONTENT ===== */
 .product-card h3 {
     margin: 15px 15px 8px;
     font-size: 1.1rem;
@@ -173,7 +183,7 @@ body {
     -webkit-box-orient: vertical;
 }
 
-/* ===== DESCRIPTION WITH READ MORE ===== */
+/* ===== DESCRIPTION ===== */
 .product-description {
     margin: 0 15px 10px;
     color: #666;
@@ -185,7 +195,6 @@ body {
     padding-right: 5px;
 }
 
-/* Show only 3 lines initially */
 .product-description.truncated {
     max-height: 4.2em;
     display: -webkit-box;
@@ -193,13 +202,11 @@ body {
     -webkit-box-orient: vertical;
 }
 
-/* Show full description */
 .product-description.full {
     max-height: none;
     display: block;
 }
 
-/* Read More Button */
 .read-more-btn {
     background: none;
     border: none;
@@ -218,7 +225,7 @@ body {
     text-decoration: underline;
 }
 
-/* ===== PRICE STYLING ===== */
+/* ===== PRICE IN PKR ===== */
 .product-price {
     margin: 10px 15px 5px;
     font-size: 1.4rem;
@@ -229,6 +236,13 @@ body {
     justify-content: center;
     gap: 2px;
     font-family: 'Montserrat', sans-serif;
+}
+
+.product-price::before {
+    content: "PKR ";
+    font-size: 1rem;
+    font-weight: 600;
+    color: #666;
 }
 
 /* ===== ADD TO CART BUTTON ===== */
@@ -260,8 +274,11 @@ footer {
     padding: 25px 0;
     background: linear-gradient(135deg, #222 0%, #000 100%);
     color: #fff;
-    margin-top: 40px;
+    margin-top: auto;
     font-size: 0.95rem;
+    position: relative;
+    bottom: 0;
+    width: 100%;
 }
 
 footer p {
@@ -270,19 +287,7 @@ footer p {
     font-family: 'Poppins', sans-serif;
 }
 
-/* ===== RESPONSIVE DESIGN ===== */
-@media (max-width: 1200px) {
-    .products {
-        grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-        gap: 20px;
-        padding: 25px 4%;
-    }
-    
-    .product-card {
-        height: 400px;
-    }
-}
-
+/* ===== RESPONSIVE ===== */
 @media (max-width: 768px) {
     .navbar {
         padding: 12px 20px;
@@ -296,18 +301,7 @@ footer p {
         gap: 15px;
     }
     
-    .cart-btn {
-        padding: 6px 12px;
-        font-size: 1rem;
-    }
-    
-    #cart-count {
-        width: 20px;
-        height: 20px;
-        font-size: 0.8rem;
-    }
-    
-    .checkout-link {
+    .cart-btn, .checkout-link {
         padding: 6px 15px;
         font-size: 0.9rem;
     }
@@ -323,80 +317,7 @@ footer p {
     
     .product-card .image-container {
         height: 160px;
-        padding: 12px;
     }
-    
-    .product-card h3 {
-        font-size: 1rem;
-        margin: 12px 12px 6px;
-    }
-    
-    .product-price {
-        font-size: 1.3rem;
-    }
-}
-
-@media (max-width: 480px) {
-    .navbar {
-        flex-direction: column;
-        gap: 10px;
-        padding: 15px;
-    }
-    
-    .navbar h1 {
-        text-align: center;
-        margin-bottom: 5px;
-    }
-    
-    .navbar-right {
-        width: 100%;
-        justify-content: center;
-    }
-    
-    .products {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 15px;
-        padding: 15px;
-    }
-    
-    .product-card {
-        height: 360px;
-    }
-    
-    .product-card .image-container {
-        height: 140px;
-        padding: 10px;
-    }
-    
-    .product-card button.add-to-cart {
-        padding: 8px 15px;
-        font-size: 0.9rem;
-        margin: 8px 12px 15px;
-        width: calc(100% - 24px);
-    }
-}
-
-/* ===== FONTS IMPORT ===== */
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Montserrat:wght@700;800;900&display=swap');
-
-/* ===== LOADING STATE ===== */
-#product-list:empty::before {
-    content: 'Loading products...';
-    display: block;
-    text-align: center;
-    padding: 60px;
-    color: #666;
-    font-size: 1.1rem;
-    font-family: 'Poppins', sans-serif;
-}
-
-#product-list > p {
-    text-align: center;
-    padding: 60px;
-    color: #666;
-    font-size: 1.1rem;
-    grid-column: 1 / -1;
-    font-family: 'Poppins', sans-serif;
 }
 
 /* ===== CARD ANIMATIONS ===== */
@@ -422,21 +343,3 @@ footer p {
 .product-card:nth-child(4) { animation-delay: 0.4s; }
 .product-card:nth-child(5) { animation-delay: 0.5s; }
 .product-card:nth-child(6) { animation-delay: 0.6s; }
-
-/* ===== SCROLLBAR ===== */
-::-webkit-scrollbar {
-    width: 8px;
-}
-
-::-webkit-scrollbar-track {
-    background: #f1f1f1;
-}
-
-::-webkit-scrollbar-thumb {
-    background: #ff5c5c;
-    border-radius: 4px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-    background: #e04c4c;
-}
