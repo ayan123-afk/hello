@@ -1,84 +1,25 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>Mashallah Boutique Center</title>
-
-<style>
-body{
-  margin:0;
-  font-family:Segoe UI, sans-serif;
-  background:#f6eef7;
-}
-
-header{
-  background:#fff;
-  padding:20px 60px;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-}
-
-header h1{
-  color:#d97a8a;
-}
-
-.products{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
-  gap:30px;
-  padding:60px;
-}
-
-.product-card{
-  background:#fff;
-  border-radius:18px;
-  overflow:hidden;
-  box-shadow:0 15px 30px rgba(0,0,0,.08);
-  text-align:center;
-}
-
-.product-card img{
-  width:100%;
-  height:280px;
-  object-fit:cover;   /* 🔥 IMAGE FIX */
-}
-
-.product-card h3{
-  margin:15px 0 5px;
-}
-
-.product-card p{
-  color:#666;
-}
-
-.product-card button{
-  margin:15px;
-  padding:10px 20px;
-  border:none;
-  background:#d97a8a;
-  color:#fff;
-  border-radius:10px;
-  cursor:pointer;
-}
-</style>
+    <meta charset="UTF-8">
+    <title>Mashallah Boutique</title>
+    <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
+    <nav class="navbar">
+        <h1>Mashallah Boutique</h1>
+        <div class="cart-btn">🛒 <span id="cart-count">0</span></div>
+        <a href="checkout.html" class="checkout-link">Checkout</a>
+    </nav>
 
-<header>
-  <h1>Mashallah Boutique Center</h1>
-  <nav>
-    <a href="index.html">Home</a> |
-    <a href="about.html">About</a> |
-    <a href="contact.html">Contact</a>
-  </nav>
-</header>
+    <section class="products" id="product-list">
+        <!-- Products load here -->
+    </section>
 
-<section class="products" id="product-list">
-  <!-- Products via product.js -->
-</section>
+    <footer>
+        <p>© 2026 Mashallah Boutique. All Rights Reserved.</p>
+    </footer>
 
-<script src="product.js"></script>
+    <script type="module" src="products.js"></script>
 </body>
 </html>
