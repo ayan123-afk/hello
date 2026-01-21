@@ -11,84 +11,147 @@
         }
 
         body {
-            font-family: 'Segoe UI', sans-serif;
-            background: #f7f7f7;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: linear-gradient(135deg, #f7f7f7 0%, #f0f2f5 100%);
             color: #333;
             line-height: 1.6;
+            min-height: 100vh;
         }
 
-        /* Navbar - Same as index */
+        /* Navbar - Same Colors */
         .navbar {
             display: flex;
             justify-content: space-between;
             align-items: center;
             background: #ff5c5c;
             color: white;
-            padding: 15px 30px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            padding: 18px 30px;
+            box-shadow: 0 4px 15px rgba(255, 92, 92, 0.2);
+            position: sticky;
+            top: 0;
+            z-index: 100;
         }
 
         .navbar h1 {
             font-size: 24px;
-            font-weight: bold;
+            font-weight: 700;
         }
 
         .navbar-right {
             display: flex;
-            gap: 15px;
             align-items: center;
+            gap: 20px;
         }
 
         .nav-link {
             color: white;
             text-decoration: none;
-            padding: 8px 15px;
-            border-radius: 5px;
-            transition: 0.3s;
+            padding: 10px 20px;
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 6px;
             font-weight: 600;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
         }
 
         .nav-link:hover {
-            background: rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.25);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
         }
 
         .cart-btn {
             background: rgba(255, 255, 255, 0.15);
-            padding: 8px 15px;
-            border-radius: 5px;
+            padding: 10px 20px;
+            border-radius: 6px;
             color: white;
             text-decoration: none;
+            font-weight: 600;
             display: flex;
             align-items: center;
-            gap: 5px;
-            font-weight: 600;
+            gap: 8px;
+            transition: all 0.3s;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .cart-btn:hover {
+            background: rgba(255, 255, 255, 0.25);
+            transform: translateY(-2px);
+        }
+
+        #cart-count {
+            background: white;
+            color: #ff5c5c;
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.9rem;
+            font-weight: bold;
         }
 
         .checkout-link {
+            padding: 10px 20px;
             background: #000;
             color: white;
-            padding: 8px 15px;
-            border-radius: 5px;
             text-decoration: none;
+            border-radius: 6px;
             font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .checkout-link:hover {
+            background: #333;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
         }
 
         /* Contact Container */
         .contact-container {
-            max-width: 1000px;
-            margin: 50px auto;
+            max-width: 1200px;
+            margin: 60px auto;
             padding: 0 20px;
+            animation: fadeIn 0.8s ease-out;
         }
 
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Header */
         .contact-header {
             text-align: center;
-            margin-bottom: 50px;
+            margin-bottom: 60px;
+            animation: slideDown 0.8s ease-out;
+        }
+
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-30px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         .contact-header h1 {
-            font-size: 42px;
+            font-size: 48px;
             color: #ff5c5c;
             margin-bottom: 15px;
+            font-weight: 800;
+            position: relative;
+            display: inline-block;
+        }
+
+        .contact-header h1::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: linear-gradient(90deg, #ff5c5c, #ff9a3c);
+            border-radius: 2px;
         }
 
         .contact-header p {
@@ -96,171 +159,302 @@
             font-size: 18px;
             max-width: 600px;
             margin: 0 auto;
+            line-height: 1.8;
         }
 
         /* Contact Cards */
         .contact-cards {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
-            margin-bottom: 60px;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 40px;
+            margin-bottom: 80px;
         }
 
         .contact-card {
             background: white;
-            padding: 30px;
-            border-radius: 12px;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            padding: 40px 30px;
+            border-radius: 16px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
             text-align: center;
-            transition: transform 0.3s;
-            border-top: 4px solid #ff5c5c;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .contact-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #ff5c5c, #ff9a3c);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.4s ease;
+        }
+
+        .contact-card:hover::before {
+            transform: scaleX(1);
         }
 
         .contact-card:hover {
-            transform: translateY(-10px);
+            transform: translateY(-15px);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
         }
 
-        .contact-icon {
-            font-size: 50px;
-            margin-bottom: 20px;
-            color: #ff5c5c;
+        .contact-card .icon {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 25px;
+            background: linear-gradient(135deg, #ff5c5c, #ff9a3c);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 32px;
+            font-weight: bold;
+            transition: all 0.4s;
         }
 
-        .contact-card h2 {
-            color: #333;
+        .contact-card:hover .icon {
+            transform: rotate(15deg) scale(1.1);
+        }
+
+        .contact-card h3 {
+            color: #222;
             margin-bottom: 20px;
             font-size: 24px;
+            font-weight: 700;
         }
 
         .contact-card p {
             color: #666;
             margin-bottom: 10px;
             font-size: 16px;
+            line-height: 1.6;
         }
 
         .contact-card strong {
-            color: #333;
+            color: #ff5c5c;
             font-size: 20px;
+            display: block;
+            margin-bottom: 10px;
         }
 
         /* Map Section */
         .map-section {
             background: white;
-            padding: 40px;
-            border-radius: 12px;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
-            margin-bottom: 50px;
+            padding: 50px;
+            border-radius: 16px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+            margin-bottom: 60px;
+            animation: fadeInUp 1s ease-out 0.2s both;
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(40px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         .map-section h2 {
-            color: #333;
-            margin-bottom: 25px;
+            color: #222;
+            margin-bottom: 30px;
+            font-size: 32px;
+            font-weight: 700;
             text-align: center;
-            font-size: 28px;
         }
 
         .map-placeholder {
-            background: #f0f0f0;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
             height: 400px;
-            border-radius: 8px;
+            border-radius: 12px;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
             color: #666;
             font-size: 18px;
+            position: relative;
+            overflow: hidden;
         }
 
-        .map-placeholder .icon {
-            font-size: 80px;
+        .map-placeholder::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, transparent 48%, rgba(255, 255, 255, 0.3) 50%, transparent 52%);
+            background-size: 200% 200%;
+            animation: shimmer 2s infinite linear;
+        }
+
+        @keyframes shimmer {
+            0% { background-position: -200% 0; }
+            100% { background-position: 200% 0; }
+        }
+
+        .location-marker {
+            width: 60px;
+            height: 60px;
+            background: #ff5c5c;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 24px;
             margin-bottom: 20px;
-            color: #ff5c5c;
+            position: relative;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        .location-marker::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: rgba(255, 92, 92, 0.3);
+            animation: ripple 2s infinite;
+        }
+
+        @keyframes ripple {
+            0% { transform: scale(1); opacity: 1; }
+            100% { transform: scale(2); opacity: 0; }
         }
 
         /* Contact Form */
         .contact-form-section {
             background: white;
-            padding: 40px;
-            border-radius: 12px;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            padding: 50px;
+            border-radius: 16px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+            animation: fadeInUp 1s ease-out 0.4s both;
         }
 
         .contact-form-section h2 {
-            color: #333;
-            margin-bottom: 25px;
+            color: #222;
+            margin-bottom: 40px;
+            font-size: 32px;
+            font-weight: 700;
             text-align: center;
-            font-size: 28px;
         }
 
         .form-group {
-            margin-bottom: 25px;
+            margin-bottom: 30px;
+            animation: slideInRight 0.6s ease-out both;
+        }
+
+        .form-group:nth-child(1) { animation-delay: 0.5s; }
+        .form-group:nth-child(2) { animation-delay: 0.6s; }
+        .form-group:nth-child(3) { animation-delay: 0.7s; }
+        .form-group:nth-child(4) { animation-delay: 0.8s; }
+
+        @keyframes slideInRight {
+            from { opacity: 0; transform: translateX(30px); }
+            to { opacity: 1; transform: translateX(0); }
         }
 
         .form-group label {
             display: block;
-            margin-bottom: 8px;
+            margin-bottom: 12px;
             font-weight: 600;
-            color: #555;
+            color: #444;
+            font-size: 16px;
         }
 
         .form-group input,
         .form-group textarea {
             width: 100%;
-            padding: 14px;
+            padding: 16px 20px;
             border: 2px solid #e0e0e0;
-            border-radius: 8px;
+            border-radius: 10px;
             font-size: 16px;
-            transition: 0.3s;
+            transition: all 0.3s;
+            background: #f8f9fa;
         }
 
         .form-group input:focus,
         .form-group textarea:focus {
             outline: none;
             border-color: #ff5c5c;
-            box-shadow: 0 0 0 3px rgba(255,92,92,0.1);
+            background: white;
+            box-shadow: 0 0 0 4px rgba(255, 92, 92, 0.1);
+            transform: translateY(-2px);
         }
 
         .form-group textarea {
-            height: 150px;
+            height: 180px;
             resize: vertical;
+            line-height: 1.6;
         }
 
         .form-row {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 20px;
+            gap: 30px;
         }
 
         .submit-btn {
             width: 100%;
-            padding: 16px;
-            background: #ff5c5c;
+            padding: 18px;
+            background: linear-gradient(135deg, #ff5c5c 0%, #ff9a3c 100%);
             color: white;
             border: none;
-            border-radius: 8px;
+            border-radius: 10px;
             font-size: 18px;
             font-weight: 700;
             cursor: pointer;
-            transition: 0.3s;
+            transition: all 0.4s;
+            margin-top: 20px;
+            position: relative;
+            overflow: hidden;
         }
 
         .submit-btn:hover {
-            background: #e04c4c;
-            transform: translateY(-3px);
-            box-shadow: 0 5px 15px rgba(255,92,92,0.3);
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(255, 92, 92, 0.3);
+            letter-spacing: 1px;
+        }
+
+        .submit-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: 0.5s;
+        }
+
+        .submit-btn:hover::before {
+            left: 100%;
         }
 
         /* Footer */
         footer {
             text-align: center;
-            padding: 30px 0;
+            padding: 40px 0;
             background: #222;
             color: #fff;
-            margin-top: 60px;
+            margin-top: 80px;
         }
 
         footer p {
             margin: 0;
+            font-size: 16px;
+            opacity: 0.9;
         }
 
         /* Responsive */
@@ -268,24 +462,41 @@
             .navbar {
                 flex-direction: column;
                 gap: 15px;
-                text-align: center;
+                padding: 15px;
             }
             
             .navbar-right {
                 flex-wrap: wrap;
                 justify-content: center;
+                gap: 15px;
             }
             
             .contact-header h1 {
-                font-size: 32px;
+                font-size: 36px;
+            }
+            
+            .contact-cards {
+                grid-template-columns: 1fr;
+                gap: 30px;
             }
             
             .form-row {
                 grid-template-columns: 1fr;
+                gap: 20px;
             }
             
             .contact-container {
                 padding: 0 15px;
+            }
+            
+            .map-placeholder {
+                height: 300px;
+            }
+            
+            .contact-card,
+            .map-section,
+            .contact-form-section {
+                padding: 30px 20px;
             }
         }
     </style>
@@ -297,7 +508,7 @@
             <a href="index.html" class="nav-link">Home</a>
             <a href="contact.html" class="nav-link">Contact</a>
             <a href="about.html" class="nav-link">About</a>
-            <a href="cart.html" class="cart-btn">🛒 Cart <span id="cart-count">0</span></a>
+            <a href="cart.html" class="cart-btn">Cart <span id="cart-count">0</span></a>
             <a href="checkout.html" class="checkout-link">Checkout</a>
         </div>
     </nav>
@@ -305,28 +516,28 @@
     <div class="contact-container">
         <div class="contact-header">
             <h1>Contact Us</h1>
-            <p>We're here to help! Reach out to us through any of these channels.</p>
+            <p>We're here to help you with any questions or concerns. Reach out to us through any of these channels.</p>
         </div>
 
         <div class="contact-cards">
             <div class="contact-card">
-                <div class="contact-icon">📞</div>
-                <h2>Phone</h2>
-                <p><strong>+92 314 2007505</strong></p>
+                <div class="icon">PH</div>
+                <h3>Phone</h3>
+                <strong>+92 314 2007505</strong>
                 <p>Available 9AM – 9PM, 7 days a week</p>
             </div>
 
             <div class="contact-card">
-                <div class="contact-icon">✉️</div>
-                <h2>Email</h2>
-                <p><strong>ayanali7509@gmail.com</strong></p>
+                <div class="icon">EM</div>
+                <h3>Email</h3>
+                <strong>ayanali7509@gmail.com</strong>
                 <p>We typically respond within 24 hours</p>
             </div>
 
             <div class="contact-card">
-                <div class="contact-icon">📍</div>
-                <h2>Visit Us</h2>
-                <p><strong>Sector 11/2, near Dubai Center</strong></p>
+                <div class="icon">AD</div>
+                <h3>Visit Us</h3>
+                <strong>Sector 11/2, near Dubai Center</strong>
                 <p>Orangi Town, Karachi, Pakistan</p>
             </div>
         </div>
@@ -334,7 +545,7 @@
         <div class="map-section">
             <h2>Our Location</h2>
             <div class="map-placeholder">
-                <div class="icon">📍</div>
+                <div class="location-marker">📍</div>
                 <p>Sector 11/2, near Dubai Center</p>
                 <p>Orangi Town, Karachi, Pakistan</p>
             </div>
