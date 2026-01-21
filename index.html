@@ -5,132 +5,80 @@
 <title>Mashallah Boutique Center</title>
 
 <style>
-*{
-  margin:0;
-  padding:0;
-  box-sizing:border-box;
-  font-family: "Segoe UI", sans-serif;
-}
-
 body{
+  margin:0;
+  font-family:Segoe UI, sans-serif;
   background:#f6eef7;
-  color:#333;
 }
 
-/* NAVBAR */
-nav{
+header{
   background:#fff;
-  padding:15px 40px;
+  padding:20px 60px;
   display:flex;
   justify-content:space-between;
   align-items:center;
-  box-shadow:0 5px 20px rgba(0,0,0,0.05);
 }
 
-nav h2{
-  color:#d97a8a;
-  font-weight:600;
-}
-
-nav a{
-  margin-left:25px;
-  text-decoration:none;
-  color:#444;
-  font-weight:500;
-}
-
-nav a:hover{
+header h1{
   color:#d97a8a;
 }
 
-/* PRODUCTS */
 .products{
-  padding:60px 50px;
   display:grid;
   grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
   gap:30px;
+  padding:60px;
 }
 
 .product-card{
   background:#fff;
   border-radius:18px;
   overflow:hidden;
-  box-shadow:0 15px 35px rgba(0,0,0,0.08);
-  transition:0.3s;
+  box-shadow:0 15px 30px rgba(0,0,0,.08);
+  text-align:center;
 }
 
-.product-card:hover{
-  transform:translateY(-6px);
-}
-
-/* IMAGE FIX */
-.product-img{
+.product-card img{
   width:100%;
   height:280px;
+  object-fit:cover;   /* 🔥 IMAGE FIX */
 }
 
-.product-img img{
-  width:100%;
-  height:100%;
-  object-fit:cover; /* 🔥 FIXED */
+.product-card h3{
+  margin:15px 0 5px;
 }
 
-.product-info{
-  padding:20px;
+.product-card p{
+  color:#666;
 }
 
-.product-info h3{
-  font-size:18px;
-  margin-bottom:8px;
-}
-
-.price{
-  color:#d97a8a;
-  font-weight:600;
-  font-size:16px;
+.product-card button{
+  margin:15px;
+  padding:10px 20px;
+  border:none;
+  background:#d97a8a;
+  color:#fff;
+  border-radius:10px;
+  cursor:pointer;
 }
 </style>
 </head>
 
 <body>
 
-<nav>
-  <h2>Mashallah Boutique Center</h2>
-  <div>
-    <a href="index.html">Home</a>
-    <a href="about.html">About</a>
+<header>
+  <h1>Mashallah Boutique Center</h1>
+  <nav>
+    <a href="index.html">Home</a> |
+    <a href="about.html">About</a> |
     <a href="contact.html">Contact</a>
-  </div>
-</nav>
+  </nav>
+</header>
 
 <section class="products" id="product-list">
-  <!-- Products JS se load honge -->
+  <!-- Products via product.js -->
 </section>
 
-<script type="module">
-import { supabase } from './supabase.js';
-
-async function loadProducts(){
-  const { data } = await supabase.from('products').select('*');
-
-  const list = document.getElementById("product-list");
-
-  data.forEach(p=>{
-    list.innerHTML += `
-      <div class="product-card">
-        <div class="product-img">
-          <img src="${p.image_url}">
-        </div>
-        <div class="product-info">
-          <h3>${p.name}</h3>
-          <div class="price">Rs ${p.price}</div>
-        </div>
-      </div>
-    `;
-  });
-}
-loadProducts();
-</script>
-
+<script src="product.js"></script>
 </body>
 </html>
