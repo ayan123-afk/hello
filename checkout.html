@@ -248,48 +248,37 @@
             transform: none;
         }
 
-        /* Payment Methods */
-        .payment-methods {
-            margin: 25px 0;
+        /* Loading State */
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 20px;
         }
 
-        .payment-option {
-            display: flex;
-            align-items: center;
-            margin-bottom: 15px;
-            padding: 15px;
-            border: 2px solid #e0e0e0;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.3s;
+        .loading.show {
+            display: block;
         }
 
-        .payment-option:hover {
-            border-color: #ff5c5c;
-            background: rgba(255, 92, 92, 0.05);
+        .spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #ff5c5c;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 15px;
         }
 
-        .payment-option.selected {
-            border-color: #ff5c5c;
-            background: rgba(255, 92, 92, 0.1);
-        }
-
-        .payment-option input {
-            margin-right: 15px;
-            width: 20px;
-            height: 20px;
-        }
-
-        .payment-icon {
-            font-size: 24px;
-            margin-right: 10px;
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
 
         /* Success Message */
         .success-message {
             background: #d4edda;
             color: #155724;
-            padding: 20px;
+            padding: 25px;
             border-radius: 8px;
             margin-top: 20px;
             text-align: center;
@@ -341,7 +330,7 @@
 
         <!-- Checkout Form -->
         <div class="checkout-form-container">
-            <h2 class="form-title">Shipping & Payment Details</h2>
+            <h2 class="form-title">Shipping Details</h2>
             
             <form id="checkout-form">
                 <div class="form-row">
@@ -383,52 +372,21 @@
                     <textarea id="address" placeholder="House #, Street, Area, City" required></textarea>
                 </div>
 
-                <div class="payment-methods">
-                    <h3 style="margin-bottom: 15px;">Payment Method *</h3>
-                    
-                    <label class="payment-option">
-                        <input type="radio" name="payment" value="cod" checked>
-                        <span class="payment-icon">💰</span>
-                        <div>
-                            <strong>Cash on Delivery (COD)</strong>
-                            <p style="font-size: 0.9rem; color: #666; margin-top: 5px;">Pay when you receive your order</p>
-                        </div>
-                    </label>
-                    
-                    <label class="payment-option">
-                        <input type="radio" name="payment" value="card">
-                        <span class="payment-icon">💳</span>
-                        <div>
-                            <strong>Credit/Debit Card</strong>
-                            <p style="font-size: 0.9rem; color: #666; margin-top: 5px;">Pay securely with your card</p>
-                        </div>
-                    </label>
-                    
-                    <label class="payment-option">
-                        <input type="radio" name="payment" value="jazzcash">
-                        <span class="payment-icon">📱</span>
-                        <div>
-                            <strong>JazzCash</strong>
-                            <p style="font-size: 0.9rem; color: #666; margin-top: 5px;">Mobile wallet payment</p>
-                        </div>
-                    </label>
-                </div>
-
-                <div class="form-group">
-                    <label for="notes">Order Notes (Optional)</label>
-                    <textarea id="notes" placeholder="Any special instructions for your order..."></textarea>
+                <div class="loading" id="loading">
+                    <div class="spinner"></div>
+                    <p>Processing your order...</p>
                 </div>
 
                 <button type="submit" class="submit-btn" id="submit-btn">
-                    Place Order - <span id="final-total">PKR 0</span>
+                    Place Order - PKR <span id="final-total">0</span>
                 </button>
             </form>
 
             <div class="success-message" id="success-message">
-                <h3>🎉 Order Placed Successfully!</h3>
-                <p>Thank you for your order. We'll contact you shortly for confirmation.</p>
-                <p>Order ID: <strong>MB-${Math.floor(100000 + Math.random() * 900000)}</strong></p>
-                <a href="index.html" style="display: inline-block; margin-top: 15px; padding: 10px 20px; background: #ff5c5c; color: white; text-decoration: none; border-radius: 6px;">Continue Shopping</a>
+                <h3 style="margin-bottom: 15px;">🎉 Order Placed Successfully!</h3>
+                <p style="margin-bottom: 10px;">Thank you for your order. We'll contact you shortly for confirmation.</p>
+                <p style="margin-bottom: 15px;">Your order has been saved to our database.</p>
+                <a href="index.html" style="display: inline-block; padding: 10px 25px; background: #ff5c5c; color: white; text-decoration: none; border-radius: 6px; font-weight: 600;">Continue Shopping</a>
             </div>
         </div>
     </div>
@@ -437,10 +395,16 @@
         <p>© 2026 Mashallah Boutique. All Rights Reserved. | All prices in PKR</p>
     </footer>
 
-    <script>
+    <script type="module">
+        // Import the checkout function from checkout.js
+        import { initializeCheckout } from './checkout.js';
+        
         document.addEventListener('DOMContentLoaded', function() {
+            // Load order summary
             loadOrderSummary();
-            setupForm();
+            
+            // Initialize checkout form
+            initializeCheckout();
         });
 
         function loadOrderSummary() {
@@ -450,9 +414,9 @@
             const finalTotalSpan = document.getElementById('final-total');
             
             if (cart.length === 0) {
-                orderItemsDiv.innerHTML = '<p>Your cart is empty</p>';
+                orderItemsDiv.innerHTML = '<p style="color: #666; text-align: center;">Your cart is empty</p>';
                 orderTotalSpan.textContent = '0';
-                finalTotalSpan.textContent = 'PKR 0';
+                finalTotalSpan.textContent = '0';
                 document.getElementById('submit-btn').disabled = true;
                 return;
             }
@@ -477,80 +441,21 @@
             
             orderItemsDiv.innerHTML = itemsHTML;
             orderTotalSpan.textContent = total;
-            finalTotalSpan.textContent = `PKR ${total}`;
+            finalTotalSpan.textContent = total;
         }
 
-        function setupForm() {
-            const form = document.getElementById('checkout-form');
-            const paymentOptions = document.querySelectorAll('.payment-option');
-            
-            // Payment option selection
-            paymentOptions.forEach(option => {
-                option.addEventListener('click', function() {
-                    paymentOptions.forEach(opt => opt.classList.remove('selected'));
-                    this.classList.add('selected');
-                    const radio = this.querySelector('input[type="radio"]');
-                    radio.checked = true;
-                });
-            });
-            
-            // Form submission
-            form.addEventListener('submit', function(e) {
-                e.preventDefault();
-                
-                const cart = JSON.parse(localStorage.getItem('cart')) || [];
-                if (cart.length === 0) {
-                    alert('Your cart is empty!');
-                    return;
-                }
-                
-                // Get form data
-                const formData = {
-                    name: document.getElementById('name').value,
-                    email: document.getElementById('email').value,
-                    phone: document.getElementById('phone').value,
-                    city: document.getElementById('city').value,
-                    address: document.getElementById('address').value,
-                    payment: document.querySelector('input[name="payment"]:checked').value,
-                    notes: document.getElementById('notes').value,
-                    orderId: 'MB-' + Math.floor(100000 + Math.random() * 900000),
-                    total: document.getElementById('order-total').textContent,
-                    items: cart,
-                    date: new Date().toLocaleString()
-                };
-                
-                // Save order to localStorage
-                const orders = JSON.parse(localStorage.getItem('orders')) || [];
-                orders.push(formData);
-                localStorage.setItem('orders', JSON.stringify(orders));
-                
-                // Clear cart
-                localStorage.removeItem('cart');
-                
-                // Update cart count
-                updateCartCount();
-                
-                // Show success message
-                document.getElementById('checkout-form').style.display = 'none';
-                document.getElementById('success-message').classList.add('show');
-                
-                // Update success message with order ID
-                document.querySelector('#success-message strong').textContent = formData.orderId;
-            });
-        }
-
+        // Update cart count
         function updateCartCount() {
             const cart = JSON.parse(localStorage.getItem('cart')) || [];
             const totalItems = cart.reduce((total, item) => total + item.quantity, 0);
             
-            // Update cart count on all pages
             const cartCountElements = document.querySelectorAll('#cart-count');
             cartCountElements.forEach(element => {
                 element.textContent = totalItems;
             });
         }
 
-        // Load initial cart count
+        // Initial cart count
         updateCartCount();
     </script>
 </body>
