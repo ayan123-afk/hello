@@ -15,14 +15,14 @@ async function addProduct() {
   const name = document.getElementById('pname').value.trim();
   const desc = document.getElementById('pdesc').value.trim();
   const price = parseFloat(document.getElementById('pprice').value);
-  const fileInput = document.getElementById('pimage');
+  const imageInput = document.getElementById('pimage');
 
-  if (!name || !desc || !price || !fileInput.files.length) {
+  if (!name || !desc || !price || !imageInput.files.length) {
     alert('Fill all fields');
     return;
   }
 
-  const file = fileInput.files[0];
+  const file = imageInput.files[0];
   const ext = file.name.split('.').pop();
   const filePath = `products/${Date.now()}.${ext}`;
 
@@ -36,12 +36,12 @@ async function addProduct() {
     if (uploadError) throw uploadError;
 
     /* Get public URL */
-    const { data: urlData } = supabase
+    const { data } = supabase
       .storage
       .from('product-images')
       .getPublicUrl(filePath);
 
-    const image_url = urlData.publicUrl;
+    const image_url = data.publicUrl;
 
     /* Insert product */
     const { error } = await supabase.from('products').insert([{
@@ -75,6 +75,7 @@ async function addProduct() {
 document.getElementById('pimage').addEventListener('change', function () {
   const file = this.files[0];
   if (!file) return;
+
   const reader = new FileReader();
   reader.onload = () => {
     document.getElementById('preview').innerHTML =
@@ -84,7 +85,7 @@ document.getElementById('pimage').addEventListener('change', function () {
 });
 
 /* =====================
-   LOAD PRODUCTS (ADMIN)
+   LOAD PRODUCTS
 ===================== */
 async function loadProducts() {
   const { data, error } = await supabase
@@ -99,40 +100,43 @@ async function loadProducts() {
       <img src="${p.image_url}">
       <h4>${p.name}</h4>
       <p>₹${p.price}</p>
+      <button onclick="deleteProduct(${p.id}, '${p.image_url}')"
+        style="background:#e74c3c;color:#fff;border:none;padding:6px 10px;border-radius:6px;">
+        🗑 Delete
+      </button>
     </div>
   `).join('');
 }
 
 /* =====================
-   LOAD ORDERS
+   DELETE PRODUCT
 ===================== */
-async function loadOrders() {
-  const { data, error } = await supabase
-    .from('orders')
-    .select('*')
-    .order('id', { ascending: false });
+async function deleteProduct(id, imageUrl) {
+  if (!confirm('Delete this product?')) return;
 
-  if (error) return console.log(error);
+  try {
+    const path = imageUrl.split('/product-images/')[1];
 
-  document.getElementById('orders-list').innerHTML = data.map(o => `
-    <div class="order-card">
-      <b>${o.customer_name}</b> (${o.phone})<br>
-      ${o.address}<br>
-      <b>Total:</b> ₹${o.total}<br>
-      <b>Status:</b> ${o.status}
-      <br><br>
-      <button onclick="setStatus(${o.id}, 'delivered')">✅ Delivered</button>
-      <button onclick="setStatus(${o.id}, 'pending')">❌ Pending</button>
-    </div>
-  `).join('');
-}
+    if (path) {
+      await supabase.storage
+        .from('product-images')
+        .remove([path]);
+    }
 
-/* =====================
-   UPDATE ORDER STATUS
-===================== */
-async function setStatus(id, status) {
-  await supabase.from('orders').update({ status }).eq('id', id);
-  loadOrders();
+    const { error } = await supabase
+      .from('products')
+      .delete()
+      .eq('id', id);
+
+    if (error) throw error;
+
+    alert('🗑 Product Deleted');
+    loadProducts();
+
+  } catch (err) {
+    console.error(err);
+    alert(err.message);
+  }
 }
 
 /* =====================
@@ -149,9 +153,7 @@ async function logout() {
 ===================== */
 window.addProduct = addProduct;
 window.loadProducts = loadProducts;
-window.loadOrders = loadOrders;
-window.setStatus = setStatus;
+window.deleteProduct = deleteProduct;
 window.logout = logout;
 
 loadProducts();
-loadOrders();
