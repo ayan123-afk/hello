@@ -163,6 +163,13 @@
             margin-bottom: 15px;
         }
 
+        .cart-item-price::before {
+            content: "PKR ";
+            font-size: 16px;
+            font-weight: 600;
+            color: #666;
+        }
+
         .quantity-controls {
             display: flex;
             align-items: center;
@@ -245,6 +252,13 @@
 
         .summary-value {
             font-weight: 700;
+        }
+
+        .summary-value::before {
+            content: "PKR ";
+            font-size: 16px;
+            font-weight: 600;
+            color: #666;
         }
 
         .checkout-btn {
@@ -337,10 +351,9 @@
     </div>
 
     <footer>
-        <p>© 2026 Mashallah Boutique. All Rights Reserved.</p>
+        <p>© 2026 Mashallah Boutique. All Rights Reserved. | All prices in PKR</p>
     </footer>
 
-    <script src="product.js" type="module"></script>
     <script>
         // Cart-specific JavaScript
         document.addEventListener('DOMContentLoaded', function() {
@@ -376,7 +389,7 @@
                     <div class="cart-item" data-index="${index}">
                         <div style="flex: 1;">
                             <h3 class="cart-item-name">${item.name}</h3>
-                            <p class="cart-item-price">₹${item.price}</p>
+                            <p class="cart-item-price">${item.price}</p>
                             <div class="quantity-controls">
                                 <button class="quantity-btn" onclick="updateQuantity(${index}, -1)">-</button>
                                 <span class="quantity">${item.quantity}</span>
@@ -385,8 +398,8 @@
                             </div>
                         </div>
                         <div style="text-align: right;">
-                            <p style="font-size: 20px; font-weight: 700; color: #222;">₹${itemTotal}</p>
-                            <p style="color: #666; font-size: 14px;">${item.quantity} × ₹${item.price}</p>
+                            <p style="font-size: 20px; font-weight: 700; color: #222;">PKR ${itemTotal}</p>
+                            <p style="color: #666; font-size: 14px;">${item.quantity} × PKR ${item.price}</p>
                         </div>
                     </div>
                 `;
@@ -400,7 +413,7 @@
                 <div class="cart-summary">
                     <div class="summary-row">
                         <span class="summary-label">Subtotal (${cart.reduce((acc, item) => acc + item.quantity, 0)} items):</span>
-                        <span class="summary-value">₹${total}</span>
+                        <span class="summary-value">${total}</span>
                     </div>
                     <div class="summary-row">
                         <span class="summary-label">Shipping:</span>
@@ -408,7 +421,7 @@
                     </div>
                     <div class="summary-row">
                         <span class="summary-label">Total:</span>
-                        <span class="summary-value">₹${total}</span>
+                        <span class="summary-value">${total}</span>
                     </div>
                     <a href="checkout.html" class="checkout-btn">Proceed to Checkout</a>
                 </div>
