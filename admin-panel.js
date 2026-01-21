@@ -1,80 +1,145 @@
 import { supabase } from './supabase.js';
 
-// Check login
+/* =====================
+   LOGIN CHECK
+===================== */
 const session = JSON.parse(localStorage.getItem('admin_session'));
-if (!session) window.location.href = 'admin-login.html';
+if (!session) {
+  window.location.href = 'admin-login.html';
+}
 
-// Upload product
+/* =====================
+   ADD PRODUCT
+===================== */
 async function addProduct() {
   const name = document.getElementById('pname').value.trim();
   const desc = document.getElementById('pdesc').value.trim();
   const price = parseFloat(document.getElementById('pprice').value);
-  const fileInput = document.getElementById('pimage');
+  const imageInput = document.getElementById('pimage');
 
-  if (!name || !price || !fileInput.files.length) return alert('Fill all fields');
+  if (!name || !desc || !price || !imageInput.files.length) {
+    alert('Fill all fields');
+    return;
+  }
 
-  const file = fileInput.files[0];
-  const fileExt = file.name.split('.').pop();
-  const fileName = `${Date.now()}.${fileExt}`;
+  const file = imageInput.files[0];
+  const ext = file.name.split('.').pop();
+  const filePath = `products/${Date.now()}.${ext}`;
 
   try {
-    // Upload image to Supabase Storage
-    const { data: uploadData, error: uploadError } = await supabase.storage
+    /* Upload image */
+    const { error: uploadError } = await supabase
+      .storage
       .from('product-images')
-      .upload(fileName, file);
+      .upload(filePath, file, { upsert: true });
 
     if (uploadError) throw uploadError;
 
-    const { publicUrl } = supabase.storage
+    /* Get public URL */
+    const { data } = supabase
+      .storage
       .from('product-images')
-      .getPublicUrl(fileName);
+      .getPublicUrl(filePath);
 
-    // Insert product
+    const image_url = data.publicUrl;
+
+    /* Insert product */
     const { error } = await supabase.from('products').insert([{
-      name, description: desc, price, image_url: publicUrl
+      name,
+      description: desc,
+      price,
+      image_url
     }]);
 
     if (error) throw error;
 
-    alert('Product uploaded successfully!');
+    alert('✅ Product Added');
+
     document.getElementById('pname').value = '';
     document.getElementById('pdesc').value = '';
     document.getElementById('pprice').value = '';
     document.getElementById('pimage').value = '';
     document.getElementById('preview').innerHTML = '';
+
     loadProducts();
 
   } catch (err) {
-    console.log(err);
-    alert('Error uploading product: ' + err.message);
+    console.error(err);
+    alert('Error: ' + err.message);
   }
 }
 
-// Preview image
-document.getElementById('pimage').addEventListener('change', function() {
+/* =====================
+   IMAGE PREVIEW
+===================== */
+document.getElementById('pimage').addEventListener('change', function () {
   const file = this.files[0];
   if (!file) return;
+
   const reader = new FileReader();
   reader.onload = () => {
-    document.getElementById('preview').innerHTML = `<img src="${reader.result}" width="150" style="border-radius:10px;">`;
+    document.getElementById('preview').innerHTML =
+      `<img src="${reader.result}" width="120" style="border-radius:8px;">`;
   };
   reader.readAsDataURL(file);
 });
 
-// Load products
+/* =====================
+   LOAD PRODUCTS
+===================== */
 async function loadProducts() {
-  const { data: products, error } = await supabase.from('products').select('*');
+  const { data, error } = await supabase
+    .from('products')
+    .select('*')
+    .order('id', { ascending: false });
+
   if (error) return console.log(error);
 
-  const list = document.getElementById('product-list-admin');
-  list.innerHTML = products.map(p => `
+  document.getElementById('product-list-admin').innerHTML = data.map(p => `
     <div class="product-card">
-      <img src="${p.image_url}" alt="${p.name}">
-      <h3>${p.name}</h3>
+      <img src="${p.image_url}">
+      <h4>${p.name}</h4>
       <p>₹${p.price}</p>
+      <button onclick="deleteProduct(${p.id}, '${p.image_url}')"
+        style="background:#e74c3c;color:#fff;border:none;padding:6px 10px;border-radius:6px;">
+        🗑 Delete
+      </button>
     </div>
   `).join('');
 }
+
+/* =====================
+   DELETE PRODUCT
+===================== */
+async function deleteProduct(id, imageUrl) {
+  if (!confirm('Delete this product?')) return;
+
+  try {
+    const path = imageUrl.split('/product-images/')[1];
+
+    if (path) {
+      await supabase.storage
+        .from('product-images')
+        .remove([path]);
+    }
+
+    const { error } = await supabase
+      .from('products')
+      .delete()
+      .eq('id', id);
+
+    if (error) throw error;
+
+    alert('🗑 Product Deleted');
+    loadProducts();
+
+  } catch (err) {
+    console.error(err);
+    alert(err.message);
+  }
+}
+
+
 
 // Load orders
 async function loadOrders() {
