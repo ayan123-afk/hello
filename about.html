@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>About Us - Mashallah Boutique</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: #f7f7f7;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        /* Navbar - Same as index */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #ff5c5c;
+            color: white;
+            padding: 15px 30px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .navbar h1 {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .navbar-right {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .nav-link {
+            color: white;
+            text-decoration: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            transition: 0.3s;
+            font-weight: 600;
+        }
+
+        .nav-link:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .cart-btn {
+            background: rgba(255, 255, 255, 0.15);
+            padding: 8px 15px;
+            border-radius: 5px;
+            color: white;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-weight: 600;
+        }
+
+        .checkout-link {
+            background: #000;
+            color: white;
+            padding: 8px 15px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        /* About Container */
+        .about-container {
+            max-width: 1200px;
+            margin: 50px auto;
+            padding: 0 20px;
+        }
+
+        /* Hero Section */
+        .about-hero {
+            text-align: center;
+            margin-bottom: 60px;
+            padding: 60px 0;
+            background: linear-gradient(135deg, #ff5c5c 0%, #ff9a3c 100%);
+            border-radius: 12px;
+            color: white;
+        }
+
+        .about-hero h1 {
+            font-size: 48px;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .about-hero p {
+            font-size: 20px;
+            max-width: 800px;
+            margin: 0 auto;
+            opacity: 0.9;
+        }
+
+        /* About Sections */
+        .about-section {
+            background: white;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            margin-bottom: 40px;
+            border-left: 5px solid #ff5c5c;
+        }
+
+        .about-section h2 {
+            color: #ff5c5c;
+            margin-bottom: 25px;
+            font-size: 32px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .about-section h2::before {
+            content: "✨";
+            font-size: 28px;
+        }
+
+        .about-section p {
+            color: #555;
+            margin-bottom: 20px;
+            font-size: 17px;
+            line-height: 1.8;
+        }
+
+        /* Founder Section */
+        .founder-section {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 50px;
+            border-radius: 12px;
+            margin-bottom: 40px;
+            text-align: center;
+        }
+
+        .founder-section h2 {
+            font-size: 36px;
+            margin-bottom: 30px;
+        }
+
+        .founder-info {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 40px;
+            flex-wrap: wrap;
+        }
+
+        .founder-image {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 80px;
+            border: 5px solid white;
+        }
+
+        .founder-details {
+            text-align: left;
+            max-width: 500px;
+        }
+
+        .founder-details h3 {
+            font-size: 28px;
+            margin-bottom: 15px;
+        }
+
+        .founder-details p {
+            margin-bottom: 15px;
+            font-size: 16px;
+            opacity: 0.9;
+        }
+
+        /* Contact Info */
+        .contact-info {
+            background: white;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+
+        .contact-info h2 {
+            color: #333;
+            margin-bottom: 30px;
+            font-size: 28px;
+        }
+
+        .contact-items {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+        }
+
+        .contact-item {
+            padding: 25px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            transition: transform 0.3s;
+        }
+
+        .contact-item:hover {
+            transform: translateY(-5px);
+            background: #fff;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .contact-item .icon {
+            font-size: 40px;
+            margin-bottom: 15px;
+            color: #ff5c5c;
+        }
+
+        .contact-item h3 {
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 20px;
+        }
+
+        .contact-item p {
+            color: #666;
+            margin-bottom: 5px;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 30px 0;
+            background: #222;
+            color: #fff;
+            margin-top: 60px;
+        }
+
+        footer p {
+            margin: 0;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .navbar {
+                flex-direction: column;
+                gap: 15px;
+                text-align: center;
+            }
+            
+            .navbar-right {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            .about-hero {
+                padding: 40px 20px;
+            }
+            
+            .about-hero h1 {
+                font-size: 32px;
+            }
+            
+            .about-section {
+                padding: 30px 20px;
+            }
+            
+            .founder-info {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .founder-details {
+                text-align: center;
+            }
+            
+            .about-container {
+                padding: 0 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <h1>Mashallah Boutique</h1>
+        <div class="navbar-right">
+            <a href="index.html" class="nav-link">Home</a>
+            <a href="contact.html" class="nav-link">Contact</a>
+            <a href="about.html" class="nav-link">About</a>
+            <a href="cart.html" class="cart-btn">🛒 Cart <span id="cart-count">0</span></a>
+            <a href="checkout.html" class="checkout-link">Checkout</a>
+        </div>
+    </nav>
+
+    <div class="about-container">
+        <div class="about-hero">
+            <h1>About Us</h1>
+            <p>Celebrating Modesty, Quality, and Style Since 2015</p>
+        </div>
+
+        <div class="about-section">
+            <h2>Our Story</h2>
+            <p>Founded in 2015 by Muhammad Ishaque, Mashallah Boutique Center began as a small dream in the heart of Karachi. What started as a modest shop has blossomed into a beloved destination for women seeking quality, affordable fashion that celebrates modesty and elegance.</p>
+            <p>Our journey has been one of passion, dedication, and a deep commitment to serving our community. Every garment tells a story of craftsmanship and care.</p>
+        </div>
+
+        <div class="about-section">
+            <h2>Our Mission</h2>
+            <p>At Mashallah Boutique Center, we believe every woman deserves to feel beautiful and confident without compromising her values or her budget. Our mission is to provide high-quality, modest fashion that empowers women to express their individuality while staying true to their cultural heritage.</p>
+            <p>We carefully curate each collection to ensure it meets our standards of quality, affordability, and style.</p>
+        </div>
+
+        <div class="about-section">
+            <h2>Our Philosophy</h2>
+            <p>Fashion is more than just clothing—it's a form of self-expression and dignity. Our philosophy centers on the idea that modesty and style can coexist beautifully. We design with the modern woman in mind, creating pieces that are both fashionable and functional.</p>
+            <p>Every stitch is sewn with care, every fabric chosen with intention, and every design created with our customers in mind.</p>
+        </div>
+
+        <div class="founder-section">
+            <h2>Meet Our Founder</h2>
+            <div class="founder-info">
+                <div class="founder-image">👔</div>
+                <div class="founder-details">
+                    <h3>Muhammad Ishaque</h3>
+                    <p>Muhammad Ishaque established Mashallah Boutique Center with a vision to provide quality modest fashion to the women of Karachi. His dedication to quality and customer satisfaction has been the driving force behind our success.</p>
+                    <p>With over 8 years of experience in the fashion industry, he continues to lead our team with passion and integrity.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="contact-info">
+            <h2>Get In Touch</h2>
+            <div class="contact-items">
+                <div class="contact-item">
+                    <div class="icon">📞</div>
+                    <h3>Phone</h3>
+                    <p>+92 314 2007505</p>
+                </div>
+                <div class="contact-item">
+                    <div class="icon">✉️</div>
+                    <h3>Email</h3>
+                    <p>ayanali7509@gmail.com</p>
+                </div>
+                <div class="contact-item">
+                    <div class="icon">📍</div>
+                    <h3>Address</h3>
+                    <p>Sector 11/2, near Dubai Center</p>
+                    <p>Orangi Town, Karachi, Pakistan</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>© 2026 Mashallah Boutique. All Rights Reserved.</p>
+    </footer>
+
+    <script>
+        // Update cart count
+        const cart = JSON.parse(localStorage.getItem('cart')) || [];
+        const totalItems = cart.reduce((total, item) => total + item.quantity, 0);
+        document.getElementById('cart-count').textContent = totalItems;
+    </script>
+</body>
+</html>
