@@ -138,6 +138,30 @@ async function deleteProduct(id, imageUrl) {
     alert(err.message);
   }
 }
+// Load orders
+async function loadOrders() {
+  const { data: orders } = await supabase.from('orders').select('*');
+  const ordersDiv = document.getElementById('orders-list');
+  ordersDiv.innerHTML = orders.map(o => `
+    <div style="margin-bottom:10px; border:1px solid #ccc; padding:10px;">
+      <b>${o.customer_name}</b> - ₹${o.total} - Status: ${o.status}<br>
+      Email: ${o.email} | Phone: ${o.phone} | Address: ${o.address}<br>
+      <button onclick="markDelivered(${o.id})">Delivered ✅</button>
+      <button onclick="markPending(${o.id})">Pending ❌</button>
+    </div>
+  `).join('');
+}
+
+// Orders status
+async function markDelivered(id) {
+  await supabase.from('orders').update({ status: 'delivered' }).eq('id', id);
+  loadOrders();
+}
+async function markPending(id) {
+  await supabase.from('orders').update({ status: 'pending' }).eq('id', id);
+  loadOrders();
+}
+
 
 /* =====================
    LOGOUT
