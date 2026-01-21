@@ -4,9 +4,7 @@ import { supabase } from './supabase.js';
    LOGIN CHECK
 ===================== */
 const session = JSON.parse(localStorage.getItem('admin_session'));
-if (!session) {
-  window.location.href = 'admin-login.html';
-}
+if (!session) window.location.href = 'admin-login.html';
 
 /* =====================
    ADD PRODUCT
@@ -27,15 +25,12 @@ async function addProduct() {
   const filePath = `products/${Date.now()}.${ext}`;
 
   try {
-    /* Upload image */
     const { error: uploadError } = await supabase
       .storage
       .from('product-images')
       .upload(filePath, file, { upsert: true });
-
     if (uploadError) throw uploadError;
 
-    /* Get public URL */
     const { data } = supabase
       .storage
       .from('product-images')
@@ -43,18 +38,12 @@ async function addProduct() {
 
     const image_url = data.publicUrl;
 
-    /* Insert product */
     const { error } = await supabase.from('products').insert([{
-      name,
-      description: desc,
-      price,
-      image_url
+      name, description: desc, price, image_url
     }]);
-
     if (error) throw error;
 
     alert('✅ Product Added');
-
     document.getElementById('pname').value = '';
     document.getElementById('pdesc').value = '';
     document.getElementById('pprice').value = '';
@@ -116,34 +105,29 @@ async function deleteProduct(id, imageUrl) {
 
   try {
     const path = imageUrl.split('/product-images/')[1];
+    if (path) await supabase.storage.from('product-images').remove([path]);
 
-    if (path) {
-      await supabase.storage
-        .from('product-images')
-        .remove([path]);
-    }
-
-    const { error } = await supabase
-      .from('products')
-      .delete()
-      .eq('id', id);
-
+    const { error } = await supabase.from('products').delete().eq('id', id);
     if (error) throw error;
 
     alert('🗑 Product Deleted');
     loadProducts();
-
   } catch (err) {
     console.error(err);
     alert(err.message);
   }
 }
-// Load orders
+
+/* =====================
+   LOAD ORDERS
+===================== */
 async function loadOrders() {
-  const { data: orders } = await supabase.from('orders').select('*');
+  const { data: orders, error } = await supabase.from('orders').select('*');
+  if (error) return console.error(error);
+
   const ordersDiv = document.getElementById('orders-list');
   ordersDiv.innerHTML = orders.map(o => `
-    <div style="margin-bottom:10px; border:1px solid #ccc; padding:10px;">
+    <div style="margin-bottom:10px;border:1px solid #ccc;padding:10px;">
       <b>${o.customer_name}</b> - ₹${o.total} - Status: ${o.status}<br>
       Email: ${o.email} | Phone: ${o.phone} | Address: ${o.address}<br>
       <button onclick="markDelivered(${o.id})">Delivered ✅</button>
@@ -152,16 +136,15 @@ async function loadOrders() {
   `).join('');
 }
 
-// Orders status
 async function markDelivered(id) {
   await supabase.from('orders').update({ status: 'delivered' }).eq('id', id);
   loadOrders();
 }
+
 async function markPending(id) {
   await supabase.from('orders').update({ status: 'pending' }).eq('id', id);
   loadOrders();
 }
-
 
 /* =====================
    LOGOUT
@@ -178,6 +161,13 @@ async function logout() {
 window.addProduct = addProduct;
 window.loadProducts = loadProducts;
 window.deleteProduct = deleteProduct;
+window.loadOrders = loadOrders;
+window.markDelivered = markDelivered;
+window.markPending = markPending;
 window.logout = logout;
 
+/* =====================
+   INITIAL LOAD
+===================== */
 loadProducts();
+loadOrders();
