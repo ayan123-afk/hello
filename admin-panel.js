@@ -149,46 +149,11 @@ async function logout() {
 }
 
 /* =====================
-   ORDERS MANAGEMENT
-===================== */
-async function loadOrders() {
-  const { data: orders, error } = await supabase.from('orders').select('*').order('id', { ascending: false });
-  if (error) return console.log(error);
-
-  const ordersDiv = document.getElementById('orders-list');
-  ordersDiv.innerHTML = orders.map(o => `
-    <div style="margin-bottom:10px; border:1px solid #ccc; padding:10px; border-radius:6px;">
-      <b>${o.customer_name}</b> - ₹${o.total} - Status: <span style="text-transform:capitalize">${o.status}</span><br>
-      Email: ${o.email} | Phone: ${o.phone} | Address: ${o.address}<br>
-      <button onclick="markDelivered(${o.id})" style="margin-right:5px; background:green; color:#fff; border:none; padding:5px 10px; border-radius:4px;">Delivered ✅</button>
-      <button onclick="markPending(${o.id})" style="background:orange; color:#fff; border:none; padding:5px 10px; border-radius:4px;">Pending ❌</button>
-    </div>
-  `).join('');
-}
-
-async function markDelivered(id) {
-  await supabase.from('orders').update({ status: 'delivered' }).eq('id', id);
-  loadOrders();
-}
-
-async function markPending(id) {
-  await supabase.from('orders').update({ status: 'pending' }).eq('id', id);
-  loadOrders();
-}
-
-/* =====================
-   EXPOSE FUNCTIONS
+   EXPOSE
 ===================== */
 window.addProduct = addProduct;
 window.loadProducts = loadProducts;
 window.deleteProduct = deleteProduct;
 window.logout = logout;
-window.loadOrders = loadOrders;
-window.markDelivered = markDelivered;
-window.markPending = markPending;
 
-/* =====================
-   INITIAL LOAD
-===================== */
 loadProducts();
-loadOrders();
