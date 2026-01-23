@@ -3,8 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <title>About Us - Mashallah Boutique</title>
-     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Montserrat:wght@700;800;900&display=swap" rel="stylesheet">
     <style>
+        /* E-commerce Theme - Same as index */
+        :root {
+            --primary: #e63946;
+            --primary-dark: #d62828;
+            --secondary: #2a9d8f;
+            --dark: #1a1a2e;
+            --light: #f8f9fa;
+            --light-gray: #e9ecef;
+            --gradient: linear-gradient(135deg, #e63946 0%, #ff6b6b 100%);
+            --shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            --shadow-hover: 0 20px 50px rgba(230, 57, 70, 0.15);
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
         * {
             margin: 0;
             padding: 0;
@@ -12,456 +27,391 @@
         }
 
         body {
-            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-            background: linear-gradient(135deg, #f7f7f7 0%, #f0f2f5 100%);
+            font-family: 'Poppins', sans-serif;
+            background: #fefefe;
             color: #333;
             line-height: 1.6;
             min-height: 100vh;
         }
 
+        /* Navigation - Same as index */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: white;
+            padding: 1.2rem 4rem;
+            box-shadow: 0 4px 25px rgba(0, 0, 0, 0.05);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 3px solid var(--primary);
+        }
 
-       
+        .navbar h1 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 2rem;
+            font-weight: 900;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .navbar-right {
+            display: flex;
+            align-items: center;
+            gap: 1.8rem;
+        }
+
+        .nav-link {
+            color: var(--dark);
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.7rem 1.5rem;
+            border-radius: 8px;
+            transition: var(--transition);
+            position: relative;
+        }
+
+        .nav-link:hover {
+            color: var(--primary);
+            background: rgba(230, 57, 70, 0.05);
+        }
+
+        .nav-link.active {
+            color: var(--primary);
+            font-weight: 600;
+            background: rgba(230, 57, 70, 0.05);
+        }
+
+        .cart-btn {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            padding: 0.8rem 1.8rem;
+            background: var(--gradient);
+            color: white;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: var(--transition);
+            position: relative;
+            box-shadow: 0 5px 20px rgba(230, 57, 70, 0.2);
+        }
+
+        .cart-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-hover);
+        }
 
         #cart-count {
             background: white;
-            color: #ff5c5c;
-            border-radius: 50%;
+            color: var(--primary);
+            font-size: 0.9rem;
             width: 24px;
             height: 24px;
+            border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 0.9rem;
-            font-weight: bold;
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            font-weight: 700;
         }
 
         .checkout-link {
-            padding: 10px 20px;
-            background: #000;
+            padding: 0.8rem 1.8rem;
+            background: var(--dark);
             color: white;
+            border-radius: 8px;
             text-decoration: none;
-            border-radius: 6px;
             font-weight: 600;
-            transition: all 0.3s;
+            transition: var(--transition);
+            box-shadow: 0 5px 20px rgba(26, 26, 46, 0.2);
         }
 
         .checkout-link:hover {
-            background: #333;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            background: #151525;
+            transform: translateY(-3px);
         }
 
         /* About Container */
         .about-container {
             max-width: 1200px;
-            margin: 60px auto;
-            padding: 0 20px;
-            animation: fadeIn 0.8s ease-out;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
+            margin: 4rem auto;
+            padding: 0 2rem;
         }
 
         /* Hero Section */
         .about-hero {
-            text-align: center;
-            margin-bottom: 80px;
-            padding: 80px 40px;
-            background: linear-gradient(135deg, rgba(255, 92, 92, 0.9), rgba(255, 154, 60, 0.9)), 
-                        linear-gradient(rgba(0,0,0,0.2), rgba(0,0,0,0.2));
+            background: linear-gradient(rgba(26, 26, 46, 0.9), rgba(26, 26, 46, 0.9)),
+                        url('https://images.unsplash.com/photo-1441986300917-64674bd600d8?ixlib=rb-4.0.3&auto=format&fit=crop&w=1800&q=80');
             background-size: cover;
             background-position: center;
+            padding: 6rem 4rem;
             border-radius: 20px;
             color: white;
-            position: relative;
-            overflow: hidden;
-            animation: slideDown 0.8s ease-out;
-        }
-
-        @keyframes slideDown {
-            from { opacity: 0; transform: translateY(-40px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .about-hero::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(45deg, transparent 48%, rgba(255, 255, 255, 0.1) 50%, transparent 52%);
-            background-size: 200% 200%;
-            animation: shimmer 3s infinite linear;
-        }
-
-        @keyframes shimmer {
-            0% { background-position: -200% 0; }
-            100% { background-position: 200% 0; }
+            text-align: center;
+            margin-bottom: 5rem;
+            box-shadow: var(--shadow);
         }
 
         .about-hero h1 {
-            font-size: 56px;
-            margin-bottom: 20px;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 3.5rem;
+            margin-bottom: 1.5rem;
             font-weight: 800;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
-            position: relative;
         }
 
         .about-hero p {
-            font-size: 22px;
+            font-size: 1.3rem;
             max-width: 800px;
             margin: 0 auto;
-            opacity: 0.95;
-            position: relative;
-            font-weight: 500;
+            opacity: 0.9;
         }
 
         /* About Sections */
         .about-section {
             background: white;
-            padding: 50px 40px;
-            border-radius: 20px;
-            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.08);
-            margin-bottom: 60px;
-            position: relative;
-            overflow: hidden;
-            animation: fadeInUp 0.8s ease-out both;
-            border: 1px solid rgba(255, 255, 255, 0.3);
+            padding: 4rem;
+            border-radius: 15px;
+            box-shadow: var(--shadow);
+            margin-bottom: 3rem;
+            transition: var(--transition);
         }
 
-        .about-section:nth-child(2) { animation-delay: 0.2s; }
-        .about-section:nth-child(3) { animation-delay: 0.4s; }
-        .about-section:nth-child(4) { animation-delay: 0.6s; }
-
-        @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(40px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .about-section::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 6px;
-            height: 100%;
-            background: linear-gradient(180deg, #ff5c5c, #ff9a3c);
-            transform: scaleY(0);
-            transform-origin: top;
-            transition: transform 0.6s ease;
-        }
-
-        .about-section:hover::before {
-            transform: scaleY(1);
+        .about-section:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-hover);
         }
 
         .about-section h2 {
-            color: #222;
-            margin-bottom: 30px;
-            font-size: 36px;
-            font-weight: 700;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 2.2rem;
+            margin-bottom: 2rem;
+            color: var(--dark);
             position: relative;
-            padding-left: 20px;
+            padding-bottom: 1rem;
         }
 
-        .about-section h2::before {
+        .about-section h2::after {
             content: '';
             position: absolute;
+            bottom: 0;
             left: 0;
-            top: 50%;
-            transform: translateY(-50%);
-            width: 8px;
-            height: 40px;
-            background: linear-gradient(180deg, #ff5c5c, #ff9a3c);
-            border-radius: 4px;
+            width: 80px;
+            height: 4px;
+            background: var(--gradient);
+            border-radius: 2px;
         }
 
         .about-section p {
-            color: #555;
-            margin-bottom: 25px;
-            font-size: 18px;
+            font-size: 1.1rem;
             line-height: 1.8;
-            position: relative;
-            padding-left: 20px;
-            animation: paragraphReveal 0.8s ease-out both;
-        }
-
-        .about-section p:nth-child(2) { animation-delay: 0.1s; }
-        .about-section p:nth-child(3) { animation-delay: 0.2s; }
-
-        @keyframes paragraphReveal {
-            from { opacity: 0; transform: translateX(-20px); }
-            to { opacity: 1; transform: translateX(0); }
+            margin-bottom: 1.5rem;
+            color: #555;
         }
 
         /* Founder Section */
         .founder-section {
-            background: linear-gradient(135deg, #222 0%, #444 100%);
-            color: white;
-            padding: 60px 40px;
-            border-radius: 20px;
-            margin-bottom: 60px;
-            position: relative;
-            overflow: hidden;
-            animation: scaleIn 0.8s ease-out both;
-        }
-
-        @keyframes scaleIn {
-            from { opacity: 0; transform: scale(0.95); }
-            to { opacity: 1; transform: scale(1); }
-        }
-
-        .founder-section::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: radial-gradient(circle at 30% 30%, rgba(255, 92, 92, 0.2) 0%, transparent 50%);
-        }
-
-        .founder-section h2 {
-            font-size: 40px;
-            margin-bottom: 40px;
-            text-align: center;
-            font-weight: 700;
-            position: relative;
-        }
-
-        .founder-info {
-            display: flex;
+            background: white;
+            padding: 4rem;
+            border-radius: 15px;
+            box-shadow: var(--shadow);
+            margin: 5rem 0;
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 4rem;
             align-items: center;
-            justify-content: center;
-            gap: 60px;
-            flex-wrap: wrap;
+        }
+
+        .founder-image-container {
+            position: relative;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
         }
 
         .founder-image {
-            width: 220px;
-            height: 220px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, #ff5c5c, #ff9a3c);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 24px;
-            border: 6px solid white;
-            color: white;
-            font-weight: bold;
-            animation: rotate 20s linear infinite;
-            position: relative;
-            overflow: hidden;
+            width: 100%;
+            height: 400px;
+            object-fit: cover;
+            transition: transform 0.5s ease;
         }
 
-        @keyframes rotate {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+        .founder-image-container:hover .founder-image {
+            transform: scale(1.05);
         }
 
-        .founder-image::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: linear-gradient(45deg, transparent 30%, rgba(255, 255, 255, 0.2) 50%, transparent 70%);
-            animation: shine 3s infinite linear;
+        .founder-info h2 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+            color: var(--dark);
         }
 
-        @keyframes shine {
-            0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
-            100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+        .founder-info h3 {
+            font-size: 1.5rem;
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+            font-weight: 600;
         }
 
-        .founder-details {
-            max-width: 600px;
-            position: relative;
-        }
-
-        .founder-details h3 {
-            font-size: 32px;
-            margin-bottom: 20px;
-            font-weight: 700;
-        }
-
-        .founder-details p {
-            margin-bottom: 20px;
-            font-size: 17px;
+        .founder-info p {
+            font-size: 1.1rem;
             line-height: 1.8;
-            opacity: 0.9;
+            color: #555;
+            margin-bottom: 1.5rem;
         }
 
         /* Contact Info */
         .contact-info {
             background: white;
-            padding: 60px 40px;
-            border-radius: 20px;
-            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.08);
+            padding: 4rem;
+            border-radius: 15px;
+            box-shadow: var(--shadow);
             text-align: center;
-            animation: slideInUp 0.8s ease-out both;
-        }
-
-        @keyframes slideInUp {
-            from { opacity: 0; transform: translateY(60px); }
-            to { opacity: 1; transform: translateY(0); }
         }
 
         .contact-info h2 {
-            color: #222;
-            margin-bottom: 50px;
-            font-size: 36px;
-            font-weight: 700;
-            position: relative;
-            display: inline-block;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            color: var(--dark);
         }
 
-        .contact-info h2::after {
-            content: '';
-            position: absolute;
-            bottom: -15px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 100px;
-            height: 4px;
-            background: linear-gradient(90deg, #ff5c5c, #ff9a3c);
-            border-radius: 2px;
-        }
-
-        .contact-items {
+        .contact-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 40px;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2.5rem;
         }
 
-        .contact-item {
-            padding: 40px 30px;
-            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-            border-radius: 16px;
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            position: relative;
-            overflow: hidden;
+        .contact-card {
+            padding: 2.5rem 2rem;
+            background: var(--light);
+            border-radius: 12px;
+            transition: var(--transition);
         }
 
-        .contact-item:hover {
-            transform: translateY(-15px);
-            background: linear-gradient(135deg, #ff5c5c, #ff9a3c);
+        .contact-card:hover {
+            background: var(--gradient);
             color: white;
+            transform: translateY(-10px);
         }
 
-        .contact-item:hover .icon {
+        .contact-card:hover .icon {
             background: white;
-            color: #ff5c5c;
-            transform: rotate(15deg) scale(1.1);
+            color: var(--primary);
         }
 
-        .contact-item:hover h3,
-        .contact-item:hover p {
-            color: white;
-        }
-
-        .contact-item .icon {
+        .contact-card .icon {
             width: 70px;
             height: 70px;
-            background: #ff5c5c;
+            background: var(--gradient);
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
+            margin: 0 auto 1.5rem;
+            font-size: 1.8rem;
             color: white;
-            font-size: 20px;
-            font-weight: bold;
-            margin: 0 auto 25px;
-            transition: all 0.4s;
+            transition: var(--transition);
         }
 
-        .contact-item h3 {
-            color: #222;
-            margin-bottom: 15px;
-            font-size: 22px;
-            font-weight: 700;
-            transition: color 0.4s;
+        .contact-card h3 {
+            font-size: 1.4rem;
+            margin-bottom: 1rem;
+            font-weight: 600;
         }
 
-        .contact-item p {
-            color: #666;
-            margin-bottom: 10px;
-            font-size: 16px;
-            line-height: 1.6;
-            transition: color 0.4s;
-        }
-
-        /* Footer */
-        footer {
-            text-align: center;
-            padding: 40px 0;
-            background: #222;
-            color: #fff;
-            margin-top: 80px;
-        }
-
-        footer p {
-            margin: 0;
-            font-size: 16px;
+        .contact-card p {
+            font-size: 1rem;
             opacity: 0.9;
         }
 
+        /* Footer - Same as index */
+        footer {
+            background: var(--dark);
+            color: white;
+            padding: 4rem 2rem;
+            text-align: center;
+            margin-top: 6rem;
+        }
+
+        footer p {
+            opacity: 0.8;
+            margin: 0.8rem 0;
+            font-size: 1rem;
+        }
+
         /* Responsive */
+        @media (max-width: 1024px) {
+            .navbar {
+                padding: 1rem 2rem;
+            }
+            
+            .about-hero h1 {
+                font-size: 3rem;
+            }
+            
+            .founder-section {
+                grid-template-columns: 1fr;
+                gap: 3rem;
+                text-align: center;
+            }
+        }
+
         @media (max-width: 768px) {
             .navbar {
                 flex-direction: column;
-                gap: 15px;
-                padding: 15px;
+                gap: 1.5rem;
+                padding: 1rem;
             }
             
             .navbar-right {
                 flex-wrap: wrap;
                 justify-content: center;
-                gap: 15px;
-            }
-            
-            .about-hero {
-                padding: 60px 20px;
-            }
-            
-            .about-hero h1 {
-                font-size: 36px;
-            }
-            
-            .about-section {
-                padding: 30px 20px;
-            }
-            
-            .founder-info {
-                flex-direction: column;
-                text-align: center;
-                gap: 40px;
-            }
-            
-            .founder-details {
-                text-align: center;
-            }
-            
-            .contact-items {
-                grid-template-columns: 1fr;
-                gap: 30px;
+                gap: 1rem;
             }
             
             .about-container {
-                padding: 0 15px;
+                padding: 0 1.5rem;
+                margin: 2rem auto;
             }
             
-            .about-section h2 {
-                font-size: 28px;
+            .about-hero {
+                padding: 4rem 2rem;
             }
             
-            .contact-info {
-                padding: 40px 20px;
+            .about-hero h1 {
+                font-size: 2.5rem;
             }
+            
+            .about-section, .founder-section, .contact-info {
+                padding: 3rem 2rem;
+            }
+            
+            .contact-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .about-section, .founder-section, .contact-info {
+            animation: fadeInUp 0.6s ease-out forwards;
         }
     </style>
 </head>
@@ -469,75 +419,83 @@
     <nav class="navbar">
         <h1>Mashallah Boutique</h1>
         <div class="navbar-right">
-              <a href="index.html" class="cart-btn">Home</a>
-            <a href="contact.html" class="cart-btn">Contact</a>
-            <a href="about.html" class="cart-btn">About</a>
-            <a href="cart.html" class="cart-btn">🛒 Cart <span id="cart-count">0</span></a>
+            <a href="index.html" class="nav-link">Home</a>
+            <a href="about.html" class="nav-link active">About</a>
+            <a href="contact.html" class="nav-link">Contact</a>
+            <a href="cart.html" class="cart-btn">
+                <i class="fas fa-shopping-cart"></i>
+                Cart <span id="cart-count">0</span>
+            </a>
             <a href="checkout.html" class="checkout-link">Checkout</a>
         </div>
     </nav>
 
     <div class="about-container">
         <div class="about-hero">
-            <h1>About Us</h1>
+            <h1>Our Story</h1>
             <p>Celebrating Modesty, Quality, and Style Since 2015</p>
         </div>
 
         <div class="about-section">
-            <h2>Our Story</h2>
-            <p>Founded in 2015 by Muhammad Ishaque, Mashallah Boutique Center began as a small dream in the heart of Karachi. What started as a modest shop has blossomed into a beloved destination for women seeking quality, affordable fashion that celebrates modesty and elegance.</p>
+            <h2>Our Journey</h2>
+            <p>Founded in 2015 by Muhammad Ishaque, Mashallah Boutique began as a small dream in the heart of Karachi. What started as a modest shop has blossomed into a beloved destination for women seeking quality, affordable fashion that celebrates modesty and elegance.</p>
             <p>Our journey has been one of passion, dedication, and a deep commitment to serving our community. Every garment tells a story of craftsmanship and care.</p>
         </div>
 
         <div class="about-section">
             <h2>Our Mission</h2>
-            <p>At Mashallah Boutique Center, we believe every woman deserves to feel beautiful and confident without compromising her values or her budget. Our mission is to provide high-quality, modest fashion that empowers women to express their individuality while staying true to their cultural heritage.</p>
+            <p>At Mashallah Boutique, we believe every woman deserves to feel beautiful and confident without compromising her values or her budget. Our mission is to provide high-quality, modest fashion that empowers women to express their individuality while staying true to their cultural heritage.</p>
             <p>We carefully curate each collection to ensure it meets our standards of quality, affordability, and style.</p>
         </div>
 
         <div class="about-section">
-            <h2>Our Philosophy</h2>
-            <p>Fashion is more than just clothing—it's a form of self-expression and dignity. Our philosophy centers on the idea that modesty and style can coexist beautifully. We design with the modern woman in mind, creating pieces that are both fashionable and functional.</p>
-            <p>Every stitch is sewn with care, every fabric chosen with intention, and every design created with our customers in mind.</p>
+            <h2>Quality Commitment</h2>
+            <p>We source the finest fabrics and employ skilled artisans to create pieces that stand the test of time. Each garment is inspected multiple times to ensure it meets our high standards before reaching our customers.</p>
+            <p>Our dedication to quality has made us a trusted name in modest fashion across Pakistan.</p>
         </div>
 
         <div class="founder-section">
-            <h2>Meet Our Founder</h2>
+            <div class="founder-image-container">
+                <img src="https://i.ibb.co/WWVXk0RX/Chat-GPT-Image-Jan-23-2026-08-31-15-PM.png" 
+                     alt="Muhammad Ishaque - Founder" 
+                     class="founder-image">
+            </div>
             <div class="founder-info">
-                <div class="founder-image">MI</div>
-                <div class="founder-details">
-                    <h3>Muhammad Ishaque</h3>
-                    <p>Muhammad Ishaque established Mashallah Boutique Center with a vision to provide quality modest fashion to the women of Karachi. His dedication to quality and customer satisfaction has been the driving force behind our success.</p>
-                    <p>With over 8 years of experience in the fashion industry, he continues to lead our team with passion and integrity.</p>
-                </div>
+                <h2>Meet Our Founder</h2>
+                <h3>Muhammad Ishaque</h3>
+                <p>Muhammad Ishaque established Mashallah Boutique with a vision to provide quality modest fashion to the women of Karachi. His dedication to quality and customer satisfaction has been the driving force behind our success.</p>
+                <p>With over 8 years of experience in the fashion industry, he continues to lead our team with passion and integrity, ensuring every customer receives the best shopping experience.</p>
             </div>
         </div>
 
         <div class="contact-info">
-            <h2>Get In Touch</h2>
-            <div class="contact-items">
-                <div class="contact-item">
-                    <div class="icon">PH</div>
-                    <h3>Phone</h3>
+            <h2>Visit Our Store</h2>
+            <div class="contact-grid">
+                <div class="contact-card">
+                    <div class="icon"><i class="fas fa-phone-alt"></i></div>
+                    <h3>Call Us</h3>
                     <p>+92 314 2007505</p>
+                    <p>Mon-Sat: 10AM - 9PM</p>
                 </div>
-                <div class="contact-item">
-                    <div class="icon">EM</div>
-                    <h3>Email</h3>
+                <div class="contact-card">
+                    <div class="icon"><i class="fas fa-envelope"></i></div>
+                    <h3>Email Us</h3>
                     <p>ayanali7509@gmail.com</p>
+                    <p>24/7 Support</p>
                 </div>
-                <div class="contact-item">
-                    <div class="icon">AD</div>
-                    <h3>Address</h3>
+                <div class="contact-card">
+                    <div class="icon"><i class="fas fa-map-marker-alt"></i></div>
+                    <h3>Visit Us</h3>
                     <p>Sector 11/2, near Dubai Center</p>
-                    <p>Orangi Town, Karachi, Pakistan</p>
+                    <p>Orangi Town, Karachi</p>
                 </div>
             </div>
         </div>
     </div>
 
     <footer>
-        <p>© 2026 Mashallah Boutique. All Rights Reserved.</p>
+        <p>© 2026 Mashallah Boutique BY MA Developers. All Rights Reserved.</p>
+       /p>
     </footer>
 
     <script>
