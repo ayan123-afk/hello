@@ -11,14 +11,13 @@
             --primary: #ff3b5c;
             --primary-dark: #e6002e;
             --secondary: #1a365d;
-            --accent: #00b4d8;
-            --light: #f8f9fa;
-            --dark: #1a1a1a;
-            --gray: #6c757d;
-            --light-gray: #e9ecef;
-            --success: #28a745;
-            --shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
-            --shadow-hover: 0 20px 60px rgba(255, 59, 92, 0.15);
+            --light: #ffffff;
+            --dark: #212121;
+            --gray: #757575;
+            --light-gray: #f5f5f5;
+            --border: #e0e0e0;
+            --shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+            --shadow-hover: 0 8px 25px rgba(255, 59, 92, 0.15);
             --transition: all 0.3s ease;
             --gradient: linear-gradient(135deg, #ff3b5c 0%, #ff6b6b 100%);
         }
@@ -30,8 +29,8 @@
         }
 
         body {
-            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-            background: #ffffff;
+            font-family: 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+            background: var(--light);
             color: var(--dark);
             line-height: 1.6;
             min-height: 100vh;
@@ -42,9 +41,9 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            background: white;
-            padding: 20px 5%;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            background: var(--light);
+            padding: 16px 5%;
+            border-bottom: 1px solid var(--border);
             position: sticky;
             top: 0;
             z-index: 1000;
@@ -57,13 +56,13 @@
         }
 
         .logo {
-            height: 50px;
+            height: 45px;
             width: auto;
             object-fit: contain;
         }
 
         .logo-text {
-            font-size: 1.8rem;
+            font-size: 1.6rem;
             font-weight: 700;
             color: var(--secondary);
         }
@@ -77,10 +76,11 @@
         .nav-link {
             color: var(--dark);
             text-decoration: none;
-            font-weight: 600;
+            font-weight: 500;
             padding: 10px 20px;
-            border-radius: 6px;
+            border-radius: 4px;
             transition: var(--transition);
+            font-size: 15px;
         }
 
         .nav-link:hover {
@@ -90,146 +90,161 @@
 
         .nav-link.active {
             color: var(--primary);
-            background: rgba(255, 59, 92, 0.1);
+            font-weight: 600;
+            background: rgba(255, 59, 92, 0.08);
         }
 
         .cart-btn {
-            padding: 10px 25px;
+            padding: 10px 22px;
             background: var(--gradient);
-            color: white;
-            border-radius: 6px;
+            color: var(--light);
+            border-radius: 4px;
             text-decoration: none;
             font-weight: 600;
             transition: var(--transition);
             display: flex;
             align-items: center;
             gap: 8px;
+            font-size: 14px;
         }
 
         .cart-btn:hover {
-            transform: translateY(-3px);
+            transform: translateY(-2px);
             box-shadow: var(--shadow-hover);
         }
 
         #cart-count {
-            background: white;
+            background: var(--light);
             color: var(--primary);
-            font-size: 0.8rem;
+            font-size: 12px;
             width: 20px;
             height: 20px;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-weight: bold;
+            font-weight: 700;
         }
 
         .checkout-link {
-            padding: 10px 25px;
+            padding: 10px 22px;
             background: var(--secondary);
-            color: white;
-            border-radius: 6px;
+            color: var(--light);
+            border-radius: 4px;
             text-decoration: none;
             font-weight: 600;
             transition: var(--transition);
+            font-size: 14px;
         }
 
         .checkout-link:hover {
             background: #152642;
-            transform: translateY(-3px);
+            transform: translateY(-2px);
         }
 
         /* ===== HERO BANNER ===== */
         .hero-banner {
             background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), 
-                        url('https://images.unsplash.com/photo-1445205170230-053b83016050?ixlib=rb-4.0.3&auto=format&fit=crop&w=1800&q=80');
+                        url('https://images.unsplash.com/photo-1445205170230-053b83016050?ixlib=rb-4.0.3&auto=format&fit=crop&w=1600&q=80');
             background-size: cover;
             background-position: center;
-            color: white;
-            padding: 100px 5%;
+            color: var(--light);
+            padding: 80px 5%;
             text-align: center;
+            margin-bottom: 40px;
         }
 
         .hero-banner h1 {
-            font-size: 3rem;
-            font-weight: 800;
-            margin-bottom: 20px;
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 16px;
+            line-height: 1.2;
         }
 
         .hero-banner p {
-            font-size: 1.2rem;
-            margin-bottom: 40px;
-            max-width: 700px;
+            font-size: 1.1rem;
+            margin-bottom: 32px;
+            max-width: 600px;
             margin-left: auto;
             margin-right: auto;
             opacity: 0.9;
+            font-weight: 400;
         }
 
         .hero-btn {
             display: inline-block;
-            padding: 15px 40px;
+            padding: 14px 36px;
             background: var(--gradient);
-            color: white;
+            color: var(--light);
             text-decoration: none;
-            border-radius: 8px;
+            border-radius: 4px;
             font-weight: 600;
-            font-size: 1.1rem;
+            font-size: 16px;
             transition: var(--transition);
-            box-shadow: 0 10px 30px rgba(255, 59, 92, 0.3);
+            box-shadow: 0 4px 15px rgba(255, 59, 92, 0.3);
         }
 
         .hero-btn:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 40px rgba(255, 59, 92, 0.4);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(255, 59, 92, 0.4);
         }
 
         /* ===== FEATURED PRODUCTS ===== */
         .featured-section {
-            padding: 80px 5%;
-            background: #f8f9fa;
+            padding: 60px 5% 80px;
         }
 
         .section-header {
-            text-align: center;
-            margin-bottom: 50px;
+            margin-bottom: 40px;
         }
 
         .section-title {
-            font-size: 2.5rem;
+            font-size: 1.8rem;
             font-weight: 700;
             color: var(--dark);
-            margin-bottom: 15px;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .section-title::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: var(--border);
         }
 
         .section-subtitle {
             color: var(--gray);
-            font-size: 1.1rem;
-            max-width: 600px;
-            margin: 0 auto;
+            font-size: 15px;
+            font-weight: 400;
         }
 
-        /* ===== PRODUCT GRID - From product.js ===== */
+        /* ===== PRODUCT GRID - DARAZ STYLE ===== */
         .products {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 30px;
-            max-width: 1300px;
+            gap: 24px;
+            max-width: 1400px;
             margin: 0 auto;
         }
 
-        /* ===== PRODUCT CARD - From product.js ===== */
+        /* ===== PRODUCT CARD - DARAZ STYLE ===== */
         .product-card {
-            background: white;
-            border-radius: 12px;
+            background: var(--light);
+            border-radius: 8px;
+            border: 1px solid var(--border);
             overflow: hidden;
-            box-shadow: var(--shadow);
             transition: var(--transition);
             position: relative;
+            height: 380px;
         }
 
         .product-card:hover {
-            transform: translateY(-10px);
+            border-color: var(--primary);
             box-shadow: var(--shadow-hover);
+            transform: translateY(-4px);
         }
 
         /* ===== IMAGE CONTAINER ===== */
@@ -239,9 +254,9 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 20px;
-            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-            border-bottom: 1px solid var(--light-gray);
+            padding: 16px;
+            background: var(--light-gray);
+            position: relative;
         }
 
         .image-container img {
@@ -251,25 +266,35 @@
             height: auto;
             object-fit: contain;
             display: block;
-            transition: transform 0.5s ease;
         }
 
-        .product-card:hover img {
-            transform: scale(1.08);
+        .product-badge {
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            background: var(--primary);
+            color: var(--light);
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: 600;
         }
 
         /* ===== PRODUCT INFO ===== */
         .product-info {
-            padding: 20px;
+            padding: 16px;
+            display: flex;
+            flex-direction: column;
+            height: calc(380px - 200px);
         }
 
         .product-name {
-            font-size: 1.1rem;
-            font-weight: 700;
+            font-size: 14px;
+            font-weight: 500;
             color: var(--dark);
-            margin-bottom: 10px;
+            margin-bottom: 8px;
             line-height: 1.4;
-            height: 2.8em;
+            height: 40px;
             overflow: hidden;
             text-overflow: ellipsis;
             display: -webkit-box;
@@ -280,15 +305,15 @@
         /* ===== DESCRIPTION ===== */
         .product-description {
             color: var(--gray);
-            font-size: 0.9rem;
+            font-size: 13px;
             line-height: 1.5;
-            margin-bottom: 15px;
+            margin-bottom: 12px;
             flex-grow: 1;
             overflow: hidden;
         }
 
         .product-description.truncated {
-            max-height: 4.2em;
+            max-height: 60px;
             display: -webkit-box;
             -webkit-line-clamp: 3;
             -webkit-box-orient: vertical;
@@ -305,9 +330,9 @@
             color: var(--primary);
             cursor: pointer;
             font-weight: 600;
-            font-size: 0.85rem;
+            font-size: 12px;
             padding: 0;
-            margin-left: 5px;
+            margin-left: 4px;
             display: inline-block;
         }
 
@@ -316,22 +341,32 @@
             text-decoration: underline;
         }
 
-        /* ===== PRICE ===== */
-        .product-price {
-            font-size: 1.4rem;
-            font-weight: 800;
-            color: var(--primary);
-            margin: 15px 0;
-            display: flex;
-            align-items: center;
-            gap: 5px;
+        /* ===== PRICE SECTION ===== */
+        .price-section {
+            margin: 12px 0;
         }
 
-        .product-price::before {
+        .current-price {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .current-price::before {
             content: "PKR ";
-            font-size: 1rem;
-            font-weight: 600;
+            font-size: 14px;
+            font-weight: 500;
             color: var(--gray);
+        }
+
+        .original-price {
+            font-size: 13px;
+            color: var(--gray);
+            text-decoration: line-through;
+            margin-left: 8px;
         }
 
         /* ===== ADD TO CART BUTTON ===== */
@@ -339,29 +374,30 @@
             width: 100%;
             padding: 12px;
             background: var(--gradient);
-            color: white;
+            color: var(--light);
             border: none;
-            border-radius: 8px;
+            border-radius: 4px;
             font-weight: 600;
-            font-size: 1rem;
+            font-size: 14px;
             cursor: pointer;
             transition: var(--transition);
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 10px;
+            gap: 8px;
+            margin-top: auto;
         }
 
         .add-to-cart:hover {
             background: var(--primary-dark);
-            transform: scale(1.02);
         }
 
-        /* ===== FOOTER ===== */
+        /* ===== FOOTER - CLEAN STYLE ===== */
         footer {
-            background: var(--dark);
-            color: white;
+            background: var(--secondary);
+            color: var(--light);
             padding: 60px 5% 30px;
+            margin-top: 80px;
         }
 
         .footer-grid {
@@ -372,81 +408,87 @@
         }
 
         .footer-column h3 {
-            font-size: 1.3rem;
+            font-size: 18px;
             margin-bottom: 20px;
             font-weight: 600;
+            position: relative;
+            padding-bottom: 10px;
+        }
+
+        .footer-column h3::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 40px;
+            height: 2px;
+            background: var(--primary);
         }
 
         .footer-column p,
         .footer-column a {
-            color: rgba(255, 255, 255, 0.7);
+            color: rgba(255, 255, 255, 0.8);
             margin-bottom: 12px;
             display: block;
             text-decoration: none;
             transition: var(--transition);
+            font-size: 14px;
         }
 
         .footer-column a:hover {
-            color: white;
+            color: var(--light);
             padding-left: 5px;
         }
 
-        .social-links {
+        .footer-contact {
             display: flex;
-            gap: 15px;
-            margin-top: 20px;
+            flex-direction: column;
+            gap: 8px;
         }
 
-        .social-icon {
-            width: 40px;
-            height: 40px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 50%;
+        .contact-item {
             display: flex;
             align-items: center;
-            justify-content: center;
-            color: white;
-            transition: var(--transition);
+            gap: 12px;
+            color: rgba(255, 255, 255, 0.8);
         }
 
-        .social-icon:hover {
-            background: var(--primary);
-            transform: translateY(-3px);
+        .contact-item i {
+            color: var(--primary);
+            width: 20px;
+        }
+
+        .business-hours {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .hour-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 4px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         .copyright {
             text-align: center;
             padding-top: 30px;
             border-top: 1px solid rgba(255, 255, 255, 0.1);
-            color: rgba(255, 255, 255, 0.5);
-            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 14px;
         }
 
         /* ===== RESPONSIVE ===== */
-        @media (max-width: 1024px) {
-            .hero-banner h1 {
-                font-size: 2.5rem;
-            }
-            
+        @media (max-width: 1200px) {
             .products {
-                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+                grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
             }
         }
 
-        @media (max-width: 768px) {
+        @media (max-width: 992px) {
             .navbar {
-                flex-direction: column;
-                gap: 15px;
-                padding: 15px;
-            }
-            
-            .nav-links {
-                flex-wrap: wrap;
-                justify-content: center;
-            }
-            
-            .hero-banner {
-                padding: 80px 20px;
+                padding: 16px 20px;
             }
             
             .hero-banner h1 {
@@ -457,17 +499,13 @@
                 font-size: 1rem;
             }
             
-            .section-title {
-                font-size: 2rem;
-            }
-            
             .products {
-                grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+                grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
                 gap: 20px;
             }
             
             .product-card {
-                height: auto;
+                height: 360px;
             }
             
             .image-container {
@@ -475,14 +513,56 @@
             }
         }
 
-        @media (max-width: 480px) {
+        @media (max-width: 768px) {
+            .navbar {
+                flex-direction: column;
+                gap: 16px;
+                padding: 16px;
+            }
+            
+            .nav-links {
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 12px;
+            }
+            
+            .nav-link,
+            .cart-btn,
+            .checkout-link {
+                padding: 8px 16px;
+                font-size: 13px;
+            }
+            
+            .hero-banner {
+                padding: 60px 20px;
+            }
+            
+            .hero-banner h1 {
+                font-size: 1.8rem;
+            }
+            
+            .section-title {
+                font-size: 1.5rem;
+            }
+            
+            .products {
+                grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            }
+            
+            .footer-grid {
+                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+                gap: 30px;
+            }
+        }
+
+        @media (max-width: 576px) {
             .products {
                 grid-template-columns: 1fr;
             }
             
             .hero-btn {
-                padding: 12px 30px;
-                font-size: 1rem;
+                padding: 12px 28px;
+                font-size: 15px;
             }
             
             .footer-grid {
@@ -490,19 +570,33 @@
                 text-align: center;
             }
             
-            .social-links {
-                justify-content: center;
+            .footer-column h3::after {
+                left: 50%;
+                transform: translateX(-50%);
             }
         }
 
         /* ===== ANIMATIONS ===== */
         @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
+            from { 
+                opacity: 0; 
+                transform: translateY(20px); 
+            }
+            to { 
+                opacity: 1; 
+                transform: translateY(0); 
+            }
         }
 
         .product-card {
-            animation: fadeInUp 0.6s ease-out forwards;
+            animation: fadeInUp 0.4s ease-out forwards;
+            animation-delay: calc(var(--index) * 0.1s);
+        }
+
+        /* ===== CART NOTIFICATION ===== */
+        @keyframes slideIn {
+            from { transform: translateX(100px); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
         }
     </style>
 </head>
@@ -553,13 +647,7 @@
         <div class="footer-grid">
             <div class="footer-column">
                 <h3>Mashallah Boutique</h3>
-                <p>Premium modest fashion since 2015. Quality, affordability, and style combined.</p>
-                <div class="social-links">
-                    <a href="#" class="social-icon"><i class="fab fa-facebook-f"></i></a>
-                    <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
-                    <a href="#" class="social-icon"><i class="fab fa-whatsapp"></i></a>
-                    <a href="#" class="social-icon"><i class="fab fa-tiktok"></i></a>
-                </div>
+                <p>Premium modest fashion since 2015. We blend tradition with contemporary style to bring you the finest modest wear.</p>
             </div>
             
             <div class="footer-column">
@@ -573,24 +661,47 @@
             
             <div class="footer-column">
                 <h3>Contact Info</h3>
-                <p><i class="fas fa-map-marker-alt"></i> Sector 11/2, near Dubai Center</p>
-                <p><i class="fas fa-city"></i> Orangi Town, Karachi, Pakistan</p>
-                <p><i class="fas fa-phone"></i> +92 314 2007505</p>
-                <p><i class="fas fa-envelope"></i> ayanali7509@gmail.com</p>
+                <div class="footer-contact">
+                    <div class="contact-item">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <span>Sector 11/2, near Dubai Center, Orangi Town, Karachi</span>
+                    </div>
+                    <div class="contact-item">
+                        <i class="fas fa-phone"></i>
+                        <span>+92 314 2007505</span>
+                    </div>
+                    <div class="contact-item">
+                        <i class="fas fa-envelope"></i>
+                        <span>ayanali7509@gmail.com</span>
+                    </div>
+                </div>
             </div>
             
             <div class="footer-column">
                 <h3>Business Hours</h3>
-                <p>Monday - Friday: 10AM - 9PM</p>
-                <p>Saturday: 10AM - 10PM</p>
-                <p>Sunday: 12PM - 9PM</p>
-                <p>24/7 Online Support</p>
+                <div class="business-hours">
+                    <div class="hour-row">
+                        <span>Monday - Friday</span>
+                        <span>10AM - 9PM</span>
+                    </div>
+                    <div class="hour-row">
+                        <span>Saturday</span>
+                        <span>10AM - 10PM</span>
+                    </div>
+                    <div class="hour-row">
+                        <span>Sunday</span>
+                        <span>12PM - 9PM</span>
+                    </div>
+                    <div class="hour-row">
+                        <span>Online Orders</span>
+                        <span>24/7</span>
+                    </div>
+                </div>
             </div>
         </div>
         
         <div class="copyright">
-            <p>© 2026 Mashallah Boutique. All Rights Reserved. | Premium Modest Fashion | Prices in PKR</p>
-            <p>Designed & Developed by MA Developers</p>
+            <p>© 2026 Mashallah Boutique. All Rights Reserved. | Designed by MA Developers</p>
         </div>
     </footer>
 
