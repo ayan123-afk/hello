@@ -309,6 +309,11 @@
             color: var(--gray-700);
         }
 
+        textarea.form-input {
+            min-height: 100px;
+            resize: vertical;
+        }
+
         /* ===== ORDER SUMMARY ===== */
         .order-summary-container {
             background: var(--gray-100);
@@ -383,6 +388,18 @@
             font-weight: 600;
         }
 
+        .empty-cart-message {
+            text-align: center;
+            padding: 2rem;
+            color: var(--gray-700);
+        }
+
+        .empty-cart-message i {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            opacity: 0.5;
+        }
+
         .summary-row {
             display: flex;
             justify-content: space-between;
@@ -454,6 +471,17 @@
         .checkout-btn:hover {
             transform: translateY(-3px);
             box-shadow: 0 15px 30px rgba(59, 130, 246, 0.4);
+        }
+
+        .checkout-btn:disabled {
+            background: var(--gray-500);
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .checkout-btn:disabled:hover::before {
+            left: -100%;
         }
 
         /* ===== FOOTER ===== */
@@ -700,23 +728,28 @@
                 
                 <form id="checkout-form">
                     <div class="form-group">
-                        <label for="name" class="form-label">Full Name</label>
+                        <label for="name" class="form-label">Full Name *</label>
                         <input type="text" id="name" class="form-input" placeholder="Enter your full name" required>
                     </div>
 
                     <div class="form-group">
-                        <label for="email" class="form-label">Email Address</label>
+                        <label for="email" class="form-label">Email Address *</label>
                         <input type="email" id="email" class="form-input" placeholder="Enter your email" required>
                     </div>
 
                     <div class="form-group">
-                        <label for="phone" class="form-label">Phone Number</label>
+                        <label for="phone" class="form-label">Phone Number *</label>
                         <input type="tel" id="phone" class="form-input" placeholder="03XX-XXXXXXX" required>
                     </div>
 
                     <div class="form-group">
-                        <label for="address" class="form-label">Complete Address</label>
+                        <label for="address" class="form-label">Complete Address *</label>
                         <input type="text" id="address" class="form-input" placeholder="House #, Street, Area, City" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="notes" class="form-label">Order Notes (Optional)</label>
+                        <textarea id="notes" class="form-input" placeholder="Any special instructions for your order..." rows="3"></textarea>
                     </div>
                 </form>
             </div>
@@ -729,7 +762,7 @@
                 </h2>
                 
                 <div class="order-items" id="order-items">
-                    <!-- Order items will be loaded by checkout.js -->
+                    <!-- Order items will be loaded by JavaScript -->
                 </div>
                 
                 <div class="summary-row">
@@ -749,7 +782,7 @@
                     <span class="summary-value" id="total">PKR 0</span>
                 </div>
                 
-                <button type="submit" form="checkout-form" class="checkout-btn">
+                <button type="submit" form="checkout-form" class="checkout-btn" id="place-order-btn">
                     <i class="fas fa-lock"></i>
                     Place Order & Pay
                 </button>
