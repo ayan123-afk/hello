@@ -5,31 +5,31 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mashallah Boutique - Premium Modest Fashion</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <style>
-        /* ===== CLEAN E-COMMERCE CSS ===== */
+        /* ===== PROFESSIONAL E-COMMERCE CSS ===== */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
         }
 
         body {
+            font-family: 'Poppins', sans-serif;
             background: #f8f9fa;
             color: #333;
             line-height: 1.6;
         }
 
-        /* ===== TOP BAR ===== */
-        .top-bar {
-            background: #1a365d;
+        /* ===== TOP HEADER ===== */
+        .top-header {
+            background: linear-gradient(135deg, #1a365d 0%, #2c5282 100%);
             color: white;
             padding: 8px 0;
             font-size: 14px;
-            text-align: center;
         }
 
-        .top-bar .container {
+        .top-header .container {
             max-width: 1200px;
             margin: 0 auto;
             padding: 0 20px;
@@ -38,366 +38,377 @@
             align-items: center;
         }
 
-        .top-links a {
-            color: white;
-            text-decoration: none;
-            margin-left: 20px;
-            font-size: 13px;
+        .contact-info {
+            display: flex;
+            gap: 25px;
         }
 
-        /* ===== NAVBAR ===== */
-        .navbar {
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .contact-item i {
+            color: #ff6b6b;
+            font-size: 14px;
+        }
+
+        .social-icons {
+            display: flex;
+            gap: 15px;
+        }
+
+        .social-icons a {
+            color: white;
+            font-size: 16px;
+            transition: color 0.3s;
+        }
+
+        .social-icons a:hover {
+            color: #ff6b6b;
+        }
+
+        /* ===== MAIN NAVBAR ===== */
+        .main-navbar {
             background: white;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
             position: sticky;
             top: 0;
             z-index: 1000;
         }
 
-        .nav-container {
+        .navbar-container {
             max-width: 1200px;
             margin: 0 auto;
-            padding: 15px 20px;
+            padding: 0 20px;
             display: flex;
             align-items: center;
             justify-content: space-between;
+            height: 80px;
         }
 
         .logo {
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 12px;
             text-decoration: none;
         }
 
         .logo img {
-            height: 40px;
+            height: 45px;
+            width: auto;
         }
 
         .logo-text {
-            font-size: 24px;
-            font-weight: 700;
+            font-size: 26px;
+            font-weight: 800;
+            color: #1a365d;
+            letter-spacing: -0.5px;
+        }
+
+        .logo-text span {
             color: #e63946;
         }
 
-        .logo-tagline {
-            font-size: 12px;
-            color: #666;
-            font-weight: 500;
-        }
-
-        .nav-menu {
+        .nav-links {
             display: flex;
             align-items: center;
-            gap: 30px;
+            gap: 35px;
         }
 
         .nav-link {
             color: #333;
             text-decoration: none;
-            font-weight: 500;
+            font-weight: 600;
             font-size: 15px;
             padding: 8px 0;
             position: relative;
+            transition: color 0.3s;
         }
 
-        .nav-link.active {
-            color: #e63946;
-        }
-
-        .nav-link.active::after {
+        .nav-link::after {
             content: '';
             position: absolute;
             bottom: 0;
             left: 0;
-            width: 100%;
+            width: 0;
             height: 2px;
             background: #e63946;
+            transition: width 0.3s;
+        }
+
+        .nav-link:hover::after,
+        .nav-link.active::after {
+            width: 100%;
+        }
+
+        .nav-link:hover,
+        .nav-link.active {
+            color: #e63946;
         }
 
         .nav-actions {
             display: flex;
             align-items: center;
-            gap: 20px;
+            gap: 25px;
         }
 
-        .search-box {
+        .action-btn {
             position: relative;
-            width: 300px;
+            color: #333;
+            font-size: 18px;
+            transition: color 0.3s;
         }
 
-        .search-box input {
-            width: 100%;
-            padding: 10px 40px 10px 15px;
-            border: 1px solid #ddd;
-            border-radius: 20px;
-            font-size: 14px;
-        }
-
-        .search-box button {
-            position: absolute;
-            right: 10px;
-            top: 50%;
-            transform: translateY(-50%);
-            background: none;
-            border: none;
-            color: #666;
-            cursor: pointer;
-        }
-
-        .cart-btn {
-            display: flex;
-            align-items: center;
-            gap: 5px;
-            background: #e63946;
-            color: white;
-            padding: 8px 16px;
-            border-radius: 20px;
-            text-decoration: none;
-            font-weight: 500;
-            font-size: 14px;
+        .action-btn:hover {
+            color: #e63946;
         }
 
         .cart-count {
-            background: white;
-            color: #e63946;
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: #e63946;
+            color: white;
+            font-size: 11px;
             width: 20px;
             height: 20px;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 12px;
-            font-weight: 600;
+            font-weight: 700;
         }
 
-        /* ===== HERO SECTION ===== */
-        .hero {
-            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), 
+        /* ===== HERO BANNER ===== */
+        .hero-section {
+            background: linear-gradient(rgba(0,0,0,0.8), rgba(0,0,0,0.8)), 
                         url('https://images.unsplash.com/photo-1445205170230-053b83016050');
             background-size: cover;
             background-position: center;
-            color: white;
-            padding: 100px 20px;
+            padding: 120px 20px;
             text-align: center;
+            color: white;
+            margin-bottom: 60px;
         }
 
-        .hero h1 {
-            font-size: 48px;
-            font-weight: 700;
+        .hero-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .hero-title {
+            font-size: 56px;
+            font-weight: 800;
             margin-bottom: 20px;
+            line-height: 1.2;
         }
 
-        .hero p {
+        .hero-subtitle {
             font-size: 18px;
-            max-width: 600px;
-            margin: 0 auto 30px;
             opacity: 0.9;
+            margin-bottom: 35px;
+            line-height: 1.7;
         }
 
         .hero-btn {
             display: inline-block;
             background: #e63946;
             color: white;
-            padding: 14px 40px;
+            padding: 16px 45px;
             border-radius: 30px;
             text-decoration: none;
-            font-weight: 600;
+            font-weight: 700;
             font-size: 16px;
-            transition: transform 0.3s;
+            transition: all 0.3s;
+            border: 2px solid #e63946;
         }
 
         .hero-btn:hover {
+            background: transparent;
             transform: translateY(-3px);
-        }
-
-        /* ===== CATEGORIES ===== */
-        .categories {
-            padding: 60px 20px;
-            background: white;
-        }
-
-        .section-title {
-            text-align: center;
-            margin-bottom: 40px;
-        }
-
-        .section-title h2 {
-            font-size: 32px;
-            color: #1a365d;
-            margin-bottom: 10px;
-        }
-
-        .section-title p {
-            color: #666;
-            max-width: 600px;
-            margin: 0 auto;
-        }
-
-        .category-grid {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
-        }
-
-        .category-card {
-            background: #f8f9fa;
-            border-radius: 10px;
-            overflow: hidden;
-            text-align: center;
-            padding: 30px 20px;
-            transition: transform 0.3s;
-        }
-
-        .category-card:hover {
-            transform: translateY(-5px);
-        }
-
-        .category-card i {
-            font-size: 40px;
-            color: #e63946;
-            margin-bottom: 15px;
-        }
-
-        .category-card h3 {
-            font-size: 20px;
-            margin-bottom: 10px;
-            color: #333;
+            box-shadow: 0 10px 30px rgba(230, 57, 70, 0.3);
         }
 
         /* ===== PRODUCTS SECTION ===== */
         .products-section {
             padding: 60px 20px;
-            background: #f8f9fa;
-        }
-
-        .products-grid {
             max-width: 1200px;
             margin: 0 auto;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .section-title {
+            font-size: 36px;
+            color: #1a365d;
+            margin-bottom: 15px;
+            font-weight: 800;
+        }
+
+        .section-subtitle {
+            color: #666;
+            font-size: 17px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* ===== PRODUCTS GRID ===== */
+        .products-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 25px;
+            gap: 30px;
         }
 
         /* ===== PRODUCT CARD ===== */
         .product-card {
             background: white;
-            border-radius: 10px;
+            border-radius: 12px;
             overflow: hidden;
-            box-shadow: 0 3px 15px rgba(0,0,0,0.1);
-            transition: transform 0.3s, box-shadow 0.3s;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+            transition: all 0.4s ease;
+            border: 1px solid #eee;
         }
 
         .product-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+            border-color: #e63946;
         }
 
-        .product-image {
-            height: 200px;
-            background: #f1f3f5;
+        /* Image Box - Fixed Size */
+        .product-image-box {
+            height: 250px;
+            width: 100%;
+            background: #f8f9fa;
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 20px;
+            padding: 25px;
             position: relative;
+            overflow: hidden;
         }
 
-        .product-image img {
+        .product-image {
             max-width: 100%;
             max-height: 100%;
+            width: auto;
+            height: auto;
             object-fit: contain;
+            transition: transform 0.5s ease;
         }
 
-        .product-badge {
+        .product-card:hover .product-image {
+            transform: scale(1.1);
+        }
+
+        .discount-badge {
             position: absolute;
-            top: 10px;
-            left: 10px;
-            background: #e63946;
+            top: 15px;
+            left: 15px;
+            background: linear-gradient(135deg, #e63946 0%, #ff6b6b 100%);
             color: white;
-            padding: 4px 10px;
-            border-radius: 4px;
-            font-size: 12px;
-            font-weight: 600;
-        }
-
-        .product-info {
-            padding: 20px;
-        }
-
-        .product-category {
-            color: #666;
-            font-size: 12px;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 700;
             text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: 5px;
+            letter-spacing: 0.5px;
+            box-shadow: 0 4px 15px rgba(230, 57, 70, 0.3);
         }
 
-        .product-name {
-            font-size: 16px;
-            font-weight: 600;
-            color: #333;
-            margin-bottom: 10px;
+        /* Product Info */
+        .product-info {
+            padding: 25px;
+        }
+
+        .product-title {
+            font-size: 17px;
+            font-weight: 700;
+            color: #1a1a2e;
+            margin-bottom: 12px;
             line-height: 1.4;
-            height: 45px;
+            height: 48px;
             overflow: hidden;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
         }
 
         .product-description {
             color: #666;
             font-size: 14px;
-            margin-bottom: 15px;
-            line-height: 1.5;
+            line-height: 1.6;
+            margin-bottom: 20px;
             height: 42px;
             overflow: hidden;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
         }
 
-        .product-price {
+        /* Price Section */
+        .price-section {
             display: flex;
             align-items: center;
-            gap: 10px;
-            margin-bottom: 15px;
+            gap: 12px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
         }
 
         .current-price {
-            font-size: 20px;
-            font-weight: 700;
+            font-size: 22px;
+            font-weight: 800;
             color: #e63946;
+            display: flex;
+            align-items: baseline;
+        }
+
+        .currency {
+            font-size: 14px;
+            font-weight: 600;
+            color: #666;
+            margin-right: 2px;
         }
 
         .original-price {
-            font-size: 14px;
+            font-size: 15px;
             color: #999;
             text-decoration: line-through;
         }
 
-        .add-to-cart {
+        /* Add to Cart Button */
+        .add-to-cart-btn {
             width: 100%;
-            background: #e63946;
+            background: linear-gradient(135deg, #e63946 0%, #ff6b6b 100%);
             color: white;
             border: none;
-            padding: 12px;
-            border-radius: 5px;
+            padding: 14px;
+            border-radius: 8px;
             font-size: 15px;
-            font-weight: 600;
+            font-weight: 700;
             cursor: pointer;
+            transition: all 0.3s;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 8px;
-            transition: background 0.3s;
+            gap: 10px;
         }
 
-        .add-to-cart:hover {
-            background: #d62828;
+        .add-to-cart-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(230, 57, 70, 0.3);
         }
 
         /* ===== FEATURES ===== */
-        .features {
-            padding: 60px 20px;
+        .features-section {
+            padding: 80px 20px;
             background: white;
+            margin-top: 60px;
         }
 
         .features-grid {
@@ -405,36 +416,53 @@
             margin: 0 auto;
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 30px;
+            gap: 40px;
         }
 
-        .feature {
+        .feature-card {
             text-align: center;
-            padding: 30px 20px;
+            padding: 40px 25px;
+            background: #f8f9fa;
+            border-radius: 12px;
+            transition: transform 0.3s;
         }
 
-        .feature i {
-            font-size: 40px;
-            color: #e63946;
-            margin-bottom: 20px;
+        .feature-card:hover {
+            transform: translateY(-10px);
         }
 
-        .feature h3 {
-            font-size: 18px;
-            margin-bottom: 10px;
-            color: #333;
+        .feature-icon {
+            width: 70px;
+            height: 70px;
+            background: linear-gradient(135deg, #e63946 0%, #ff6b6b 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 25px;
+            color: white;
+            font-size: 28px;
         }
 
-        .feature p {
+        .feature-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: #1a365d;
+            margin-bottom: 15px;
+        }
+
+        .feature-description {
             color: #666;
-            font-size: 14px;
+            font-size: 15px;
+            line-height: 1.6;
         }
 
         /* ===== FOOTER ===== */
-        footer {
-            background: #1a365d;
+        .main-footer {
+            background: linear-gradient(135deg, #1a365d 0%, #2c5282 100%);
             color: white;
-            padding: 60px 20px 30px;
+            padding: 70px 20px 30px;
+            margin-top: 80px;
         }
 
         .footer-content {
@@ -442,105 +470,123 @@
             margin: 0 auto;
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 40px;
+            gap: 50px;
         }
 
         .footer-column h3 {
-            font-size: 18px;
-            margin-bottom: 20px;
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 25px;
             color: white;
+            position: relative;
+            padding-bottom: 10px;
+        }
+
+        .footer-column h3::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 50px;
+            height: 3px;
+            background: #e63946;
         }
 
         .footer-column p {
-            color: rgba(255,255,255,0.8);
-            margin-bottom: 15px;
-            font-size: 14px;
+            color: rgba(255,255,255,0.85);
+            line-height: 1.7;
+            margin-bottom: 20px;
+            font-size: 15px;
         }
 
         .footer-column a {
-            color: rgba(255,255,255,0.8);
+            color: rgba(255,255,255,0.85);
             text-decoration: none;
             display: block;
-            margin-bottom: 10px;
-            font-size: 14px;
+            margin-bottom: 12px;
+            font-size: 15px;
+            transition: all 0.3s;
         }
 
         .footer-column a:hover {
-            color: white;
+            color: #ff6b6b;
+            padding-left: 8px;
         }
 
-        .social-links {
+        .contact-details {
             display: flex;
-            gap: 15px;
-            margin-top: 20px;
+            flex-direction: column;
+            gap: 18px;
         }
 
-        .social-links a {
-            width: 40px;
-            height: 40px;
-            background: rgba(255,255,255,0.1);
-            border-radius: 50%;
+        .contact-detail {
             display: flex;
-            align-items: center;
-            justify-content: center;
+            align-items: flex-start;
+            gap: 12px;
+        }
+
+        .contact-detail i {
+            color: #e63946;
+            font-size: 18px;
+            margin-top: 3px;
         }
 
         .copyright {
             text-align: center;
-            margin-top: 40px;
-            padding-top: 20px;
+            margin-top: 60px;
+            padding-top: 30px;
             border-top: 1px solid rgba(255,255,255,0.1);
-            color: rgba(255,255,255,0.6);
+            color: rgba(255,255,255,0.7);
             font-size: 14px;
         }
 
         /* ===== RESPONSIVE ===== */
         @media (max-width: 1024px) {
-            .nav-menu {
-                gap: 20px;
-            }
-            
-            .search-box {
-                width: 250px;
+            .hero-title {
+                font-size: 46px;
             }
             
             .products-grid {
-                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+                grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
             }
         }
 
         @media (max-width: 768px) {
-            .top-bar .container {
+            .top-header .container {
+                flex-direction: column;
+                gap: 10px;
+                text-align: center;
+            }
+            
+            .contact-info {
                 flex-direction: column;
                 gap: 10px;
             }
             
-            .nav-container {
+            .navbar-container {
                 flex-direction: column;
+                height: auto;
+                padding: 20px;
                 gap: 20px;
             }
             
-            .nav-menu {
+            .nav-links {
                 flex-wrap: wrap;
                 justify-content: center;
+                gap: 20px;
             }
             
-            .nav-actions {
-                width: 100%;
-                justify-content: center;
-            }
-            
-            .search-box {
-                width: 100%;
-                max-width: 400px;
-            }
-            
-            .hero h1 {
+            .hero-title {
                 font-size: 36px;
             }
             
+            .hero-subtitle {
+                font-size: 16px;
+            }
+            
             .products-grid {
-                grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+                grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+                gap: 25px;
             }
         }
 
@@ -549,187 +595,158 @@
                 grid-template-columns: 1fr;
             }
             
-            .hero h1 {
+            .hero-title {
+                font-size: 30px;
+            }
+            
+            .section-title {
                 font-size: 28px;
-            }
-            
-            .hero p {
-                font-size: 16px;
-            }
-            
-            .section-title h2 {
-                font-size: 24px;
             }
         }
 
         /* ===== TOAST NOTIFICATION ===== */
-        .toast {
+        .toast-notification {
             position: fixed;
-            bottom: 20px;
-            right: 20px;
+            bottom: 30px;
+            right: 30px;
             background: #333;
             color: white;
-            padding: 15px 20px;
-            border-radius: 5px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            padding: 18px 25px;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
             display: flex;
             align-items: center;
-            gap: 10px;
-            animation: slideIn 0.3s;
+            gap: 15px;
+            transform: translateX(100%);
+            opacity: 0;
+            transition: all 0.4s;
             z-index: 10000;
         }
 
-        @keyframes slideIn {
-            from {
-                transform: translateX(100%);
-                opacity: 0;
-            }
-            to {
-                transform: translateX(0);
-                opacity: 1;
-            }
+        .toast-notification.show {
+            transform: translateX(0);
+            opacity: 1;
         }
 
-        .toast-success {
+        .toast-notification.success {
             background: #38a169;
+            border-left: 5px solid #2d8555;
         }
 
-        .toast-error {
-            background: #e53e3e;
+        .toast-notification i {
+            font-size: 20px;
         }
     </style>
 </head>
 <body>
-    <!-- Top Bar -->
-    <div class="top-bar">
+    <!-- Top Header -->
+    <div class="top-header">
         <div class="container">
-            <div class="welcome-text">Welcome to Mashallah Boutique - Premium Modest Fashion</div>
-            <div class="top-links">
-                <a href="#"><i class="fas fa-phone"></i> +92 314 2007505</a>
-                <a href="#"><i class="fas fa-envelope"></i> ayanali7509@gmail.com</a>
+            <div class="contact-info">
+                <div class="contact-item">
+                    <i class="fas fa-phone-alt"></i>
+                    <span>+92 314 2007505</span>
+                </div>
+                <div class="contact-item">
+                    <i class="fas fa-envelope"></i>
+                    <span>ayanali7509@gmail.com</span>
+                </div>
+            </div>
+            <div class="social-icons">
+                <a href="#"><i class="fab fa-facebook-f"></i></a>
+                <a href="#"><i class="fab fa-instagram"></i></a>
+                <a href="#"><i class="fab fa-whatsapp"></i></a>
             </div>
         </div>
     </div>
 
-    <!-- Navbar -->
-    <nav class="navbar">
-        <div class="nav-container">
+    <!-- Main Navbar -->
+    <nav class="main-navbar">
+        <div class="navbar-container">
             <a href="index.html" class="logo">
                 <img src="https://i.ibb.co/99cyW29t/Navy-White-Elegant-Modern-Fashion-Boutique-Logo.png" alt="Logo">
-                <div>
-                    <div class="logo-text">Mashallah Boutique</div>
-                    <div class="logo-tagline">Premium Modest Fashion</div>
-                </div>
+                <div class="logo-text">Mashallah <span>Boutique</span></div>
             </a>
             
-            <div class="nav-menu">
+            <div class="nav-links">
                 <a href="index.html" class="nav-link active">Home</a>
                 <a href="about.html" class="nav-link">About</a>
                 <a href="contact.html" class="nav-link">Contact</a>
+                <a href="cart.html" class="nav-link">Cart</a>
             </div>
             
             <div class="nav-actions">
-                <div class="search-box">
-                    <input type="text" placeholder="Search products...">
-                    <button><i class="fas fa-search"></i></button>
-                </div>
-                <a href="cart.html" class="cart-btn">
+                <a href="wishlist.html" class="action-btn">
+                    <i class="far fa-heart"></i>
+                </a>
+                <a href="cart.html" class="action-btn">
                     <i class="fas fa-shopping-cart"></i>
-                    Cart <span id="cart-count" class="cart-count">0</span>
+                    <span id="cart-count" class="cart-count">0</span>
                 </a>
             </div>
         </div>
     </nav>
 
-    <!-- Hero Section -->
-    <section class="hero">
-        <h1>Premium Modest Fashion</h1>
-        <p>Discover elegant abayas, hijabs, and modest wear that combine tradition with contemporary style.</p>
-        <a href="#products" class="hero-btn">Shop Collection</a>
-    </section>
-
-    <!-- Categories -->
-    <section class="categories">
-        <div class="section-title">
-            <h2>Shop by Category</h2>
-            <p>Browse our curated collections</p>
-        </div>
-        <div class="category-grid">
-            <div class="category-card">
-                <i class="fas fa-tshirt"></i>
-                <h3>Abayas</h3>
-                <p>Elegant & Modern Designs</p>
-            </div>
-            <div class="category-card">
-                <i class="fas fa-scarf"></i>
-                <h3>Hijabs</h3>
-                <p>Premium Quality Fabrics</p>
-            </div>
-            <div class="category-card">
-                <i class="fas fa-vest"></i>
-                <h3>Modest Wear</h3>
-                <p>Complete Outfits</p>
-            </div>
-            <div class="category-card">
-                <i class="fas fa-shoe-prints"></i>
-                <h3>Accessories</h3>
-                <p>Perfect Complements</p>
-            </div>
+    <!-- Hero Banner -->
+    <section class="hero-section">
+        <div class="hero-content">
+            <h1 class="hero-title">Premium Modest Fashion</h1>
+            <p class="hero-subtitle">Discover our exclusive collection of elegant abayas, hijabs, and modest wear. Quality craftsmanship meets timeless design with modern elegance for the contemporary woman.</p>
+            <a href="#products" class="hero-btn">Explore Collection</a>
         </div>
     </section>
 
     <!-- Products Section -->
     <section class="products-section" id="products">
-        <div class="section-title">
-            <h2>Featured Products</h2>
-            <p>Handpicked collection of our best-selling items</p>
+        <div class="section-header">
+            <h2 class="section-title">Featured Products</h2>
+            <p class="section-subtitle">Handpicked collection of our best-selling items, curated with love and attention to detail</p>
         </div>
         <div class="products-grid" id="product-list">
             <!-- Products will load here -->
         </div>
     </section>
 
-    <!-- Features -->
-    <section class="features">
-        <div class="section-title">
-            <h2>Why Choose Us</h2>
-            <p>We're committed to quality and customer satisfaction</p>
-        </div>
+    <!-- Features Section -->
+    <section class="features-section">
         <div class="features-grid">
-            <div class="feature">
-                <i class="fas fa-award"></i>
-                <h3>Premium Quality</h3>
-                <p>Finest fabrics and craftsmanship</p>
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-award"></i>
+                </div>
+                <h3 class="feature-title">Premium Quality</h3>
+                <p class="feature-description">Finest fabrics and craftsmanship ensuring durability and comfort</p>
             </div>
-            <div class="feature">
-                <i class="fas fa-truck"></i>
-                <h3>Free Shipping</h3>
-                <p>On all orders over PKR 5000</p>
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-truck"></i>
+                </div>
+                <h3 class="feature-title">Free Shipping</h3>
+                <p class="feature-description">Free delivery on all orders above PKR 5,000 across Karachi</p>
             </div>
-            <div class="feature">
-                <i class="fas fa-shield-alt"></i>
-                <h3>Secure Payment</h3>
-                <p>100% secure payment gateway</p>
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-shield-alt"></i>
+                </div>
+                <h3 class="feature-title">Secure Payment</h3>
+                <p class="feature-description">100% secure payment with multiple payment options available</p>
             </div>
-            <div class="feature">
-                <i class="fas fa-headset"></i>
-                <h3>24/7 Support</h3>
-                <p>Dedicated customer service</p>
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-headset"></i>
+                </div>
+                <h3 class="feature-title">24/7 Support</h3>
+                <p class="feature-description">Dedicated customer support team available round the clock</p>
             </div>
         </div>
     </section>
 
     <!-- Footer -->
-    <footer>
+    <footer class="main-footer">
         <div class="footer-content">
             <div class="footer-column">
                 <h3>Mashallah Boutique</h3>
-                <p>Premium modest fashion since 2015. We blend tradition with contemporary style.</p>
-                <div class="social-links">
-                    <a href="#"><i class="fab fa-facebook-f"></i></a>
-                    <a href="#"><i class="fab fa-instagram"></i></a>
-                    <a href="#"><i class="fab fa-whatsapp"></i></a>
-                </div>
+                <p>Premium modest fashion since 2015. We blend tradition with contemporary style to bring you the finest modest wear for every occasion.</p>
             </div>
             
             <div class="footer-column">
@@ -742,14 +759,25 @@
             
             <div class="footer-column">
                 <h3>Contact Info</h3>
-                <p><i class="fas fa-map-marker-alt"></i> Sector 11/2, Orangi Town, Karachi</p>
-                <p><i class="fas fa-phone"></i> +92 314 2007505</p>
-                <p><i class="fas fa-envelope"></i> ayanali7509@gmail.com</p>
+                <div class="contact-details">
+                    <div class="contact-detail">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <span>Sector 11/2, near Dubai Center, Orangi Town, Karachi</span>
+                    </div>
+                    <div class="contact-detail">
+                        <i class="fas fa-phone"></i>
+                        <span>+92 314 2007505</span>
+                    </div>
+                    <div class="contact-detail">
+                        <i class="fas fa-envelope"></i>
+                        <span>ayanali7509@gmail.com</span>
+                    </div>
+                </div>
             </div>
             
             <div class="footer-column">
                 <h3>Business Hours</h3>
-                <p>Mon-Fri: 10AM - 9PM</p>
+                <p>Monday - Friday: 10AM - 9PM</p>
                 <p>Saturday: 10AM - 10PM</p>
                 <p>Sunday: 12PM - 9PM</p>
                 <p>Online Orders: 24/7</p>
@@ -758,6 +786,7 @@
         
         <div class="copyright">
             <p>© 2026 Mashallah Boutique. All Rights Reserved. | Designed by MA Developers</p>
+            <p>Karachi, Pakistan | Premium Modest Fashion</p>
         </div>
     </footer>
 
