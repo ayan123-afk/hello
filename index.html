@@ -28,7 +28,7 @@
             --gradient: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
             --gradient-dark: linear-gradient(135deg, #000000 0%, #111111 100%);
             --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            --radius: 12px;
+            --radius: 16px;
             --radius-sm: 8px;
         }
 
@@ -52,14 +52,13 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            background: var(--gray-100);
+            background: rgba(0, 0, 0, 0.95);
             padding: 1.25rem 5%;
             border-bottom: 2px solid var(--border);
             position: sticky;
             top: 0;
             z-index: 1000;
             backdrop-filter: blur(10px);
-            background: rgba(0, 0, 0, 0.95);
             box-shadow: var(--shadow);
         }
 
@@ -79,7 +78,7 @@
             height: 3.5rem;
             width: auto;
             object-fit: contain;
-            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+            filter: drop-shadow(0 2px 4px rgba(255, 255, 255, 0.1));
         }
 
         .logo-text {
@@ -112,26 +111,16 @@
 
         .nav-link:hover {
             color: var(--primary-light);
-            background: rgba(59, 130, 246, 0.1);
-            transform: translateY(-1px);
+            background: rgba(59, 130, 246, 0.15);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.2);
         }
 
         .nav-link.active {
             color: var(--primary-light);
-            background: rgba(59, 130, 246, 0.15);
+            background: rgba(59, 130, 246, 0.2);
             font-weight: 700;
-        }
-
-        .nav-link.active::after {
-            content: '';
-            position: absolute;
-            bottom: -1.25rem;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 4px;
-            height: 4px;
-            background: var(--primary);
-            border-radius: 50%;
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
         }
 
         .cart-btn {
@@ -148,6 +137,23 @@
             font-size: 0.95rem;
             box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
             border: 2px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cart-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: 0.5s;
+        }
+
+        .cart-btn:hover::before {
+            left: 100%;
         }
 
         .cart-btn:hover {
@@ -168,6 +174,9 @@
             justify-content: center;
             font-weight: 800;
             box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+            position: absolute;
+            top: -8px;
+            right: -8px;
         }
 
         .checkout-link {
@@ -192,7 +201,7 @@
 
         /* ===== HERO BANNER ===== */
         .hero-banner {
-            background: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.9)),
+            background: linear-gradient(rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 0.95)),
                         url('https://images.unsplash.com/photo-1445205170230-053b83016050?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80');
             background-size: cover;
             background-position: center;
@@ -203,8 +212,6 @@
             margin-bottom: 4rem;
             position: relative;
             overflow: hidden;
-            border-bottom-left-radius: var(--radius);
-            border-bottom-right-radius: var(--radius);
         }
 
         .hero-banner::before {
@@ -223,8 +230,9 @@
             margin-bottom: 1.5rem;
             line-height: 1.1;
             color: var(--light);
-            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
             letter-spacing: -0.025em;
+            animation: fadeInUp 1s ease-out;
         }
 
         .hero-banner p {
@@ -236,6 +244,7 @@
             opacity: 0.9;
             font-weight: 400;
             color: var(--gray-700);
+            animation: fadeInUp 1s ease-out 0.2s both;
         }
 
         .hero-btn {
@@ -254,6 +263,7 @@
             border: 2px solid rgba(255, 255, 255, 0.1);
             position: relative;
             overflow: hidden;
+            animation: fadeInUp 1s ease-out 0.4s both;
         }
 
         .hero-btn::before {
@@ -267,14 +277,14 @@
             transition: 0.5s;
         }
 
+        .hero-btn:hover::before {
+            left: 100%;
+        }
+
         .hero-btn:hover {
             transform: translateY(-4px);
             box-shadow: 0 16px 40px rgba(59, 130, 246, 0.5);
             letter-spacing: 0.5px;
-        }
-
-        .hero-btn:hover::before {
-            left: 100%;
         }
 
         /* ===== FEATURED PRODUCTS ===== */
@@ -348,7 +358,7 @@
             overflow: hidden;
             transition: var(--transition);
             position: relative;
-            height: 480px;
+            height: 500px;
             display: flex;
             flex-direction: column;
             box-shadow: var(--shadow);
@@ -358,18 +368,18 @@
         .product-card:hover {
             border-color: var(--primary);
             box-shadow: var(--shadow-xl);
-            transform: translateY(-8px);
+            transform: translateY(-8px) scale(1.02);
             background: var(--gray-200);
         }
 
         /* ===== IMAGE CONTAINER ===== */
         .image-container {
             width: 100%;
-            height: 240px;
+            height: 280px;
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 1.5rem;
+            padding: 2rem;
             background: var(--gray-200);
             position: relative;
             overflow: hidden;
@@ -399,10 +409,11 @@
             object-fit: contain;
             display: block;
             transition: var(--transition);
+            transform: scale(0.95);
         }
 
         .product-card:hover .image-container img {
-            transform: scale(1.05);
+            transform: scale(1);
         }
 
         .product-badge {
@@ -421,11 +432,11 @@
 
         /* ===== PRODUCT INFO ===== */
         .product-info {
-            padding: 1.5rem;
+            padding: 2rem;
             display: flex;
             flex-direction: column;
             flex: 1;
-            gap: 0.75rem;
+            gap: 1rem;
         }
 
         .product-name {
@@ -583,7 +594,7 @@
 
         .footer-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 4rem;
             margin-bottom: 4rem;
         }
@@ -649,24 +660,6 @@
             width: 20px;
             font-size: 1.125rem;
             margin-top: 0.125rem;
-        }
-
-        .business-hours {
-            display: flex;
-            flex-direction: column;
-            gap: 0.75rem;
-        }
-
-        .hour-row {
-            display: flex;
-            justify-content: space-between;
-            padding: 0.75rem 0;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            transition: var(--transition);
-        }
-
-        .hour-row:hover {
-            border-bottom-color: var(--primary);
         }
 
         .copyright {
@@ -735,11 +728,11 @@
             }
             
             .product-card {
-                height: 460px;
+                height: 480px;
             }
             
             .image-container {
-                height: 220px;
+                height: 240px;
             }
             
             .featured-section {
@@ -952,25 +945,11 @@
             </div>
             
             <div class="footer-column">
-                <h3>Business Hours</h3>
-                <div class="business-hours">
-                    <div class="hour-row">
-                        <span>Monday - Friday</span>
-                        <span>10AM - 9PM</span>
-                    </div>
-                    <div class="hour-row">
-                        <span>Saturday</span>
-                        <span>10AM - 10PM</span>
-                    </div>
-                    <div class="hour-row">
-                        <span>Sunday</span>
-                        <span>12PM - 9PM</span>
-                    </div>
-                    <div class="hour-row">
-                        <span>Online Orders</span>
-                        <span>24/7</span>
-                    </div>
-                </div>
+                <h3>Our Promise</h3>
+                <p>100% Authentic Products</p>
+                <p>Premium Quality Materials</p>
+                <p>Secure Payment Processing</p>
+                <p>Fast & Reliable Delivery</p>
             </div>
         </div>
         
