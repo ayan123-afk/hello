@@ -1,9 +1,11 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Contact Us - Mashallah Boutique</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <style>
         /* ===== E-COMMERCE THEME - DARK ===== */
         :root {
@@ -67,6 +69,11 @@
             align-items: center;
             gap: 1rem;
             text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .logo-container:hover {
+            transform: translateY(-2px);
         }
 
         .logo {
@@ -96,7 +103,6 @@
             padding: 0.75rem 1.5rem;
             border-radius: var(--radius-sm);
             transition: var(--transition);
-            border: 2px solid rgba(255, 255, 255, 0.2);
             display: flex;
             align-items: center;
             gap: 0.5rem;
@@ -105,42 +111,55 @@
         }
 
         .nav-link:hover {
-            background: rgba(255, 255, 255, 0.15);
+            color: var(--primary-light);
+            background: rgba(59, 130, 246, 0.15);
             transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.2);
+        }
+
+        .nav-link.active {
+            color: var(--primary-light);
+            background: rgba(59, 130, 246, 0.2);
+            font-weight: 700;
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
         }
 
         .cart-btn {
-            background: rgba(255, 255, 255, 0.05);
-            padding: 0.75rem 1.5rem;
-            border-radius: var(--radius-sm);
-            color: var(--light);
-            text-decoration: none;
-            font-weight: 600;
             display: flex;
             align-items: center;
             gap: 0.75rem;
+            padding: 0.75rem 1.75rem;
+            background: var(--gradient);
+            color: var(--light);
+            border-radius: var(--radius-sm);
+            text-decoration: none;
+            font-weight: 700;
             transition: var(--transition);
-            border: 2px solid rgba(255, 255, 255, 0.2);
+            position: relative;
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+            border: 2px solid rgba(255, 255, 255, 0.1);
             font-size: 0.95rem;
         }
 
         .cart-btn:hover {
-            background: rgba(255, 255, 255, 0.15);
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(59, 130, 246, 0.4);
+            border-color: rgba(255, 255, 255, 0.2);
         }
 
         #cart-count {
             background: var(--light);
             color: var(--primary);
-            border-radius: 50%;
+            font-size: 0.85rem;
             width: 1.75rem;
             height: 1.75rem;
+            border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 0.85rem;
+            position: absolute;
+            top: -0.5rem;
+            right: -0.5rem;
             font-weight: 800;
             box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
         }
@@ -149,40 +168,28 @@
             padding: 0.75rem 1.75rem;
             background: var(--gray-300);
             color: var(--light);
-            text-decoration: none;
             border-radius: var(--radius-sm);
+            text-decoration: none;
             font-weight: 700;
             transition: var(--transition);
-            border: 2px solid rgba(255, 255, 255, 0.1);
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            border: 2px solid rgba(255, 255, 255, 0.1);
             font-size: 0.95rem;
         }
 
         .checkout-link:hover {
             background: var(--gray-200);
-            transform: translateY(-2px);
+            transform: translateY(-3px);
             box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
             border-color: rgba(255, 255, 255, 0.2);
         }
 
         /* ===== CONTACT CONTAINER ===== */
         .contact-container {
-            max-width: 1200px;
+            max-width: 1400px;
             margin: 4rem auto;
             padding: 0 2rem;
-            animation: fadeIn 0.8s ease-out;
             flex: 1;
-        }
-
-        @keyframes fadeIn {
-            from { 
-                opacity: 0; 
-                transform: translateY(20px); 
-            }
-            to { 
-                opacity: 1; 
-                transform: translateY(0); 
-            }
         }
 
         /* ===== HEADER ===== */
@@ -234,192 +241,148 @@
             font-weight: 400;
         }
 
-        /* ===== CONTACT CARDS ===== */
-        .contact-cards {
+        /* ===== CONTACT GRID (NEW IMPROVED LAYOUT) ===== */
+        .contact-main-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 2.5rem;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
             margin-bottom: 5rem;
         }
 
-        .contact-card {
+        /* ===== CONTACT INFO SECTION ===== */
+        .contact-info-section {
             background: var(--gray-100);
-            padding: 3rem 2.5rem;
+            padding: 3rem;
             border-radius: var(--radius);
             box-shadow: var(--shadow-lg);
-            text-align: center;
+            border: 2px solid var(--border);
+            animation: fadeInLeft 0.8s ease-out;
+        }
+
+        @keyframes fadeInLeft {
+            from { 
+                opacity: 0; 
+                transform: translateX(-30px); 
+            }
+            to { 
+                opacity: 1; 
+                transform: translateX(0); 
+            }
+        }
+
+        .contact-info-section h2 {
+            font-size: 2rem;
+            color: var(--light);
+            margin-bottom: 2.5rem;
+            font-weight: 700;
+            position: relative;
+            padding-bottom: 1rem;
+        }
+
+        .contact-info-section h2::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 60px;
+            height: 3px;
+            background: var(--gradient);
+            border-radius: 1.5px;
+        }
+
+        .contact-info-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        .contact-info-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 1.5rem;
+            padding: 1.5rem;
+            background: var(--gray-200);
+            border-radius: var(--radius-sm);
+            border: 2px solid var(--border);
             transition: var(--transition);
             position: relative;
             overflow: hidden;
-            border: 2px solid var(--border);
         }
 
-        .contact-card::before {
+        .contact-info-item::before {
             content: '';
             position: absolute;
             top: 0;
             left: 0;
-            right: 0;
-            height: 4px;
+            width: 4px;
+            height: 0;
             background: var(--gradient);
-            transform: scaleX(0);
-            transform-origin: left;
-            transition: transform 0.4s ease;
+            transition: var(--transition);
         }
 
-        .contact-card:hover::before {
-            transform: scaleX(1);
+        .contact-info-item:hover::before {
+            height: 100%;
         }
 
-        .contact-card:hover {
-            transform: translateY(-15px);
-            box-shadow: var(--shadow-xl);
+        .contact-info-item:hover {
+            transform: translateY(-5px);
             border-color: var(--primary);
-            background: var(--gray-200);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
         }
 
-        .contact-card .icon {
-            width: 80px;
-            height: 80px;
-            margin: 0 auto 2rem;
+        .contact-icon {
+            width: 60px;
+            height: 60px;
             background: var(--gradient);
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             color: var(--light);
-            font-size: 2rem;
-            font-weight: 700;
+            font-size: 1.5rem;
+            flex-shrink: 0;
             transition: var(--transition);
-            box-shadow: 0 8px 20px rgba(59, 130, 246, 0.3);
         }
 
-        .contact-card:hover .icon {
+        .contact-info-item:hover .contact-icon {
             transform: rotate(15deg) scale(1.1);
         }
 
-        .contact-card h3 {
-            color: var(--light);
-            margin-bottom: 1.5rem;
-            font-size: 1.75rem;
-            font-weight: 800;
+        .contact-details {
+            flex: 1;
         }
 
-        .contact-card p {
+        .contact-details h3 {
+            font-size: 1.3rem;
+            color: var(--light);
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+
+        .contact-details p {
             color: var(--gray-700);
-            margin-bottom: 0.75rem;
-            font-size: 1.125rem;
+            font-size: 1rem;
             line-height: 1.6;
+            margin-bottom: 0.25rem;
         }
 
-        .contact-card strong {
+        .contact-details strong {
             color: var(--primary-light);
-            font-size: 1.5rem;
-            display: block;
-            margin-bottom: 1rem;
-            font-weight: 700;
+            font-size: 1.1rem;
+            font-weight: 600;
         }
 
-        /* ===== MAP SECTION ===== */
-        .map-section {
-            background: var(--gray-100);
-            padding: 4rem;
-            border-radius: var(--radius);
-            box-shadow: var(--shadow-lg);
-            margin-bottom: 5rem;
-            animation: fadeInUp 1s ease-out 0.2s both;
-            border: 2px solid var(--border);
-        }
-
-        @keyframes fadeInUp {
-            from { 
-                opacity: 0; 
-                transform: translateY(40px); 
-            }
-            to { 
-                opacity: 1; 
-                transform: translateY(0); 
-            }
-        }
-
-        .map-section h2 {
-            color: var(--light);
-            margin-bottom: 2.5rem;
-            font-size: 2.5rem;
-            font-weight: 800;
-            text-align: center;
-            letter-spacing: -0.025em;
-        }
-
-        .map-placeholder {
-            background: var(--gray-200);
-            height: 400px;
-            border-radius: var(--radius);
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            color: var(--gray-700);
-            font-size: 1.125rem;
-            position: relative;
-            overflow: hidden;
-            border: 2px solid var(--border);
-        }
-
-        .location-marker {
-            width: 60px;
-            height: 60px;
-            background: var(--primary);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--light);
-            font-size: 1.5rem;
-            margin-bottom: 1.5rem;
-            position: relative;
-            animation: pulse 2s infinite;
-        }
-
-        @keyframes pulse {
-            0%, 100% { 
-                transform: scale(1); 
-            }
-            50% { 
-                transform: scale(1.1); 
-            }
-        }
-
-        /* ===== CONTACT FORM ===== */
+        /* ===== CONTACT FORM SECTION ===== */
         .contact-form-section {
             background: var(--gray-100);
-            padding: 4rem;
+            padding: 3rem;
             border-radius: var(--radius);
             box-shadow: var(--shadow-lg);
-            animation: fadeInUp 1s ease-out 0.4s both;
             border: 2px solid var(--border);
+            animation: fadeInRight 0.8s ease-out;
         }
 
-        .contact-form-section h2 {
-            color: var(--light);
-            margin-bottom: 2.5rem;
-            font-size: 2.5rem;
-            font-weight: 800;
-            text-align: center;
-            letter-spacing: -0.025em;
-        }
-
-        .form-group {
-            margin-bottom: 2rem;
-            animation: slideInRight 0.6s ease-out both;
-        }
-
-        .form-group:nth-child(1) { animation-delay: 0.5s; }
-        .form-group:nth-child(2) { animation-delay: 0.6s; }
-        .form-group:nth-child(3) { animation-delay: 0.7s; }
-        .form-group:nth-child(4) { animation-delay: 0.8s; }
-
-        @keyframes slideInRight {
+        @keyframes fadeInRight {
             from { 
                 opacity: 0; 
                 transform: translateX(30px); 
@@ -428,6 +391,30 @@
                 opacity: 1; 
                 transform: translateX(0); 
             }
+        }
+
+        .contact-form-section h2 {
+            font-size: 2rem;
+            color: var(--light);
+            margin-bottom: 2.5rem;
+            font-weight: 700;
+            position: relative;
+            padding-bottom: 1rem;
+        }
+
+        .contact-form-section h2::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 60px;
+            height: 3px;
+            background: var(--gradient);
+            border-radius: 1.5px;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
         }
 
         .form-group label {
@@ -439,7 +426,8 @@
         }
 
         .form-group input,
-        .form-group textarea {
+        .form-group textarea,
+        .form-group select {
             width: 100%;
             padding: 1rem 1.25rem;
             border: 2px solid var(--border);
@@ -448,10 +436,12 @@
             transition: var(--transition);
             background: var(--gray-200);
             color: var(--light);
+            font-family: inherit;
         }
 
         .form-group input:focus,
-        .form-group textarea:focus {
+        .form-group textarea:focus,
+        .form-group select:focus {
             outline: none;
             border-color: var(--primary);
             background: var(--gray-300);
@@ -460,15 +450,23 @@
         }
 
         .form-group textarea {
-            height: 180px;
+            height: 150px;
             resize: vertical;
             line-height: 1.6;
+        }
+
+        .form-group select {
+            appearance: none;
+            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='white'%3e%3cpath d='M7 10l5 5 5-5z'/%3e%3c/svg%3e");
+            background-repeat: no-repeat;
+            background-position: right 1rem center;
+            background-size: 1.5em;
         }
 
         .form-row {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 2rem;
+            gap: 1.5rem;
         }
 
         .submit-btn {
@@ -482,9 +480,13 @@
             font-weight: 700;
             cursor: pointer;
             transition: var(--transition);
-            margin-top: 1.25rem;
+            margin-top: 1rem;
             position: relative;
             overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.75rem;
         }
 
         .submit-btn::before {
@@ -505,7 +507,94 @@
         .submit-btn:hover {
             transform: translateY(-5px);
             box-shadow: 0 15px 30px rgba(59, 130, 246, 0.3);
-            letter-spacing: 1px;
+        }
+
+        /* ===== MAP SECTION ===== */
+        .map-section {
+            background: var(--gray-100);
+            padding: 3rem;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow-lg);
+            margin-bottom: 5rem;
+            border: 2px solid var(--border);
+            animation: fadeInUp 1s ease-out;
+        }
+
+        @keyframes fadeInUp {
+            from { 
+                opacity: 0; 
+                transform: translateY(40px); 
+            }
+            to { 
+                opacity: 1; 
+                transform: translateY(0); 
+            }
+        }
+
+        .map-section h2 {
+            color: var(--light);
+            margin-bottom: 2.5rem;
+            font-size: 2rem;
+            font-weight: 800;
+            text-align: center;
+            letter-spacing: -0.025em;
+            position: relative;
+            padding-bottom: 1rem;
+        }
+
+        .map-section h2::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: var(--gradient);
+            border-radius: 2px;
+        }
+
+        #map {
+            height: 500px;
+            border-radius: var(--radius);
+            overflow: hidden;
+            border: 2px solid var(--border);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+        }
+
+        .map-info {
+            display: flex;
+            justify-content: center;
+            gap: 3rem;
+            margin-top: 2rem;
+            padding: 2rem;
+            background: var(--gray-200);
+            border-radius: var(--radius);
+            border: 2px solid var(--border);
+        }
+
+        .map-info-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .map-info-item i {
+            color: var(--primary);
+            font-size: 1.5rem;
+            width: 40px;
+        }
+
+        .map-info-item p {
+            color: var(--gray-700);
+            font-size: 1.1rem;
+        }
+
+        .map-info-item strong {
+            color: var(--light);
+            display: block;
+            font-size: 1.2rem;
+            margin-bottom: 0.25rem;
         }
 
         /* ===== FOOTER ===== */
@@ -513,7 +602,7 @@
             background: var(--gradient-dark);
             color: var(--light);
             padding: 5rem 5% 2rem;
-            margin-top: 8rem;
+            margin-top: auto;
             position: relative;
         }
 
@@ -606,6 +695,18 @@
         }
 
         /* ===== RESPONSIVE ===== */
+        @media (max-width: 1200px) {
+            .contact-main-grid {
+                grid-template-columns: 1fr;
+                gap: 3rem;
+            }
+            
+            .map-info {
+                flex-wrap: wrap;
+                gap: 2rem;
+            }
+        }
+
         @media (max-width: 768px) {
             .navbar {
                 flex-direction: column;
@@ -636,24 +737,23 @@
                 font-size: 2.5rem;
             }
             
-            .contact-cards {
-                grid-template-columns: 1fr;
-                gap: 2rem;
-            }
-            
             .form-row {
                 grid-template-columns: 1fr;
                 gap: 1.5rem;
             }
             
-            .map-placeholder {
-                height: 300px;
+            .contact-info-item {
+                padding: 1.25rem;
             }
             
-            .contact-card,
-            .map-section,
-            .contact-form-section {
-                padding: 3rem 2rem;
+            .contact-icon {
+                width: 50px;
+                height: 50px;
+                font-size: 1.25rem;
+            }
+            
+            #map {
+                height: 350px;
             }
             
             .footer-grid {
@@ -681,24 +781,32 @@
                 font-size: 1rem;
             }
             
-            .contact-card h3 {
+            .contact-info-section,
+            .contact-form-section,
+            .map-section {
+                padding: 2rem 1.5rem;
+            }
+            
+            .contact-info-section h2,
+            .contact-form-section h2,
+            .map-section h2 {
                 font-size: 1.5rem;
             }
             
-            .map-section h2,
-            .contact-form-section h2 {
-                font-size: 2rem;
+            #map {
+                height: 300px;
             }
             
-            .contact-card,
-            .map-section,
-            .contact-form-section {
-                padding: 2rem 1.5rem;
+            .map-info {
+                flex-direction: column;
+                gap: 1.5rem;
+                padding: 1.5rem;
             }
         }
     </style>
 </head>
 <body>
+    <!-- Navbar -->
     <nav class="navbar">
         <a href="index.html" class="logo-container">
             <img src="https://i.ibb.co/99cyW29t/Navy-White-Elegant-Modest-Fashion-Boutique-Logo.png" 
@@ -707,15 +815,15 @@
             <span class="logo-text">Mashallah Boutique</span>
         </a>
         <div class="navbar-right">
-            <a href="index.html" class="cart-btn">
+            <a href="index.html" class="nav-link">
                 <i class="fas fa-home"></i>
                 Home
             </a>
-            <a href="about.html" class="cart-btn">
+            <a href="about.html" class="nav-link">
                 <i class="fas fa-store"></i>
                 About
             </a>
-            <a href="contact.html" class="nav-link">
+            <a href="contact.html" class="nav-link active">
                 <i class="fas fa-phone-alt"></i>
                 Contact
             </a>
@@ -724,6 +832,7 @@
                 Cart <span id="cart-count">0</span>
             </a>
             <a href="checkout.html" class="checkout-link">
+                <i class="fas fa-credit-card"></i>
                 Checkout
             </a>
         </div>
@@ -735,64 +844,139 @@
             <p>We're here to help you with any questions or concerns. Reach out to us through any of these channels.</p>
         </div>
 
-        <div class="contact-cards">
-            <div class="contact-card">
-                <div class="icon">PH</div>
-                <h3>Phone</h3>
-                <strong>+92 314 2007505</strong>
-                <p>Available 9AM – 9PM, 7 days a week</p>
+        <!-- New Grid Layout: Contact Info + Form Side by Side -->
+        <div class="contact-main-grid">
+            <!-- Contact Information Section -->
+            <div class="contact-info-section">
+                <h2>Get in Touch</h2>
+                <div class="contact-info-grid">
+                    <div class="contact-info-item">
+                        <div class="contact-icon">
+                            <i class="fas fa-phone-alt"></i>
+                        </div>
+                        <div class="contact-details">
+                            <h3>Phone</h3>
+                            <strong>+92 314 2007505</strong>
+                            <p>Available 9AM – 9PM, 7 days a week</p>
+                            <p>Fast response guaranteed</p>
+                        </div>
+                    </div>
+
+                    <div class="contact-info-item">
+                        <div class="contact-icon">
+                            <i class="fas fa-envelope"></i>
+                        </div>
+                        <div class="contact-details">
+                            <h3>Email</h3>
+                            <strong>ayanali7509@gmail.com</strong>
+                            <p>We typically respond within 24 hours</p>
+                            <p>Order inquiries & support</p>
+                        </div>
+                    </div>
+
+                    <div class="contact-info-item">
+                        <div class="contact-icon">
+                            <i class="fas fa-map-marker-alt"></i>
+                        </div>
+                        <div class="contact-details">
+                            <h3>Visit Us</h3>
+                            <strong>Sector 11/2, near Dubai Center</strong>
+                            <p>Orangi Town, Karachi, Pakistan</p>
+                            <p>Open: Mon-Sat 10AM - 9PM</p>
+                        </div>
+                    </div>
+
+                    <div class="contact-info-item">
+                        <div class="contact-icon">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <div class="contact-details">
+                            <h3>Business Hours</h3>
+                            <strong>Store Timings</strong>
+                            <p>Monday - Friday: 10AM - 9PM</p>
+                            <p>Saturday: 10AM - 10PM</p>
+                            <p>Sunday: 12PM - 9PM</p>
+                        </div>
+                    </div>
+                </div>
             </div>
 
-            <div class="contact-card">
-                <div class="icon">EM</div>
-                <h3>Email</h3>
-                <strong>ayanali7509@gmail.com</strong>
-                <p>We typically respond within 24 hours</p>
-            </div>
+            <!-- Contact Form Section -->
+            <div class="contact-form-section">
+                <h2>Send Message</h2>
+                <form id="contact-form">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="name">Your Name</label>
+                            <input type="text" id="name" placeholder="Enter your full name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email Address</label>
+                            <input type="email" id="email" placeholder="Enter your email" required>
+                        </div>
+                    </div>
 
-            <div class="contact-card">
-                <div class="icon">AD</div>
-                <h3>Visit Us</h3>
-                <strong>Sector 11/2, near Dubai Center</strong>
-                <p>Orangi Town, Karachi, Pakistan</p>
+                    <div class="form-group">
+                        <label for="phone">Phone Number</label>
+                        <input type="tel" id="phone" placeholder="+92 XXX XXXXXXX" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="subject">Subject</label>
+                        <select id="subject" required>
+                            <option value="" disabled selected>Select a subject</option>
+                            <option value="order">Order Inquiry</option>
+                            <option value="product">Product Question</option>
+                            <option value="shipping">Shipping & Delivery</option>
+                            <option value="return">Return & Exchange</option>
+                            <option value="general">General Question</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="message">Your Message</label>
+                        <textarea id="message" placeholder="Please provide details about your inquiry..." required></textarea>
+                    </div>
+
+                    <button type="submit" class="submit-btn">
+                        <i class="fas fa-paper-plane"></i>
+                        Send Message
+                    </button>
+                </form>
             </div>
         </div>
 
+        <!-- Map Section -->
         <div class="map-section">
             <h2>Our Location</h2>
-            <div class="map-placeholder">
-                <div class="location-marker">📍</div>
-                <p>Sector 11/2, near Dubai Center</p>
-                <p>Orangi Town, Karachi, Pakistan</p>
+            <div id="map"></div>
+            <div class="map-info">
+                <div class="map-info-item">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <div>
+                        <strong>Address</strong>
+                        <p>Sector 11/2, near Dubai Center</p>
+                        <p>Orangi Town, Karachi</p>
+                    </div>
+                </div>
+                <div class="map-info-item">
+                    <i class="fas fa-directions"></i>
+                    <div>
+                        <strong>Directions</strong>
+                        <p>Near Dubai Center</p>
+                        <p>Easy to find location</p>
+                    </div>
+                </div>
+                <div class="map-info-item">
+                    <i class="fas fa-car"></i>
+                    <div>
+                        <strong>Parking</strong>
+                        <p>Available parking space</p>
+                        <p>Safe & secure area</p>
+                    </div>
+                </div>
             </div>
-        </div>
-
-        <div class="contact-form-section">
-            <h2>Send Us a Message</h2>
-            <form id="contact-form">
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="name">Your Name</label>
-                        <input type="text" id="name" placeholder="Enter your name" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="email">Your Email</label>
-                        <input type="email" id="email" placeholder="Enter your email" required>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label for="subject">Subject</label>
-                    <input type="text" id="subject" placeholder="What is this regarding?" required>
-                </div>
-
-                <div class="form-group">
-                    <label for="message">Your Message</label>
-                    <textarea id="message" placeholder="Type your message here..." required></textarea>
-                </div>
-
-                <button type="submit" class="submit-btn">Send Message</button>
-            </form>
         </div>
     </div>
 
@@ -852,16 +1036,70 @@
         </div>
     </footer>
 
+    <!-- Leaflet JS for Map -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script>
         // Update cart count
         const cart = JSON.parse(localStorage.getItem('cart')) || [];
         const totalItems = cart.reduce((total, item) => total + item.quantity, 0);
         document.getElementById('cart-count').textContent = totalItems;
         
+        // Initialize Map (Karachi, Orangi Town coordinates)
+        const map = L.map('map').setView([24.9572, 67.0433], 15);
+        
+        // Add OpenStreetMap tiles
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '© OpenStreetMap contributors',
+            maxZoom: 19,
+        }).addTo(map);
+        
+        // Custom icon
+        const boutiqueIcon = L.divIcon({
+            html: '<i class="fas fa-store" style="color: #3b82f6; font-size: 32px;"></i>',
+            iconSize: [40, 40],
+            iconAnchor: [20, 40],
+            popupAnchor: [0, -40],
+            className: 'custom-icon'
+        });
+        
+        // Add marker for boutique location
+        const marker = L.marker([24.9572, 67.0433], { icon: boutiqueIcon }).addTo(map);
+        
+        marker.bindPopup(`
+            <div style="text-align: center;">
+                <h3 style="margin: 0; color: #2563eb; font-weight: bold;">Mashallah Boutique</h3>
+                <p style="margin: 5px 0; color: #666;">Sector 11/2, near Dubai Center</p>
+                <p style="margin: 5px 0; color: #666;">Orangi Town, Karachi</p>
+                <a href="https://www.google.com/maps/dir/?api=1&destination=24.9572,67.0433" 
+                   target="_blank" 
+                   style="display: inline-block; margin-top: 10px; padding: 8px 16px; background: #3b82f6; color: white; text-decoration: none; border-radius: 4px; font-weight: bold;">
+                   Get Directions
+                </a>
+            </div>
+        `).openPopup();
+        
         // Contact form submission
         document.getElementById('contact-form').addEventListener('submit', function(e) {
             e.preventDefault();
-            alert('Thank you for your message! We will respond soon.');
+            
+            // Get form values
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const phone = document.getElementById('phone').value;
+            const subject = document.getElementById('subject').value;
+            const message = document.getElementById('message').value;
+            
+            // Simple validation
+            if (!name || !email || !phone || !subject || !message) {
+                alert('Please fill in all fields.');
+                return;
+            }
+            
+            // In a real application, you would send this data to a server
+            // For now, we'll just show a success message
+            alert(`Thank you ${name}! Your message has been sent successfully. We'll respond to you at ${email} within 24 hours.`);
+            
+            // Reset form
             this.reset();
         });
     </script>
