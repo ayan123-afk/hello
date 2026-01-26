@@ -349,6 +349,74 @@
             color: var(--primary);
         }
 
+        .order-items {
+            margin-bottom: 2rem;
+            max-height: 300px;
+            overflow-y: auto;
+            padding-right: 0.5rem;
+        }
+
+        .order-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .order-item:last-child {
+            border-bottom: none;
+        }
+
+        .item-name {
+            color: var(--light);
+            font-weight: 500;
+            max-width: 200px;
+        }
+
+        .item-quantity {
+            color: var(--gray-700);
+            font-size: 0.9rem;
+        }
+
+        .item-price {
+            color: var(--primary-light);
+            font-weight: 600;
+        }
+
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 1.25rem;
+            padding-bottom: 1.25rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .summary-row:last-child {
+            border-bottom: none;
+            margin-top: 1.5rem;
+            padding-top: 1.5rem;
+            border-top: 2px solid var(--border);
+        }
+
+        .summary-label {
+            color: var(--gray-700);
+            font-weight: 500;
+            font-size: 1.1rem;
+        }
+
+        .summary-value {
+            font-weight: 600;
+            color: var(--light);
+            font-size: 1.1rem;
+        }
+
+        .total .summary-value {
+            font-size: 1.6rem;
+            color: var(--primary-light);
+            font-weight: 800;
+        }
+
         .checkout-btn {
             width: 100%;
             padding: 1.25rem;
@@ -387,6 +455,29 @@
         .checkout-btn:hover {
             transform: translateY(-3px);
             box-shadow: 0 15px 30px rgba(59, 130, 246, 0.4);
+        }
+
+        .checkout-btn:disabled {
+            background: var(--gray-500);
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .checkout-btn:disabled:hover::before {
+            left: -100%;
+        }
+
+        .empty-cart-message {
+            text-align: center;
+            padding: 2rem;
+            color: var(--gray-700);
+        }
+
+        .empty-cart-message i {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            opacity: 0.5;
         }
 
         /* ===== FOOTER ===== */
@@ -576,6 +667,11 @@
             .order-summary-container {
                 padding: 1.5rem;
             }
+            
+            .item-name {
+                max-width: 150px;
+                font-size: 0.9rem;
+            }
         }
     </style>
 </head>
@@ -651,11 +747,6 @@
                         <label for="address" class="form-label">Complete Address</label>
                         <input type="text" id="address" class="form-input" placeholder="House #, Street, Area, City" required>
                     </div>
-
-                    <button type="submit" class="checkout-btn">
-                        <i class="fas fa-lock"></i>
-                        Place Order & Pay
-                    </button>
                 </form>
             </div>
 
@@ -665,6 +756,32 @@
                     <i class="fas fa-receipt"></i>
                     Order Summary
                 </h2>
+                
+                <div class="order-items" id="order-items">
+                    <!-- Cart items will be loaded here -->
+                </div>
+                
+                <div class="summary-row">
+                    <span class="summary-label">Subtotal</span>
+                    <span class="summary-value" id="subtotal">PKR 0</span>
+                </div>
+                <div class="summary-row">
+                    <span class="summary-label">Shipping</span>
+                    <span class="summary-value">Free</span>
+                </div>
+                <div class="summary-row">
+                    <span class="summary-label">Tax</span>
+                    <span class="summary-value">PKR 0</span>
+                </div>
+                <div class="summary-row total">
+                    <span class="summary-label">Total</span>
+                    <span class="summary-value" id="total">PKR 0</span>
+                </div>
+                
+                <button type="submit" form="checkout-form" class="checkout-btn" id="place-order-btn">
+                    <i class="fas fa-lock"></i>
+                    Place Order & Pay
+                </button>
                 
                 <div style="text-align: center; margin-top: 1.5rem; color: var(--gray-700); font-size: 0.9rem;">
                     <i class="fas fa-shield-alt"></i>
