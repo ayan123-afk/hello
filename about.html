@@ -5,27 +5,27 @@
     <title>About Us - Mashallah Boutique</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* ===== E-COMMERCE THEME - BLUE/BLACK ===== */
+        /* ===== E-COMMERCE THEME - DARK ===== */
         :root {
-            --primary: #2563eb;
-            --primary-dark: #1d4ed8;
-            --primary-light: #3b82f6;
-            --secondary: #0f172a;
-            --secondary-light: #1e293b;
+            --primary: #3b82f6;
+            --primary-dark: #2563eb;
+            --primary-light: #60a5fa;
+            --secondary: #000000;
+            --secondary-light: #111111;
             --accent: #f59e0b;
             --light: #ffffff;
-            --dark: #0f172a;
-            --gray-100: #f1f5f9;
-            --gray-200: #e2e8f0;
-            --gray-300: #cbd5e1;
-            --gray-500: #64748b;
-            --gray-700: #334155;
-            --border: #e2e8f0;
-            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
-            --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
-            --gradient: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
-            --gradient-dark: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            --dark: #000000;
+            --gray-100: #1a1a1a;
+            --gray-200: #2a2a2a;
+            --gray-300: #3a3a3a;
+            --gray-500: #666666;
+            --gray-700: #888888;
+            --border: #333333;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.4);
+            --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.5);
+            --gradient: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+            --gradient-dark: linear-gradient(135deg, #000000 0%, #111111 100%);
             --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             --radius: 16px;
             --radius-sm: 8px;
@@ -39,10 +39,12 @@
 
         body {
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-            background: var(--light);
-            color: var(--dark);
+            background: var(--secondary);
+            color: var(--light);
             line-height: 1.6;
             min-height: 100vh;
+            display: flex;
+            flex-direction: column;
         }
 
         /* ===== NAVIGATION ===== */
@@ -50,24 +52,34 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            background: var(--light);
+            background: rgba(0, 0, 0, 0.95);
             padding: 1.25rem 5%;
-            border-bottom: 2px solid var(--gray-200);
+            border-bottom: 2px solid var(--border);
             position: sticky;
             top: 0;
             z-index: 1000;
             box-shadow: var(--shadow);
-            background: rgba(255, 255, 255, 0.95);
             backdrop-filter: blur(10px);
         }
 
-        .navbar h1 {
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            text-decoration: none;
+        }
+
+        .logo {
+            height: 3.5rem;
+            width: auto;
+            object-fit: contain;
+            filter: drop-shadow(0 2px 4px rgba(255, 255, 255, 0.1));
+        }
+
+        .logo-text {
             font-size: 2rem;
             font-weight: 800;
-            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
+            color: var(--light);
             letter-spacing: -0.025em;
         }
 
@@ -78,7 +90,7 @@
         }
 
         .nav-link {
-            color: var(--gray-700);
+            color: var(--light);
             text-decoration: none;
             font-weight: 600;
             padding: 0.75rem 1.5rem;
@@ -88,18 +100,21 @@
             align-items: center;
             gap: 0.5rem;
             font-size: 0.95rem;
+            background: rgba(255, 255, 255, 0.05);
         }
 
         .nav-link:hover {
-            color: var(--primary);
-            background: rgba(37, 99, 235, 0.05);
-            transform: translateY(-1px);
+            color: var(--primary-light);
+            background: rgba(59, 130, 246, 0.15);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.2);
         }
 
         .nav-link.active {
-            color: var(--primary);
-            background: rgba(37, 99, 235, 0.1);
+            color: var(--primary-light);
+            background: rgba(59, 130, 246, 0.2);
             font-weight: 700;
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
         }
 
         .cart-btn {
@@ -114,14 +129,14 @@
             font-weight: 700;
             transition: var(--transition);
             position: relative;
-            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2);
-            border: 2px solid transparent;
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+            border: 2px solid rgba(255, 255, 255, 0.1);
             font-size: 0.95rem;
         }
 
         .cart-btn:hover {
             transform: translateY(-3px);
-            box-shadow: 0 8px 20px rgba(37, 99, 235, 0.3);
+            box-shadow: 0 8px 20px rgba(59, 130, 246, 0.4);
             border-color: rgba(255, 255, 255, 0.2);
         }
 
@@ -139,27 +154,27 @@
             top: -0.5rem;
             right: -0.5rem;
             font-weight: 800;
-            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
         }
 
         .checkout-link {
             padding: 0.75rem 1.75rem;
-            background: var(--secondary);
+            background: var(--gray-300);
             color: var(--light);
             border-radius: var(--radius-sm);
             text-decoration: none;
             font-weight: 700;
             transition: var(--transition);
-            box-shadow: 0 4px 12px rgba(15, 23, 42, 0.2);
-            border: 2px solid transparent;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            border: 2px solid rgba(255, 255, 255, 0.1);
             font-size: 0.95rem;
         }
 
         .checkout-link:hover {
-            background: var(--secondary-light);
+            background: var(--gray-200);
             transform: translateY(-3px);
-            box-shadow: 0 8px 20px rgba(15, 23, 42, 0.3);
-            border-color: rgba(255, 255, 255, 0.1);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+            border-color: rgba(255, 255, 255, 0.2);
         }
 
         /* ===== ABOUT CONTAINER ===== */
@@ -167,16 +182,12 @@
             max-width: 1200px;
             margin: 4rem auto;
             padding: 0 2rem;
+            flex: 1;
         }
 
         /* ===== HERO SECTION ===== */
         .about-hero {
-            background: var(--gradient-dark),
-                        linear-gradient(rgba(15, 23, 42, 0.9), rgba(15, 23, 42, 0.9)),
-                        url('https://images.unsplash.com/photo-1441986300917-64674bd600d8?ixlib=rb-4.0.3&auto=format&fit=crop&w=1800&q=80');
-            background-size: cover;
-            background-position: center;
-            background-blend-mode: overlay;
+            background: var(--gradient-dark);
             padding: 6rem 4rem;
             border-radius: var(--radius);
             color: var(--light);
@@ -201,34 +212,34 @@
             font-size: 3.5rem;
             font-weight: 800;
             margin-bottom: 1.5rem;
-            background: linear-gradient(135deg, var(--light) 0%, var(--gray-200) 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            color: var(--light);
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
             letter-spacing: -0.025em;
+            animation: fadeInUp 1s ease-out;
         }
 
         .about-hero p {
             font-size: 1.3rem;
             max-width: 800px;
             margin: 0 auto;
-            opacity: 0.95;
-            color: var(--gray-200);
+            opacity: 0.9;
+            color: var(--gray-700);
             font-weight: 400;
+            animation: fadeInUp 1s ease-out 0.2s both;
         }
 
         /* ===== ABOUT SECTIONS ===== */
         .about-section {
-            background: var(--light);
+            background: var(--gray-100);
             padding: 4rem;
             border-radius: var(--radius);
             box-shadow: var(--shadow-lg);
             margin-bottom: 3rem;
             transition: var(--transition);
-            border: 2px solid var(--gray-200);
+            border: 2px solid var(--border);
             position: relative;
             overflow: hidden;
+            animation: fadeInUp 0.6s ease-out forwards;
         }
 
         .about-section::before {
@@ -247,6 +258,7 @@
             transform: translateY(-5px);
             box-shadow: var(--shadow-xl);
             border-color: var(--primary);
+            background: var(--gray-200);
         }
 
         .about-section:hover::before {
@@ -256,7 +268,7 @@
         .about-section h2 {
             font-size: 2.2rem;
             margin-bottom: 2rem;
-            color: var(--secondary);
+            color: var(--light);
             position: relative;
             padding-bottom: 1rem;
             font-weight: 800;
@@ -282,7 +294,7 @@
 
         /* ===== FOUNDER SECTION ===== */
         .founder-section {
-            background: var(--light);
+            background: var(--gray-100);
             padding: 4rem;
             border-radius: var(--radius);
             box-shadow: var(--shadow-lg);
@@ -291,21 +303,23 @@
             grid-template-columns: 1fr 2fr;
             gap: 4rem;
             align-items: center;
-            border: 2px solid var(--gray-200);
+            border: 2px solid var(--border);
             transition: var(--transition);
+            animation: fadeInUp 0.6s ease-out 0.2s both;
         }
 
         .founder-section:hover {
             transform: translateY(-5px);
             box-shadow: var(--shadow-xl);
             border-color: var(--primary);
+            background: var(--gray-200);
         }
 
         .founder-image-container {
             position: relative;
             border-radius: var(--radius);
             overflow: hidden;
-            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
             aspect-ratio: 1/1;
         }
 
@@ -327,7 +341,7 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: linear-gradient(135deg, rgba(37, 99, 235, 0.1) 0%, transparent 100%);
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.1) 0%, transparent 100%);
             opacity: 0;
             transition: var(--transition);
         }
@@ -339,17 +353,13 @@
         .founder-info h2 {
             font-size: 2.5rem;
             margin-bottom: 1.5rem;
-            color: var(--secondary);
+            color: var(--light);
             font-weight: 800;
-            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
         }
 
         .founder-info h3 {
             font-size: 1.5rem;
-            color: var(--primary);
+            color: var(--primary-light);
             margin-bottom: 1.5rem;
             font-weight: 700;
         }
@@ -363,23 +373,20 @@
 
         /* ===== CONTACT INFO ===== */
         .contact-info {
-            background: var(--light);
+            background: var(--gray-100);
             padding: 4rem;
             border-radius: var(--radius);
             box-shadow: var(--shadow-lg);
             text-align: center;
-            border: 2px solid var(--gray-200);
+            border: 2px solid var(--border);
+            animation: fadeInUp 0.6s ease-out 0.4s both;
         }
 
         .contact-info h2 {
             font-size: 2.5rem;
             margin-bottom: 3rem;
-            color: var(--secondary);
+            color: var(--light);
             font-weight: 800;
-            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
         }
 
         .contact-grid {
@@ -390,7 +397,7 @@
 
         .contact-card {
             padding: 2.5rem 2rem;
-            background: var(--gray-100);
+            background: var(--gray-200);
             border-radius: var(--radius);
             transition: var(--transition);
             border: 2px solid transparent;
@@ -461,9 +468,8 @@
         footer {
             background: var(--gradient-dark);
             color: var(--light);
-            padding: 4rem 2rem;
-            text-align: center;
-            margin-top: 6rem;
+            padding: 5rem 5% 2rem;
+            margin-top: auto;
             position: relative;
         }
 
@@ -477,11 +483,82 @@
             background: var(--gradient);
         }
 
-        footer p {
-            opacity: 0.8;
-            margin: 0.8rem 0;
-            font-size: 1rem;
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 4rem;
+            margin-bottom: 4rem;
+        }
+
+        .footer-column h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1.75rem;
+            font-weight: 700;
+            position: relative;
+            padding-bottom: 1rem;
+            color: var(--light);
+        }
+
+        .footer-column h3::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 50px;
+            height: 3px;
+            background: var(--primary);
+            border-radius: 1.5px;
+        }
+
+        .footer-column p,
+        .footer-column a {
+            color: var(--gray-700);
+            margin-bottom: 1rem;
+            display: block;
+            text-decoration: none;
+            transition: var(--transition);
+            font-size: 0.95rem;
             line-height: 1.6;
+        }
+
+        .footer-column a:hover {
+            color: var(--light);
+            padding-left: 0.75rem;
+            transform: translateX(5px);
+        }
+
+        .footer-contact {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+            color: var(--gray-700);
+            transition: var(--transition);
+        }
+
+        .contact-item:hover {
+            color: var(--light);
+            transform: translateX(5px);
+        }
+
+        .contact-item i {
+            color: var(--primary);
+            width: 20px;
+            font-size: 1.125rem;
+            margin-top: 0.125rem;
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 3rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--gray-700);
+            font-size: 0.95rem;
         }
 
         /* ===== ANIMATIONS ===== */
@@ -494,10 +571,6 @@
                 opacity: 1;
                 transform: translateY(0);
             }
-        }
-
-        .about-section, .founder-section, .contact-info {
-            animation: fadeInUp 0.6s ease-out forwards;
         }
 
         /* ===== RESPONSIVE ===== */
@@ -520,6 +593,11 @@
                 max-width: 400px;
                 margin: 0 auto;
             }
+            
+            .footer-grid {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 3rem;
+            }
         }
 
         @media (max-width: 768px) {
@@ -527,10 +605,6 @@
                 flex-direction: column;
                 gap: 1.5rem;
                 padding: 1rem;
-            }
-            
-            .navbar h1 {
-                font-size: 1.75rem;
             }
             
             .navbar-right {
@@ -577,6 +651,21 @@
             .founder-info h2 {
                 font-size: 2rem;
             }
+            
+            .footer-grid {
+                grid-template-columns: 1fr;
+                text-align: center;
+                gap: 3rem;
+            }
+            
+            .footer-column h3::after {
+                left: 50%;
+                transform: translateX(-50%);
+            }
+            
+            .contact-item {
+                justify-content: center;
+            }
         }
 
         @media (max-width: 480px) {
@@ -604,7 +693,12 @@
 </head>
 <body>
     <nav class="navbar">
-        <h1>Mashallah Boutique</h1>
+        <a href="index.html" class="logo-container">
+            <img src="https://i.ibb.co/99cyW29t/Navy-White-Elegant-Modest-Fashion-Boutique-Logo.png" 
+                 alt="Mashallah Boutique Logo" 
+                 class="logo">
+            <span class="logo-text">Mashallah Boutique</span>
+        </a>
         <div class="navbar-right">
             <a href="index.html" class="nav-link">
                 <i class="fas fa-home"></i>
@@ -692,9 +786,60 @@
         </div>
     </div>
 
+    <!-- Footer -->
     <footer>
-        <p>© 2026 Mashallah Boutique BY MA Developers. All Rights Reserved.</p>
-        <p>Premium Modest Fashion | Karachi, Pakistan</p>
+        <div class="footer-grid">
+            <div class="footer-column">
+                <h3>Mashallah Boutique</h3>
+                <p>Premium modest fashion since 2015. We blend tradition with contemporary style to bring you the finest modest wear.</p>
+            </div>
+            
+            <div class="footer-column">
+                <h3>Quick Links</h3>
+                <a href="index.html">
+                    <i class="fas fa-chevron-right"></i>
+                    Home
+                </a>
+                <a href="about.html">
+                    <i class="fas fa-chevron-right"></i>
+                    About Us
+                </a>
+                <a href="contact.html">
+                    <i class="fas fa-chevron-right"></i>
+                    Contact Us
+                </a>
+                <a href="cart.html">
+                    <i class="fas fa-chevron-right"></i>
+                    Shopping Cart
+                </a>
+                <a href="checkout.html">
+                    <i class="fas fa-chevron-right"></i>
+                    Checkout
+                </a>
+            </div>
+            
+            <div class="footer-column">
+                <h3>Contact Info</h3>
+                <div class="footer-contact">
+                    <div class="contact-item">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <span>Sector 11/2, near Dubai Center, Orangi Town, Karachi</span>
+                    </div>
+                    <div class="contact-item">
+                        <i class="fas fa-phone"></i>
+                        <span>+92 314 2007505</span>
+                    </div>
+                    <div class="contact-item">
+                        <i class="fas fa-envelope"></i>
+                        <span>ayanali7509@gmail.com</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="copyright">
+            <p>© 2026 Mashallah Boutique. All Rights Reserved. | Designed by MA Developers</p>
+        </div>
     </footer>
 
     <script>
