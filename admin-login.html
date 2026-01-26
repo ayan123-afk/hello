@@ -37,17 +37,38 @@
 
         .login-container h1 {
             color: #ffffff;
-            margin-bottom: 35px;
+            margin-bottom: 40px;
             font-size: 32px;
             font-weight: 700;
             letter-spacing: -0.5px;
             text-shadow: 0 2px 8px rgba(0, 0, 0, 0.8);
         }
 
+        .input-group {
+            margin-bottom: 30px;
+            text-align: left;
+        }
+
+        .input-icon {
+            display: block;
+            margin-bottom: 12px;
+            color: #3b82f6;
+            font-size: 24px;
+            text-align: center;
+        }
+
+        .input-label {
+            display: block;
+            margin-bottom: 10px;
+            color: #ffffff;
+            font-size: 15px;
+            font-weight: 500;
+            text-align: left;
+        }
+
         .login-container input {
             width: 100%;
             padding: 16px 20px;
-            margin-bottom: 24px;
             background: rgba(0, 0, 0, 0.7);
             border: 2px solid rgba(59, 130, 246, 0.4);
             border-radius: 10px;
@@ -75,7 +96,7 @@
 
         .login-container button {
             width: 100%;
-            padding: 17px;
+            padding: 18px;
             background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
             color: white;
             border: none;
@@ -84,9 +105,9 @@
             font-weight: 600;
             cursor: pointer;
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            margin-top: 10px;
+            margin-top: 20px;
             font-family: inherit;
-            letter-spacing: 0.5px;
+            letter-spacing: 1px;
             text-transform: uppercase;
             box-shadow: 0 4px 15px rgba(37, 99, 235, 0.4);
             position: relative;
@@ -122,19 +143,22 @@
         }
 
         .back-link {
-            display: inline-block;
-            margin-top: 25px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: 30px;
             color: #cbd5e1;
             text-decoration: none;
-            font-size: 14px;
+            font-size: 15px;
             font-weight: 500;
             transition: all 0.3s ease;
             font-family: inherit;
-            padding: 10px 20px;
+            padding: 12px 24px;
             border-radius: 8px;
             background: rgba(30, 41, 59, 0.7);
             border: 1px solid rgba(59, 130, 246, 0.3);
-            min-width: 180px;
+            min-width: 200px;
+            gap: 8px;
         }
 
         .back-link:hover {
@@ -146,6 +170,11 @@
             text-decoration: none;
         }
 
+        .back-link::before {
+            content: "←";
+            font-size: 18px;
+        }
+
         .logo {
             font-size: 56px;
             margin-bottom: 25px;
@@ -153,37 +182,9 @@
             text-shadow: 0 4px 12px rgba(59, 130, 246, 0.5);
         }
 
-        .input-group {
-            position: relative;
-            margin-bottom: 24px;
-        }
-
-        .input-group input {
-            padding-left: 50px;
-            width: 100%;
-        }
-
-        .input-icon {
-            position: absolute;
-            left: 18px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: #3b82f6;
-            font-size: 18px;
-            pointer-events: none;
-        }
-
         /* Form styling */
         .login-form {
             width: 100%;
-        }
-
-        /* Status messages */
-        .status-message {
-            color: #f87171;
-            font-size: 14px;
-            margin-top: 10px;
-            text-align: center;
         }
 
         /* Responsive design */
@@ -196,7 +197,7 @@
             
             .login-container h1 {
                 font-size: 28px;
-                margin-bottom: 30px;
+                margin-bottom: 35px;
                 color: white;
             }
             
@@ -212,16 +213,27 @@
                 color: white;
             }
             
+            .input-icon {
+                font-size: 22px;
+                margin-bottom: 10px;
+            }
+            
+            .input-label {
+                font-size: 14px;
+                margin-bottom: 8px;
+            }
+            
             .login-container button {
                 padding: 16px;
                 font-size: 15px;
                 color: white;
+                margin-top: 15px;
             }
             
             .back-link {
-                padding: 8px 16px;
-                font-size: 13px;
-                min-width: 160px;
+                padding: 10px 20px;
+                font-size: 14px;
+                min-width: 180px;
                 color: #cbd5e1;
             }
             
@@ -288,6 +300,11 @@
             color: #ffffff;
             text-shadow: 0 1px 3px rgba(0, 0, 0, 0.8);
         }
+
+        /* Add some spacing */
+        .input-group:last-child {
+            margin-bottom: 0;
+        }
     </style>
 </head>
 <body>
@@ -297,19 +314,21 @@
         
         <form class="login-form" action="#" method="POST">
             <div class="input-group">
-                <span class="input-icon">📧</span>
-                <input type="email" id="email" name="email" placeholder="Email Address" required>
+                <div class="input-icon">📧</div>
+                <label for="email" class="input-label">Email Address</label>
+                <input type="email" id="email" name="email" placeholder="Enter your email" required>
             </div>
             
             <div class="input-group">
-                <span class="input-icon">🔒</span>
-                <input type="password" id="password" name="password" placeholder="Password" required>
+                <div class="input-icon">🔒</div>
+                <label for="password" class="input-label">Password</label>
+                <input type="password" id="password" name="password" placeholder="Enter your password" required>
             </div>
             
-            <button type="submit">Login</button>
+            <button type="submit">LOGIN</button>
         </form>
         
-        <a href="index.html" class="back-link">← Back to Store</a>
+        <a href="index.html" class="back-link">Back to Store</a>
     </div>
 
     <!-- External JavaScript only -->
