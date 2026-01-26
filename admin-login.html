@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Login</title>
     <style>
         * {
@@ -11,84 +12,281 @@
         }
 
         body {
-            font-family: 'Segoe UI', sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            font-family: 'Segoe UI', 'Inter', system-ui, sans-serif;
+            background: linear-gradient(135deg, #000000 0%, #0a0a0a 50%, #111827 100%);
             min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
             padding: 20px;
+            color: white;
         }
 
         .login-container {
-            background: white;
-            padding: 40px;
-            border-radius: 12px;
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+            background: rgba(15, 23, 42, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 50px 40px;
+            border-radius: 16px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.7),
+                        0 0 0 1px rgba(59, 130, 246, 0.3);
             width: 100%;
-            max-width: 400px;
+            max-width: 420px;
             text-align: center;
+            border: 1px solid rgba(59, 130, 246, 0.4);
         }
 
         .login-container h1 {
-            color: #333;
-            margin-bottom: 30px;
-            font-size: 28px;
+            color: #ffffff;
+            margin-bottom: 35px;
+            font-size: 32px;
             font-weight: 700;
+            letter-spacing: -0.5px;
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.8);
         }
 
         .login-container input {
             width: 100%;
-            padding: 14px;
-            margin-bottom: 20px;
-            border: 2px solid #e0e0e0;
-            border-radius: 8px;
+            padding: 16px 20px;
+            margin-bottom: 24px;
+            background: rgba(0, 0, 0, 0.7);
+            border: 2px solid rgba(59, 130, 246, 0.4);
+            border-radius: 10px;
             font-size: 16px;
-            transition: all 0.3s;
+            font-weight: 500;
+            color: #ffffff;
+            transition: all 0.3s ease;
+            font-family: inherit;
+        }
+
+        .login-container input::placeholder {
+            color: #a5b4cb;
+            font-weight: 400;
+            opacity: 0.8;
         }
 
         .login-container input:focus {
             outline: none;
-            border-color: #667eea;
-            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.25),
+                        inset 0 0 0 1px rgba(255, 255, 255, 0.1);
+            background: rgba(0, 0, 0, 0.9);
+            transform: translateY(-1px);
         }
 
         .login-container button {
             width: 100%;
-            padding: 15px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 17px;
+            background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
             color: white;
             border: none;
-            border-radius: 8px;
-            font-size: 18px;
+            border-radius: 10px;
+            font-size: 16px;
             font-weight: 600;
             cursor: pointer;
-            transition: all 0.3s;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             margin-top: 10px;
+            font-family: inherit;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            box-shadow: 0 4px 15px rgba(37, 99, 235, 0.4);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .login-container button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: 0.5s;
         }
 
         .login-container button:hover {
+            background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
             transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+            box-shadow: 0 8px 25px rgba(37, 99, 235, 0.6);
+            color: white;
+        }
+
+        .login-container button:hover::before {
+            left: 100%;
+        }
+
+        .login-container button:active {
+            transform: translateY(0);
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.4);
+            color: white;
         }
 
         .back-link {
-            display: block;
-            margin-top: 20px;
-            color: #666;
+            display: inline-block;
+            margin-top: 25px;
+            color: #cbd5e1;
             text-decoration: none;
             font-size: 14px;
-            transition: color 0.3s;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            font-family: inherit;
+            padding: 10px 20px;
+            border-radius: 8px;
+            background: rgba(30, 41, 59, 0.7);
+            border: 1px solid rgba(59, 130, 246, 0.3);
+            min-width: 180px;
         }
 
         .back-link:hover {
-            color: #667eea;
+            color: #ffffff;
+            background: rgba(30, 64, 175, 0.3);
+            border-color: rgba(59, 130, 246, 0.6);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            text-decoration: none;
         }
 
         .logo {
-            font-size: 48px;
-            margin-bottom: 20px;
-            color: #667eea;
+            font-size: 56px;
+            margin-bottom: 25px;
+            color: #3b82f6;
+            text-shadow: 0 4px 12px rgba(59, 130, 246, 0.5);
+        }
+
+        .input-group {
+            position: relative;
+            margin-bottom: 24px;
+        }
+
+        .input-group input {
+            padding-left: 50px;
+            width: 100%;
+        }
+
+        .input-icon {
+            position: absolute;
+            left: 18px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #3b82f6;
+            font-size: 18px;
+            pointer-events: none;
+        }
+
+        /* Form styling */
+        .login-form {
+            width: 100%;
+        }
+
+        /* Status messages */
+        .status-message {
+            color: #f87171;
+            font-size: 14px;
+            margin-top: 10px;
+            text-align: center;
+        }
+
+        /* Responsive design */
+        @media (max-width: 480px) {
+            .login-container {
+                padding: 40px 30px;
+                max-width: 90%;
+                margin: 0 auto;
+            }
+            
+            .login-container h1 {
+                font-size: 28px;
+                margin-bottom: 30px;
+                color: white;
+            }
+            
+            .logo {
+                font-size: 48px;
+                margin-bottom: 20px;
+                color: #3b82f6;
+            }
+            
+            .login-container input {
+                padding: 14px 18px;
+                font-size: 15px;
+                color: white;
+            }
+            
+            .login-container button {
+                padding: 16px;
+                font-size: 15px;
+                color: white;
+            }
+            
+            .back-link {
+                padding: 8px 16px;
+                font-size: 13px;
+                min-width: 160px;
+                color: #cbd5e1;
+            }
+            
+            .back-link:hover {
+                color: white;
+            }
+        }
+
+        /* Focus states for accessibility */
+        *:focus {
+            outline: 2px solid #3b82f6;
+            outline-offset: 3px;
+        }
+
+        /* Animation for the container */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .login-container {
+            animation: fadeIn 0.6s ease-out;
+        }
+
+        /* Ensure all text is white */
+        .login-container * {
+            color: white;
+        }
+
+        /* Specific overrides for colored elements */
+        .input-icon {
+            color: #3b82f6;
+        }
+        
+        .logo {
+            color: #3b82f6;
+        }
+        
+        .back-link {
+            color: #cbd5e1;
+        }
+        
+        .back-link:hover {
+            color: white;
+        }
+        
+        /* Input placeholder color */
+        ::placeholder {
+            color: #a5b4cb !important;
+            opacity: 0.8 !important;
+        }
+        
+        /* Better contrast for all text */
+        .login-container h1,
+        .login-container p,
+        .login-container label,
+        .login-container span {
+            color: #ffffff;
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.8);
         }
     </style>
 </head>
@@ -96,12 +294,25 @@
     <div class="login-container">
         <div class="logo">🔐</div>
         <h1>Admin Login</h1>
-        <input type="email" id="email" placeholder="Email" required>
-        <input type="password" id="password" placeholder="Password" required>
-        <button onclick="login()">Login</button>
+        
+        <form class="login-form" action="#" method="POST">
+            <div class="input-group">
+                <span class="input-icon">📧</span>
+                <input type="email" id="email" name="email" placeholder="Email Address" required>
+            </div>
+            
+            <div class="input-group">
+                <span class="input-icon">🔒</span>
+                <input type="password" id="password" name="password" placeholder="Password" required>
+            </div>
+            
+            <button type="submit">Login</button>
+        </form>
+        
         <a href="index.html" class="back-link">← Back to Store</a>
     </div>
 
+    <!-- External JavaScript only -->
     <script type="module" src="admin-login.js"></script>
 </body>
 </html>
