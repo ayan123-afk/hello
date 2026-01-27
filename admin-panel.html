@@ -2,542 +2,935 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Admin Panel - Mashallah Boutique</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard - Mashallah Boutique</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
     * {
         margin: 0;
         padding: 0;
         box-sizing: border-box;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     }
 
     :root {
-        --primary-blue: #1e40af;
-        --dark-blue: #1e3a8a;
-        --light-blue: #3b82f6;
+        --primary-blue: #2563eb;
+        --dark-blue: #1e40af;
+        --light-blue: #60a5fa;
         --black: #0f172a;
         --dark-gray: #1e293b;
-        --light-gray: #f1f5f9;
+        --light-bg: #f8fafc;
         --white: #ffffff;
         --success: #10b981;
         --danger: #ef4444;
         --warning: #f59e0b;
+        --info: #3b82f6;
+        --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+        --hover-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
     }
 
     body {
-        font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
-        background: linear-gradient(135deg, #000000 0%, #0f172a 100%);
-        color: var(--white);
+        background-color: var(--light-bg);
+        color: #333;
         min-height: 100vh;
-        line-height: 1.6;
     }
 
-    /* Navbar */
-    .navbar {
+    /* Admin Layout */
+    .admin-container {
         display: flex;
-        justify-content: space-between;
-        align-items: center;
-        background: linear-gradient(135deg, var(--black) 0%, var(--dark-blue) 100%);
-        color: white;
-        padding: 18px 40px;
-        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
-        position: sticky;
-        top: 0;
-        z-index: 1000;
-        border-bottom: 2px solid var(--light-blue);
+        min-height: 100vh;
     }
 
-    .navbar h1 {
-        font-size: 26px;
+    /* Sidebar */
+    .sidebar {
+        width: 250px;
+        background: linear-gradient(180deg, var(--black) 0%, var(--dark-gray) 100%);
+        color: white;
+        padding: 25px 0;
+        position: fixed;
+        height: 100vh;
+        box-shadow: 5px 0 20px rgba(0, 0, 0, 0.1);
+        z-index: 100;
+    }
+
+    .logo {
+        text-align: center;
+        padding: 0 20px 30px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        margin-bottom: 30px;
+    }
+
+    .logo h1 {
+        font-size: 24px;
         font-weight: 700;
-        background: linear-gradient(135deg, #60a5fa 0%, var(--light-blue) 100%);
+        background: linear-gradient(135deg, #60a5fa 0%, var(--primary-blue) 100%);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
         background-clip: text;
     }
 
-    .navbar .btn {
-        background: linear-gradient(135deg, var(--primary-blue) 0%, var(--dark-blue) 100%);
-        color: white;
-        border: none;
-        padding: 10px 24px;
-        border-radius: 8px;
-        cursor: pointer;
-        font-weight: 600;
-        font-size: 15px;
-        transition: all 0.3s ease;
-        box-shadow: 0 4px 12px rgba(30, 64, 175, 0.3);
+    .logo p {
+        color: #94a3b8;
+        font-size: 13px;
+        margin-top: 5px;
     }
 
-    .navbar .btn:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 6px 18px rgba(30, 64, 175, 0.4);
-        background: linear-gradient(135deg, var(--light-blue) 0%, var(--primary-blue) 100%);
+    .nav-links {
+        list-style: none;
+        padding: 0 20px;
+    }
+
+    .nav-links li {
+        margin-bottom: 10px;
+    }
+
+    .nav-links a {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        color: #cbd5e1;
+        text-decoration: none;
+        padding: 14px 18px;
+        border-radius: 10px;
+        transition: all 0.3s ease;
+        font-weight: 500;
+    }
+
+    .nav-links a:hover {
+        background: rgba(59, 130, 246, 0.1);
+        color: white;
+        transform: translateX(5px);
+    }
+
+    .nav-links a.active {
+        background: linear-gradient(135deg, var(--primary-blue) 0%, var(--dark-blue) 100%);
+        color: white;
+        box-shadow: 0 4px 15px rgba(37, 99, 235, 0.3);
+    }
+
+    .nav-links i {
+        font-size: 18px;
+        width: 24px;
+        text-align: center;
     }
 
     /* Main Content */
-    main {
-        max-width: 1400px;
-        margin: 40px auto;
-        padding: 0 30px;
-    }
-
-    /* Sections */
-    section {
-        background: linear-gradient(145deg, rgba(30, 41, 59, 0.8) 0%, rgba(15, 23, 42, 0.9) 100%);
+    .main-content {
+        flex: 1;
+        margin-left: 250px;
         padding: 30px;
-        border-radius: 16px;
-        margin-bottom: 40px;
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
-        border: 1px solid rgba(59, 130, 246, 0.2);
-        backdrop-filter: blur(10px);
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
     }
 
-    section:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 15px 40px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(59, 130, 246, 0.3);
+    /* Header */
+    .header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 30px;
+        padding-bottom: 20px;
+        border-bottom: 1px solid #e2e8f0;
     }
 
-    h2 {
-        margin-bottom: 25px;
-        color: var(--white);
-        font-size: 24px;
+    .header h2 {
+        color: var(--black);
+        font-size: 28px;
         font-weight: 700;
-        padding-bottom: 15px;
-        border-bottom: 2px solid rgba(59, 130, 246, 0.3);
     }
 
-    /* Add Product Section */
-    #add-product {
-        position: relative;
-        overflow: hidden;
+    .user-info {
+        display: flex;
+        align-items: center;
+        gap: 15px;
     }
 
-    #add-product input {
-        width: 100%;
-        padding: 14px 16px;
-        margin-bottom: 20px;
-        background: rgba(0, 0, 0, 0.5);
-        border: 2px solid rgba(59, 130, 246, 0.2);
-        border-radius: 10px;
-        font-size: 15px;
-        color: var(--white);
-        transition: all 0.3s ease;
-        font-family: inherit;
-    }
-
-    #add-product input::placeholder {
-        color: #94a3b8;
-        opacity: 0.8;
-    }
-
-    #add-product input:focus {
-        outline: none;
-        border-color: var(--light-blue);
-        box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.15);
-        background: rgba(0, 0, 0, 0.7);
-    }
-
-    #add-product input[type="file"] {
-        padding: 12px;
-        border: 2px dashed rgba(59, 130, 246, 0.4);
-        background: rgba(30, 64, 175, 0.1);
-        cursor: pointer;
-    }
-
-    #add-product input[type="file"]:hover {
-        border-color: var(--light-blue);
-        background: rgba(30, 64, 175, 0.2);
-    }
-
-    #add-product button {
+    .user-info button {
         background: linear-gradient(135deg, var(--primary-blue) 0%, var(--dark-blue) 100%);
         color: white;
         border: none;
-        padding: 16px;
-        border-radius: 10px;
-        font-size: 16px;
-        font-weight: 600;
+        padding: 10px 20px;
+        border-radius: 8px;
         cursor: pointer;
-        width: 100%;
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+        gap: 8px;
         transition: all 0.3s ease;
-        margin-top: 10px;
+        box-shadow: var(--card-shadow);
     }
 
-    #add-product button:hover {
+    .user-info button:hover {
+        transform: translateY(-2px);
+        box-shadow: var(--hover-shadow);
         background: linear-gradient(135deg, var(--light-blue) 0%, var(--primary-blue) 100%);
-        transform: translateY(-2px);
-        box-shadow: 0 8px 20px rgba(30, 64, 175, 0.4);
-    }
-
-    /* Preview Image */
-    #preview {
-        text-align: center;
-        margin-top: 20px;
-    }
-
-    #preview img {
-        max-width: 250px;
-        max-height: 250px;
-        border-radius: 12px;
-        margin-top: 15px;
-        border: 3px solid rgba(59, 130, 246, 0.3);
-        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
-        transition: transform 0.3s ease;
-    }
-
-    #preview img:hover {
-        transform: scale(1.05);
-    }
-
-    /* Products List */
-    #product-list-admin.products {
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-        gap: 35px;
-        padding: 20px 0;
-    }
-
-    .product-card {
-        background: linear-gradient(145deg, rgba(30, 41, 59, 0.8) 0%, rgba(15, 23, 42, 0.9) 100%);
-        border-radius: 16px;
-        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
-        overflow: hidden;
-        text-align: center;
-        transition: all 0.3s ease;
-        border: 1px solid rgba(59, 130, 246, 0.2);
-    }
-
-    .product-card:hover {
-        transform: translateY(-10px) scale(1.02);
-        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(59, 130, 246, 0.3);
-    }
-
-    .product-card img {
-        width: 100%;
-        height: 220px;
-        object-fit: cover;
-        transition: transform 0.5s ease;
-    }
-
-    .product-card:hover img {
-        transform: scale(1.05);
-    }
-
-    .product-card h3 {
-        margin: 10px 0 5px 0;
-        padding: 0 15px;
-        font-size: 1.2rem;
-        color: var(--white);
-        font-weight: 600;
-    }
-
-    .product-card p {
-        margin: 5px 0;
-        padding: 0 15px;
-        color: #cbd5e1;
-        font-size: 0.95rem;
-    }
-
-    .product-card .price {
-        margin: 10px 0;
-        font-size: 1.5rem;
-        font-weight: 800;
-        color: #60a5fa;
-        background: linear-gradient(135deg, #60a5fa 0%, var(--light-blue) 100%);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        background-clip: text;
-    }
-
-    .product-card button {
-        margin: 10px 0 20px;
-        background: var(--danger);
-        border: none;
-        color: #fff;
-        padding: 8px 15px;
-        border-radius: 5px;
-        cursor: pointer;
-        font-weight: 600;
-        transition: all 0.3s ease;
-    }
-
-    .product-card button:hover {
-        background: #dc2626;
-        transform: translateY(-2px);
-        box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
-    }
-
-    /* Orders List */
-    #orders-list {
-        background: rgba(30, 41, 59, 0.5);
-        padding: 20px;
-        border-radius: 12px;
-        min-height: 200px;
-    }
-
-    .order-item {
-        background: linear-gradient(145deg, rgba(30, 41, 59, 0.7) 0%, rgba(15, 23, 42, 0.8) 100%);
-        padding: 20px;
-        margin-bottom: 20px;
-        border-radius: 12px;
-        border-left: 5px solid var(--light-blue);
-        transition: all 0.3s ease;
-    }
-
-    .order-item:hover {
-        transform: translateX(5px);
-        border-left-color: var(--primary-blue);
-        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
-    }
-
-    .order-item h3 {
-        font-size: 17px;
-        margin-bottom: 10px;
-        color: var(--white);
-    }
-
-    .order-item p {
-        color: #cbd5e1;
-        font-size: 14px;
-        margin-bottom: 8px;
     }
 
     /* Stats Cards */
-    .stats-container {
+    .stats-grid {
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
         gap: 25px;
         margin-bottom: 40px;
     }
 
     .stat-card {
-        background: linear-gradient(145deg, rgba(30, 41, 59, 0.8) 0%, rgba(15, 23, 42, 0.9) 100%);
-        padding: 25px;
+        background: white;
         border-radius: 16px;
-        text-align: center;
-        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
-        border: 1px solid rgba(59, 130, 246, 0.2);
+        padding: 25px;
+        box-shadow: var(--card-shadow);
         transition: all 0.3s ease;
+        border-left: 5px solid var(--primary-blue);
     }
 
     .stat-card:hover {
         transform: translateY(-5px);
-        box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4);
-        border-color: rgba(59, 130, 246, 0.4);
+        box-shadow: var(--hover-shadow);
     }
 
+    .stat-card.products {
+        border-left-color: var(--info);
+    }
+
+    .stat-card.orders {
+        border-left-color: var(--success);
+    }
+
+    .stat-card.revenue {
+        border-left-color: var(--warning);
+    }
+
+    .stat-card.customers {
+        border-left-color: var(--danger);
+    }
+
+    .stat-card .stat-icon {
+        font-size: 40px;
+        margin-bottom: 15px;
+        opacity: 0.8;
+    }
+
+    .stat-card.products .stat-icon { color: var(--info); }
+    .stat-card.orders .stat-icon { color: var(--success); }
+    .stat-card.revenue .stat-icon { color: var(--warning); }
+    .stat-card.customers .stat-icon { color: var(--danger); }
+
     .stat-card h3 {
-        font-size: 28px;
-        margin-bottom: 10px;
-        color: var(--white);
+        font-size: 32px;
+        font-weight: 700;
+        margin-bottom: 8px;
+        color: var(--black);
     }
 
     .stat-card p {
-        color: #cbd5e1;
+        color: #64748b;
         font-size: 15px;
+        font-weight: 500;
+    }
+
+    .stat-card .trend {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        margin-top: 10px;
+        font-size: 14px;
+    }
+
+    .trend.up {
+        color: var(--success);
+    }
+
+    .trend.down {
+        color: var(--danger);
+    }
+
+    /* Dashboard Sections */
+    .dashboard-sections {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 30px;
+        margin-bottom: 30px;
+    }
+
+    @media (max-width: 1200px) {
+        .dashboard-sections {
+            grid-template-columns: 1fr;
+        }
+    }
+
+    .section-card {
+        background: white;
+        border-radius: 16px;
+        padding: 30px;
+        box-shadow: var(--card-shadow);
+        transition: all 0.3s ease;
+    }
+
+    .section-card:hover {
+        box-shadow: var(--hover-shadow);
+    }
+
+    .section-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 25px;
+        padding-bottom: 15px;
+        border-bottom: 1px solid #e2e8f0;
+    }
+
+    .section-header h3 {
+        font-size: 20px;
+        font-weight: 700;
+        color: var(--black);
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .section-header i {
+        color: var(--primary-blue);
+    }
+
+    .section-header button {
+        background: var(--primary-blue);
+        color: white;
+        border: none;
+        padding: 8px 16px;
+        border-radius: 6px;
+        font-size: 14px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+
+    .section-header button:hover {
+        background: var(--dark-blue);
+        transform: translateY(-2px);
+    }
+
+    /* Add Product Form */
+    .form-group {
+        margin-bottom: 20px;
+    }
+
+    .form-group label {
+        display: block;
+        margin-bottom: 8px;
+        font-weight: 600;
+        color: #475569;
+        font-size: 15px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .form-group label i {
+        color: var(--primary-blue);
+    }
+
+    .form-control {
+        width: 100%;
+        padding: 14px 16px;
+        border: 2px solid #e2e8f0;
+        border-radius: 10px;
+        font-size: 15px;
+        transition: all 0.3s ease;
+        background: white;
+    }
+
+    .form-control:focus {
+        outline: none;
+        border-color: var(--primary-blue);
+        box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+    }
+
+    .form-control::placeholder {
+        color: #94a3b8;
+    }
+
+    .file-input-wrapper {
+        position: relative;
+        overflow: hidden;
+        display: inline-block;
+        width: 100%;
+    }
+
+    .file-input-wrapper input[type="file"] {
+        position: absolute;
+        left: 0;
+        top: 0;
+        opacity: 0;
+        cursor: pointer;
+        width: 100%;
+        height: 100%;
+    }
+
+    .file-input-label {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        padding: 14px;
+        background: #f8fafc;
+        border: 2px dashed #cbd5e1;
+        border-radius: 10px;
+        color: #64748b;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+
+    .file-input-label:hover {
+        border-color: var(--primary-blue);
+        background: rgba(37, 99, 235, 0.05);
+    }
+
+    .file-input-label i {
+        font-size: 20px;
+    }
+
+    .submit-btn {
+        width: 100%;
+        padding: 16px;
+        background: linear-gradient(135deg, var(--primary-blue) 0%, var(--dark-blue) 100%);
+        color: white;
+        border: none;
+        border-radius: 10px;
+        font-size: 16px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        margin-top: 10px;
+    }
+
+    .submit-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 20px rgba(37, 99, 235, 0.3);
+        background: linear-gradient(135deg, var(--light-blue) 0%, var(--primary-blue) 100%);
+    }
+
+    .submit-btn:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+        transform: none !important;
+    }
+
+    /* Image Preview */
+    .image-preview {
+        text-align: center;
+        margin-top: 20px;
+    }
+
+    .preview-img {
+        max-width: 200px;
+        max-height: 200px;
+        border-radius: 12px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        border: 3px solid #e2e8f0;
+    }
+
+    /* Products Grid */
+    .products-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        gap: 25px;
+        margin-top: 20px;
+    }
+
+    .product-item {
+        background: white;
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: var(--card-shadow);
+        transition: all 0.3s ease;
+        border: 1px solid #e2e8f0;
+    }
+
+    .product-item:hover {
+        transform: translateY(-5px);
+        box-shadow: var(--hover-shadow);
+    }
+
+    .product-img {
+        width: 100%;
+        height: 180px;
+        object-fit: cover;
+        background: #f1f5f9;
+    }
+
+    .product-info {
+        padding: 20px;
+    }
+
+    .product-info h4 {
+        font-size: 17px;
+        font-weight: 700;
+        margin-bottom: 8px;
+        color: var(--black);
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .product-price {
+        font-size: 20px;
+        font-weight: 800;
+        color: var(--primary-blue);
+        margin-bottom: 15px;
+    }
+
+    .product-actions {
+        display: flex;
+        gap: 10px;
+    }
+
+    .btn-delete {
+        flex: 1;
+        background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+        color: white;
+        border: none;
+        padding: 10px;
+        border-radius: 8px;
+        cursor: pointer;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+    }
+
+    .btn-delete:hover {
+        background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
+    }
+
+    .btn-edit {
+        flex: 1;
+        background: linear-gradient(135deg, var(--warning) 0%, #d97706 100%);
+        color: white;
+        border: none;
+        padding: 10px;
+        border-radius: 8px;
+        cursor: pointer;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+    }
+
+    .btn-edit:hover {
+        background: linear-gradient(135deg, #d97706 0%, var(--warning) 100%);
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(245, 158, 11, 0.3);
+    }
+
+    /* Orders Table */
+    .orders-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+    }
+
+    .orders-table th {
+        background: #f8fafc;
+        padding: 15px;
+        text-align: left;
+        font-weight: 600;
+        color: #475569;
+        border-bottom: 2px solid #e2e8f0;
+    }
+
+    .orders-table td {
+        padding: 15px;
+        border-bottom: 1px solid #e2e8f0;
+        vertical-align: middle;
+    }
+
+    .orders-table tr:hover {
+        background: #f8fafc;
+    }
+
+    .order-status {
+        display: inline-block;
+        padding: 6px 12px;
+        border-radius: 20px;
+        font-size: 13px;
+        font-weight: 600;
+    }
+
+    .status-pending {
+        background: rgba(245, 158, 11, 0.1);
+        color: var(--warning);
+        border: 1px solid rgba(245, 158, 11, 0.2);
+    }
+
+    .status-delivered {
+        background: rgba(16, 185, 129, 0.1);
+        color: var(--success);
+        border: 1px solid rgba(16, 185, 129, 0.2);
+    }
+
+    .action-buttons {
+        display: flex;
+        gap: 8px;
+    }
+
+    .btn-small {
+        padding: 6px 12px;
+        border-radius: 6px;
+        font-size: 13px;
+        font-weight: 600;
+        cursor: pointer;
+        border: none;
+        transition: all 0.3s ease;
+    }
+
+    .btn-success {
+        background: var(--success);
+        color: white;
+    }
+
+    .btn-success:hover {
+        background: #0da271;
+        transform: translateY(-2px);
+    }
+
+    .btn-warning {
+        background: var(--warning);
+        color: white;
+    }
+
+    .btn-warning:hover {
+        background: #d97706;
+        transform: translateY(-2px);
+    }
+
+    /* Empty State */
+    .empty-state {
+        text-align: center;
+        padding: 60px 20px;
+        color: #64748b;
+    }
+
+    .empty-state i {
+        font-size: 60px;
+        margin-bottom: 20px;
+        color: #cbd5e1;
+    }
+
+    .empty-state h3 {
+        font-size: 20px;
+        margin-bottom: 10px;
+        color: #475569;
+    }
+
+    /* Loading Spinner */
+    .spinner {
+        display: inline-block;
+        width: 20px;
+        height: 20px;
+        border: 3px solid rgba(59, 130, 246, 0.3);
+        border-radius: 50%;
+        border-top-color: var(--primary-blue);
+        animation: spin 1s ease-in-out infinite;
+    }
+
+    @keyframes spin {
+        to { transform: rotate(360deg); }
     }
 
     /* Responsive */
-    @media (max-width: 768px) {
-        .navbar {
-            padding: 15px 20px;
-            flex-direction: column;
-            gap: 15px;
-            text-align: center;
+    @media (max-width: 992px) {
+        .sidebar {
+            width: 70px;
+            overflow: hidden;
         }
         
-        main {
-            padding: 0 20px;
-            margin: 25px auto;
+        .sidebar .logo h1,
+        .sidebar .logo p,
+        .sidebar .nav-links span {
+            display: none;
         }
         
-        section {
-            padding: 25px;
-            margin-bottom: 30px;
+        .main-content {
+            margin-left: 70px;
         }
         
-        #product-list-admin.products {
-            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-            gap: 25px;
-        }
-        
-        .stats-container {
-            grid-template-columns: 1fr;
+        .stats-grid {
+            grid-template-columns: repeat(2, 1fr);
         }
     }
 
-    @media (max-width: 480px) {
-        .navbar h1 {
-            font-size: 22px;
-        }
-        
-        h2 {
-            font-size: 20px;
-        }
-        
-        section {
+    @media (max-width: 768px) {
+        .main-content {
             padding: 20px;
         }
         
-        #product-list-admin.products {
+        .stats-grid {
             grid-template-columns: 1fr;
+        }
+        
+        .products-grid {
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        }
+        
+        .orders-table {
+            display: block;
+            overflow-x: auto;
         }
     }
 
-    /* Scrollbar */
-    ::-webkit-scrollbar {
-        width: 10px;
+    /* Toast Notification */
+    .toast {
+        position: fixed;
+        top: 30px;
+        right: 30px;
+        padding: 15px 25px;
+        border-radius: 10px;
+        color: white;
+        font-weight: 500;
+        z-index: 1000;
+        animation: slideIn 0.3s ease, fadeOut 0.3s ease 2.7s;
+        animation-fill-mode: forwards;
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        max-width: 400px;
     }
 
-    ::-webkit-scrollbar-track {
-        background: var(--black);
+    @keyframes slideIn {
+        from { transform: translateX(100%); opacity: 0; }
+        to { transform: translateX(0); opacity: 1; }
     }
 
-    ::-webkit-scrollbar-thumb {
-        background: linear-gradient(135deg, var(--light-blue) 0%, var(--primary-blue) 100%);
-        border-radius: 5px;
+    @keyframes fadeOut {
+        from { opacity: 1; }
+        to { opacity: 0; visibility: hidden; }
     }
 
-    ::-webkit-scrollbar-thumb:hover {
-        background: linear-gradient(135deg, var(--primary-blue) 0%, var(--dark-blue) 100%);
+    .toast.success {
+        background: linear-gradient(135deg, var(--success) 0%, #059669 100%);
     }
 
-    /* Animations */
-    @keyframes fadeIn {
-        from { opacity: 0; transform: translateY(20px); }
-        to { opacity: 1; transform: translateY(0); }
+    .toast.error {
+        background: linear-gradient(135deg, var(--danger) 0%, #dc2626 100%);
     }
 
-    section {
-        animation: fadeIn 0.6s ease-out;
+    .toast.info {
+        background: linear-gradient(135deg, var(--info) 0%, var(--primary-blue) 100%);
     }
-
-    .product-card {
-        animation: fadeIn 0.6s ease-out;
-    }
-
-    /* Input focus animation */
-    #add-product input:focus {
-        animation: pulse 1.5s infinite;
-    }
-
-    @keyframes pulse {
-        0% { box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.15); }
-        50% { box-shadow: 0 0 0 6px rgba(59, 130, 246, 0.25); }
-        100% { box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.15); }
-    }
-
-    /* Button click effect */
-    .navbar .btn:active,
-    #add-product button:active,
-    .product-card button:active {
-        transform: translateY(0);
-    }
-
-    /* Shimmer effect for add product section */
-    #add-product::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: -100%;
-        width: 100%;
-        height: 3px;
-        background: linear-gradient(90deg, transparent, var(--light-blue), transparent);
-        animation: shimmer 3s infinite;
-    }
-
-    @keyframes shimmer {
-        0% { left: -100%; }
-        100% { left: 100%; }
-    }
-
-    /* Card stagger animation */
-    .product-card:nth-child(1) { animation-delay: 0.1s; }
-    .product-card:nth-child(2) { animation-delay: 0.2s; }
-    .product-card:nth-child(3) { animation-delay: 0.3s; }
-    .product-card:nth-child(4) { animation-delay: 0.4s; }
-
-    /* Order item animation */
-    .order-item {
-        animation: slideInRight 0.5s ease-out;
-    }
-
-    @keyframes slideInRight {
-        from { opacity: 0; transform: translateX(20px); }
-        to { opacity: 1; transform: translateX(0); }
-    }
-
-    .order-item:nth-child(1) { animation-delay: 0.1s; }
-    .order-item:nth-child(2) { animation-delay: 0.2s; }
-    .order-item:nth-child(3) { animation-delay: 0.3s; }
-
-    /* Stats cards animation */
-    .stat-card {
-        animation: fadeInUp 0.6s ease-out;
-    }
-
-    @keyframes fadeInUp {
-        from { opacity: 0; transform: translateY(30px); }
-        to { opacity: 1; transform: translateY(0); }
-    }
-
-    .stat-card:nth-child(1) { animation-delay: 0.1s; }
-    .stat-card:nth-child(2) { animation-delay: 0.2s; }
-    .stat-card:nth-child(3) { animation-delay: 0.3s; }
-    .stat-card:nth-child(4) { animation-delay: 0.4s; }
   </style>
 </head>
 <body>
-  <nav class="navbar">
-    <h1>Admin Panel</h1>
-    <button onclick="logout()" class="btn">Logout</button>
-  </nav>
-
-  <main>
-    <!-- Stats Cards -->
-    <div class="stats-container">
-      <div class="stat-card">
-        <h3 id="total-products">0</h3>
-        <p>Total Products</p>
+  <div class="admin-container">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="logo">
+        <h1>Admin</h1>
+        <p>Mashallah Boutique</p>
       </div>
-      <div class="stat-card">
-        <h3 id="total-orders">0</h3>
-        <p>Total Orders</p>
-      </div>
-      <div class="stat-card">
-        <h3 id="total-revenue">$0</h3>
-        <p>Total Revenue</p>
-      </div>
-      <div class="stat-card">
-        <h3 id="total-customers">0</h3>
-        <p>Total Customers</p>
-      </div>
-    </div>
+      <ul class="nav-links">
+        <li>
+          <a href="#" class="active" onclick="showDashboard()">
+            <i class="fas fa-home"></i>
+            <span>Dashboard</span>
+          </a>
+        </li>
+        <li>
+          <a href="#" onclick="showProducts()">
+            <i class="fas fa-box"></i>
+            <span>Products</span>
+          </a>
+        </li>
+        <li>
+          <a href="#" onclick="showOrders()">
+            <i class="fas fa-shopping-cart"></i>
+            <span>Orders</span>
+          </a>
+        </li>
+        <li>
+          <a href="#" onclick="showAddProduct()">
+            <i class="fas fa-plus-circle"></i>
+            <span>Add Product</span>
+          </a>
+        </li>
+      </ul>
+    </aside>
 
-    <!-- Add Product Section -->
-    <section id="add-product">
-      <h2>Add Product</h2>
-      <input type="text" id="pname" placeholder="Product Name">
-      <input type="text" id="pdesc" placeholder="Description">
-      <input type="number" id="pprice" placeholder="Price">
-      <input type="file" id="pimage" accept="image/*">
-      <button onclick="addProduct()">Upload Product</button>
-      <div id="preview" style="margin-top:10px;"></div>
-    </section>
+    <!-- Main Content -->
+    <main class="main-content">
+      <!-- Header -->
+      <div class="header">
+        <h2 id="page-title">Dashboard</h2>
+        <div class="user-info">
+          <button onclick="logout()">
+            <i class="fas fa-sign-out-alt"></i>
+            Logout
+          </button>
+        </div>
+      </div>
 
-    <!-- Products List -->
-    <section>
-      <h2>Products</h2>
-      <div id="product-list-admin" class="products"></div>
-    </section>
+      <!-- Dashboard Content (Default View) -->
+      <div id="dashboard-content">
+        <!-- Stats Cards -->
+        <div class="stats-grid">
+          <div class="stat-card products">
+            <div class="stat-icon"><i class="fas fa-box-open"></i></div>
+            <h3 id="total-products">0</h3>
+            <p>Total Products</p>
+            <div class="trend up">
+              <i class="fas fa-arrow-up"></i>
+              <span>Updated</span>
+            </div>
+          </div>
+          <div class="stat-card orders">
+            <div class="stat-icon"><i class="fas fa-shopping-cart"></i></div>
+            <h3 id="total-orders">0</h3>
+            <p>Total Orders</p>
+            <div class="trend up">
+              <i class="fas fa-arrow-up"></i>
+              <span>Updated</span>
+            </div>
+          </div>
+          <div class="stat-card revenue">
+            <div class="stat-icon"><i class="fas fa-dollar-sign"></i></div>
+            <h3 id="total-revenue">₹0</h3>
+            <p>Total Revenue</p>
+            <div class="trend up">
+              <i class="fas fa-arrow-up"></i>
+              <span>Updated</span>
+            </div>
+          </div>
+          <div class="stat-card customers">
+            <div class="stat-icon"><i class="fas fa-users"></i></div>
+            <h3 id="total-customers">0</h3>
+            <p>Total Customers</p>
+            <div class="trend up">
+              <i class="fas fa-arrow-up"></i>
+              <span>Updated</span>
+            </div>
+          </div>
+        </div>
 
-    <!-- Orders List -->
-    <section>
-      <h2>Orders</h2>
-      <div id="orders-list"></div>
-    </section>
-  </main>
+        <!-- Recent Orders & Products -->
+        <div class="dashboard-sections">
+          <!-- Recent Orders -->
+          <div class="section-card">
+            <div class="section-header">
+              <h3><i class="fas fa-clock"></i> Recent Orders</h3>
+              <button onclick="showOrders()">View All</button>
+            </div>
+            <div id="recent-orders">
+              <!-- Recent orders will be loaded here -->
+              <div class="empty-state">
+                <i class="fas fa-shopping-cart"></i>
+                <h3>No orders yet</h3>
+                <p>Orders will appear here when customers make purchases</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Products Management -->
+          <div class="section-card">
+            <div class="section-header">
+              <h3><i class="fas fa-box"></i> Product Management</h3>
+              <button onclick="showProducts()">Manage</button>
+            </div>
+            <div id="recent-products">
+              <!-- Recent products will be loaded here -->
+              <div class="empty-state">
+                <i class="fas fa-box-open"></i>
+                <h3>No products yet</h3>
+                <p>Add your first product to get started</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Products Management Page -->
+      <div id="products-content" style="display: none;">
+        <div class="section-card">
+          <div class="section-header">
+            <h3><i class="fas fa-boxes"></i> All Products</h3>
+            <button onclick="showAddProduct()">Add New</button>
+          </div>
+          <div class="products-grid" id="product-list-admin">
+            <!-- Products will be loaded here -->
+          </div>
+        </div>
+      </div>
+
+      <!-- Add Product Page -->
+      <div id="add-product-content" style="display: none;">
+        <div class="section-card">
+          <div class="section-header">
+            <h3><i class="fas fa-plus-circle"></i> Add New Product</h3>
+            <button onclick="showProducts()">View Products</button>
+          </div>
+          <div class="form-group">
+            <label><i class="fas fa-tag"></i> Product Name</label>
+            <input type="text" id="pname" class="form-control" placeholder="Enter product name">
+          </div>
+          <div class="form-group">
+            <label><i class="fas fa-align-left"></i> Description</label>
+            <input type="text" id="pdesc" class="form-control" placeholder="Enter product description">
+          </div>
+          <div class="form-group">
+            <label><i class="fas fa-rupee-sign"></i> Price</label>
+            <input type="number" id="pprice" class="form-control" placeholder="Enter product price" min="0" step="0.01">
+          </div>
+          <div class="form-group">
+            <label><i class="fas fa-image"></i> Product Image</label>
+            <div class="file-input-wrapper">
+              <input type="file" id="pimage" accept="image/*">
+              <div class="file-input-label">
+                <i class="fas fa-cloud-upload-alt"></i>
+                <span>Choose product image</span>
+              </div>
+            </div>
+          </div>
+          <div class="image-preview" id="preview">
+            <!-- Image preview will appear here -->
+          </div>
+          <button class="submit-btn" onclick="addProduct()" id="add-product-btn">
+            <i class="fas fa-upload"></i>
+            Upload Product
+          </button>
+        </div>
+      </div>
+
+      <!-- Orders Management Page -->
+      <div id="orders-content" style="display: none;">
+        <div class="section-card">
+          <div class="section-header">
+            <h3><i class="fas fa-clipboard-list"></i> All Orders</h3>
+            <button onclick="refreshOrders()">Refresh</button>
+          </div>
+          <div class="table-responsive">
+            <table class="orders-table" id="orders-table">
+              <thead>
+                <tr>
+                  <th>Order ID</th>
+                  <th>Customer</th>
+                  <th>Amount</th>
+                  <th>Status</th>
+                  <th>Date</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="orders-list">
+                <!-- Orders will be loaded here -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
 
   <script type="module" src="admin-panel.js"></script>
 </body>
